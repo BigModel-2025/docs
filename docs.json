@@ -14,7 +14,7 @@
   },
   "api": {
     "openapi": [
-      "api-reference/openapi.json"
+      "openapi.json"
     ],
     "playground": {
       "display": "interactive",
