@@ -16,7 +16,12 @@
   },
   "servers": [
     {
-      "url": "https://open.bigmodel.cn/api"
+      "url": "https://open.bigmodel.cn/api",
+      "description": "Production server"
+    },
+    {
+      "url": "https://dev.bigmodel.cn/api",
+      "description": "Development server"
     }
   ],
   "security": [
@@ -40,11 +45,21 @@
         },
         "responses": {
           "200": {
-            "description": "plant response",
+            "description": "Business processing successful",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ChatCompletionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parameter error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestData"
                 }
               }
             }
@@ -498,6 +513,15 @@
             "description": "Tool type called by the model, currently only supports ‘function’."
           }
         }
+      },
+      "BadRequestData": {
+
+      },
+      "UnauthorizedData": {
+
+      },
+      "NotFoundData": {
+
       },
       "Error": {
         "required": [
