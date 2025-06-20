@@ -9,7 +9,7 @@
   },
   "favicon": "/favicon.svg",
   "appearance": {
-    "default": "light",
+    "default": "dark",
     "strict": true
   },
   "api": {
@@ -87,11 +87,19 @@
     ]
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg",
+    "light": "/logo/dark.svg",
+    "dark": "/logo/light.svg",
     "href": "https://bigmodel.cn"
   },
   "footer": {
     "socials": {}
+  },
+  "integrations": {
+    "ga4": {
+      "measurementId": "G-RCYWHL7EQ7"
+    },
+    "koala": {
+      "publicApiKey": "pk_76a6caa274e800f3ceff0b2bc6b9b9d82ab8"
+    }
   }
 }
