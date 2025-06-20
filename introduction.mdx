@@ -1,6 +1,8 @@
 ---
-title: Introduction
-description: "Welcome to the home of your new documentation!"
+title: "Introduction"
+description: "Welcome to the home of your new documentation~"
+tag: "Hot"
+sidebarTitle: "Intro"
 ---
 
 <img
@@ -8,29 +10,22 @@ description: "Welcome to the home of your new documentation!"
   src="/images/hero-light.png"
   alt="Hero Light"
 />
+
 <img
   className="hidden dark:block"
   src="/images/hero-dark.png"
   alt="Hero Dark"
 />
 
-## Setting up
+## _Setting up_
 
 The first step to world-class documentation is setting up your editing environments.
 
 <CardGroup cols={2}>
-  <Card
-    title="Edit Your Docs"
-    icon="pen-to-square"
-    href="https://mintlify.com/docs/quickstart"
-  >
+  <Card title="Edit Your Docs" icon="pen-to-square" href="https://mintlify.com/docs/quickstart">
     Get your docs set up locally for easy development
   </Card>
-  <Card
-    title="Preview Changes"
-    icon="image"
-    href="https://mintlify.com/docs/development"
-  >
+  <Card title="Preview Changes" icon="image" href="https://mintlify.com/docs/development">
     Preview your changes before you push to make sure they're perfect
   </Card>
 </CardGroup>
@@ -40,32 +35,220 @@ The first step to world-class documentation is setting up your editing environme
 Update your docs to your brand and add valuable content for the best user conversion.
 
 <CardGroup cols={2}>
-  <Card
-    title="Customize Style"
-    icon="palette"
-    href="https://mintlify.com/docs/settings/global"
-  >
+  <Card title="Customize Style" icon="palette" href="https://mintlify.com/docs/settings/global">
     Customize your docs to your company's colors and brands
   </Card>
-  <Card
-    title="Reference APIs"
-    icon="code"
-    href="https://mintlify.com/docs/api-playground/openapi"
-  >
+  <Card title="Reference APIs" icon="code" href="https://mintlify.com/docs/api-playground/openapi">
     Automatically generate endpoints from an OpenAPI spec
   </Card>
-  <Card
-    title="Add Components"
-    icon="screwdriver-wrench"
-    href="https://mintlify.com/docs/content/components/accordions"
-  >
+  <Card title="Add Components" icon="screwdriver-wrench" href="https://mintlify.com/docs/content/components/accordions">
     Build interactive features and designs to guide your users
   </Card>
-  <Card
-    title="Get Inspiration"
-    icon="stars"
-    href="https://mintlify.com/customers"
-  >
+  <Card title="Get Inspiration" icon="stars" href="https://mintlify.com/customers">
     Check out our showcase of our favorite documentation
   </Card>
 </CardGroup>
+
+| # name | # age |
+| ------ | ----- |
+| jack   | 18    |
+| lucy   | 16    |
+
+<Note>
+  this is sth
+</Note>
+
+![Bigmodel Pure Logo Pn](/images/bigmodel-pure-logo.png)
+
+<iframe src="https://cdn.bigmodel.cn/static/platform/videos/usage-guide/GLM4-press-conference.mp4" />
+
+<Check>
+  Bingo
+</Check>
+
+<Accordion title="New Accordion" description="this is new accordion" defaultOpen icon="sparkles" iconType="solid">
+  
+</Accordion>
+
+```json openapi.json [expandable]
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "BigModel",
+  "colors": {
+    "primary": "#16A34A",
+    "light": "#07C983",
+    "dark": "#15803D"
+  },
+  "favicon": "/favicon.svg",
+    "appearance": {
+      "default": "light",
+      "strict": true
+  },
+  "api": {
+    "openapi": [
+        "api-reference/openapi.json"
+    ],
+    "playground": {
+        "display": "interactive",
+        "proxy": false
+    },
+    "examples": {
+        "languages": [
+            "bash",
+            "python",
+            "javascript"
+        ],
+        "defaults": "required"
+    }
+},
+"redirects": [
+  {
+    "source": "/home",
+    "destination": "/api-reference/introduction"
+  }
+],
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Get Started",
+            "icon": "stars",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "development"
+            ]
+          },
+          {
+            "group": "Essentials",
+            "pages": [
+              "essentials/markdown"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "API Documentation",
+            "pages": [
+              "api-reference/introduction"
+            ]
+          },
+          {
+            "group": "Chat",
+            "pages": [
+              "api-reference/chat-completions/chat-completions"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "https://bigmodel.cn"
+  },
+  "footer": {
+    "socials": {
+    }
+  }
+}
+```
+
+<Icon icon="copy" color="#eb0d0d" />
+
+<Tabs>
+  <Tab title="TabA">
+    TabA
+  </Tab>
+  <Tab title="TabB">
+    this is TabB
+  </Tab>
+</Tabs>
+
+<Steps>
+  <Step title="Step1" icon="apple">
+    Step1
+  </Step>
+  <Step title="New Step">
+    Step2
+  </Step>
+</Steps>
+
+<Update label="06/20/2025" description>
+  update time
+</Update>
+
+<ParamField path="param" type="string" required>
+  model code
+
+  <ResponseField name="response" type="object" default='{"data": {"id": 123}}' required>
+    this is response body
+
+    <Expandable title="Response Content">
+      <ResponseField name="id" type="string">
+        request id
+
+        <ResponseField name="model" type="string">
+          model code
+        </ResponseField>
+      </ResponseField>
+    </Expandable>
+  </ResponseField>
+</ParamField>
+
+<RequestExample>
+
+```python request
+from zhipuai import ZhipuAI
+client = ZhipuAI(api_key="")  # 请填写您自己的APIKey
+response = client.chat.completions.create(
+    model="glm-4-plus",  # 请填写您要调用的模型名称
+    messages=[
+        {"role": "user", "content": "作为一名营销专家，请为我的产品创作一个吸引人的口号"},
+        {"role": "assistant", "content": "当然，要创作一个吸引人的口号，请告诉我一些关于您产品的信息"},
+        {"role": "user", "content": "智谱AI开放平台"},
+        {"role": "assistant", "content": "点燃未来，智谱AI绘制无限，让创新触手可及！"},
+        {"role": "user", "content": "创作一个更精准且吸引人的口号"}
+    ],
+)
+print(response)
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "created": 1703487403,
+  "id": "8239375684858666781",
+  "model": "glm-4-plus",
+  "request_id": "8239375684858666781",
+  "choices": [
+      {
+          "finish_reason": "stop",
+          "index": 0,
+          "message": {
+              "content": "以AI绘蓝图 — 智谱AI，让创新的每一刻成为可能。",
+              "role": "assistant"
+          }
+      }
+  ],
+  "usage": {
+      "completion_tokens": 217,
+      "prompt_tokens": 31,
+      "total_tokens": 248
+  }
+}
+```
+
+</ResponseExample>
+
+<Tooltip tip="this is tooltip content">tooltip</Tooltip>
