@@ -99,8 +99,8 @@ curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations'
 
 ```JSON Start and End Frame
 curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations' \
---header 'Authorization:​ Bearer ​{your apikey}' \
---header 'Content-Type:​ application/json' \
+--header 'Authorization: Bearer {your apikey}' \
+--header 'Content-Type: application/json' \
 --data-raw '{
     "model":"viduq1-start-end",
     "image_url":["https://example.com/path/to/your/image.jpg","https://example.com/path/to/your/image1.jpg"],
