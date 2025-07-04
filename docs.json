@@ -58,7 +58,7 @@
               {
                 "group": "Language Models",
                 "pages": [
-                  "guides/llm/glm-4-air-250414"
+                  "guides/llm/glm-4-32b-0414-128k"
                 ]
               },
               {
@@ -77,7 +77,7 @@
               {
                 "group": "Language Models",
                 "pages": [
-                  "api-reference/llm/glm-4-air-250414"
+                  "api-reference/llm/glm-4-32b-0414-128k"
                 ]
               },
               {

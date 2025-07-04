@@ -16,7 +16,6 @@ description: "CogVideoX-2 is Z.AI’s next-generation large-scale video generati
 
 ### **Resources**
 
-- [Experience Center](https://www.bigmodel.cn/login?redirect=%2Ftrialcenter%2Fmodeltrial%2Fmultimodal%3FmodelCode%3Dcogvideox-2)**:** Quickly test the model’s performance in business scenarios.
 - [API Documentation](/api-reference/video/cogvideox-2&vidu): Learn how to call the API.
 
 ### **Detailed Description**
@@ -169,16 +168,17 @@ with the surfboard kicking up delicate splashes.
 ### **Example**
 
 ```Python
-from zhipuai import ZhipuAI
-client = ZhipuAI(api_key="") # Fill in your own APIKey
-
-response = client.videos.generations(
-    model="cogvideox-2",
-    prompt="Peter Rabbit is driving a small car, wandering along the road, with a joyful and happy expression on his face."
-    quality="quality",  # Output mode: "quality" for quality-first, "speed" for speed-first
-    with_audio=True,
-    size="1920x1080",  # Video resolution, supporting up to 4K (e.g.: "3840x2160")
-    fps=30,  # Frame rate, options are 30 or 60
-)
-print(response)
+curl --request POST \
+  --url https://api.z.ai/api/paas/v4/videos/generations \
+  --header 'Accept-Language: en-US,en' \
+  --header 'Authorization: Bearer {your apikey}' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "model": "cogvideox-2",
+  "quality": "quality",
+  "with_audio": true,
+  "size": "1920x1080",
+  "fps": "30",
+  "prompt": "Peter Rabbit is driving a small car, wandering along the road, with a joyful and happy expression on his face."
+}'
 ```
