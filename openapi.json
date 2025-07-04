@@ -83,7 +83,7 @@
                 "oneOf": [
                   {
                     "title": "CogVideoX-2",
-                    "$ref": "#/components/schemas/VideoRequest"
+                    "$ref": "#/components/schemas/CogVideoX2Request"
                   },
                   {
                     "title": "Vidu - Text Generated Video",
@@ -703,7 +703,7 @@
           }
         }
       },
-      "VideoRequest": {
+      "CogVideoX2Request": {
         "allOf": [
           {
             "type": "object",
@@ -714,6 +714,10 @@
                 "enum": [
                   "cogvideox-2"
                 ]
+              },
+              "prompt": {
+                "type": "string",
+                "description": "Text description of the video, maximum input length of 512 Tokens. Either image_url or prompt must be provided, or both."
               },
               "quality": {
                 "type": "string",
@@ -792,6 +796,10 @@
                   "viduq1-text"
                 ]
               },
+              "prompt": {
+                "type": "string",
+                "description": "Text description of the video, maximum input length of 512 Tokens."
+              },
               "style": {
                 "type": "string",
                 "description": "Style\nDefault: `general`\nOptional values: `general` , `anime`\n`general`: General style, can be controlled using prompts to define the style.\n`anime`: Anime style, optimized for anime-specific visuals. The style can be controlled using different anime-themed prompts.",
@@ -839,7 +847,8 @@
               }
             },
             "required": [
-              "model"
+              "model",
+              "prompt"
             ]
           },
           {
@@ -859,6 +868,10 @@
                   "viduq1-image",
                   "vidu2-image"
                 ]
+              },
+              "prompt": {
+                "type": "string",
+                "description": "Text description of the video, maximum input length of 512 Tokens. Either image_url or prompt must be provided, or both."
               },
               "image_url": {
                 "type": "string",
@@ -961,6 +974,10 @@
                   "vidu2-start-end"
                 ]
               },
+              "prompt": {
+                "type": "string",
+                "description": "Text description of the video, maximum input length of 512 Tokens. Either image_url or prompt must be provided, or both."
+              },
               "image_url": {
                 "type": "string",
                 "description": "Images\nSupports input of two images: the first uploaded image will be treated as the first frame, and the second image as the last frame. The model will use the images provided in this parameter to generate a video.\nThe resolutions of the two input images (first and last frame) must be similar, with the ratio between the resolution of the first frame and the resolution of the last frame falling within `0.8–1.25`. Additionally, the image aspect ratio must be less than `1:4` or `4:1`.\nSupports image URLs or images encoded in Base64 (ensure accessibility; using image URLs is recommended).\nSupported formats: `png`, `jpeg`, `.jpg`, `webp`.\nImage file size must not exceed `50 MB`.\nNote: After Base64 decoding, the byte length must be less than 50 MB, and the encoding must include the appropriate content type string, such as `data:image/png;base64,{base64_encode}`."
@@ -1001,11 +1018,11 @@
                   {
                     "title": "vidu2-start-end",
                     "type": "string",
-                    "description": "Resolution parameter\nDefault: `720x480`, Optional: `720x480`",
-                    "example": "720x480",
-                    "default": "720x480",
+                    "description": "Resolution parameter\nDefault: `1280x720`, Optional: `1280x720`",
+                    "example": "1280x720",
+                    "default": "1280x720",
                     "enum": [
-                      "720x480"
+                      "1280x720"
                     ]
                   }
                 ]
@@ -1047,6 +1064,10 @@
                   "vidu2-reference"
                 ]
               },
+              "prompt": {
+                "type": "string",
+                "description": "Text description of the video, maximum input length of 512 Tokens. Either image_url or prompt must be provided, or both."
+              },
               "image_url": {
                 "type": "string",
                 "description": "Image reference\nSupports input of 1 to 3 images. The model will use the themes from the images provided in this parameter as references to generate a video with consistent subjects.\n1. Supports image URLs or images encoded in Base64 (ensure accessibility; it is recommended to prioritize using image URLs).\n2. Supported formats: `png`, `jpeg`, `.jpg`, `webp`.\n3. Image resolution must not be smaller than `128x128`, and the aspect ratio must be less than `1:4` or `4:1`.\n4. Image file size must not exceed `50 MB`.\n5. Note: After Base64 decoding, the byte length must be less than 50 MB, and the encoding must include the proper content-type string, such as `data:image/png;base64,{base64_encode}`."
@@ -1073,10 +1094,10 @@
               "size": {
                 "title": "vidu2-reference ",
                 "type": "string",
-                "description": "Resolution parameter\nDefault: `720x480`, Optional: `720x480`",
-                "example": "720x480",
+                "description": "Resolution parameter\nDefault: `1280x720`, Optional: `1280x720`",
+                "example": "1280x720",
                 "enum": [
-                  "720x480"
+                  "1280x720"
                 ]
               },
               "movement_amplitude": {
@@ -1107,10 +1128,6 @@
       "VideoCommonRequest": {
         "type": "object",
         "properties": {
-          "prompt": {
-            "type": "string",
-            "description": "Text description of the video, maximum input length of 512 Tokens. Either image_url or prompt must be provided, or both."
-          },
           "request_id": {
             "type": "string",
             "description": "Provided by the client, must be unique; used to distinguish each request’s unique identifier. If not provided by the client, the platform will generate one by default."
