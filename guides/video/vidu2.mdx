@@ -62,7 +62,7 @@ The model strikes a balance between creativity and stability, delivering signifi
 
 ```JSON Image-to-Video Generation
 curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations' \
---header 'Authorization: {your apikey}' \
+--header 'Authorization: Bearer{your apikey}' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "model":"vidu2-image",
@@ -76,7 +76,7 @@ curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations'
 
 ```JSON Start and End Frame
 curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations' \
---header 'Authorization:​ ​{your apikey}' \
+--header 'Authorization:​ ​Bearer{your apikey}' \
 --header 'Content-Type:​ application/json' \
 --data-raw '{
     "model":"vidu2-start-end",
@@ -90,7 +90,7 @@ curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations'
 
 ```JSON Reference-based Video Generation
 curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations' \
---header 'Authorization: {your apikey}' \
+--header 'Authorization: Bearer{your apikey}' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "model":"vidu2-reference",
