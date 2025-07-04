@@ -611,43 +611,6 @@
                 "description": "Total number of tokens"
               }
             }
-          },
-          "web_search": {
-            "type": "array",
-            "description": "Information related to web search results.",
-            "items": {
-              "type": "object",
-              "properties": {
-                "icon": {
-                  "type": "string",
-                  "description": "Icon of the source website."
-                },
-                "title": {
-                  "type": "string",
-                  "description": "Title of the search result."
-                },
-                "link": {
-                  "type": "string",
-                  "description": "Web link of the search result."
-                },
-                "media": {
-                  "type": "string",
-                  "description": "Media source name of the search result webpage."
-                },
-                "publish_date": {
-                  "type": "string",
-                  "description": "Website publication date."
-                },
-                "content": {
-                  "type": "string",
-                  "description": "Text content quoted from the search result webpage."
-                },
-                "refer": {
-                  "type": "string",
-                  "description": "Reference index."
-                }
-              }
-            }
           }
         }
       },
