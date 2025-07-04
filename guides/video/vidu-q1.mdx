@@ -70,7 +70,7 @@ The start-to-end frame transition technology reaches a new level, using dynamic 
 
 ```JSON Text-to-Video Generation
 curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations' \
---header 'Authorization: {your apikey}' \
+--header 'Authorization: Bearer{your apikey}' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "model": "viduq1-text",
@@ -85,7 +85,7 @@ curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations'
 
 ```JSON Image-to-Video Generation
 curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations' \
---header 'Authorization: {your apikey}' \
+--header 'Authorization: Bearer{your apikey}' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "model":"viduq1-image",
@@ -99,7 +99,7 @@ curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations'
 
 ```JSON Start and End Frame
 curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations' \
---header 'Authorization:​ ​{your apikey}' \
+--header 'Authorization:​ Bearer​{your apikey}' \
 --header 'Content-Type:​ application/json' \
 --data-raw '{
     "model":"viduq1-start-end",
