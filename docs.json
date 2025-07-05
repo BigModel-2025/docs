@@ -1,101 +1,107 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Z.AI",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#141618",
+    "light": "#9fa0a0",
+    "dark": "#141618"
   },
   "favicon": "/favicon.svg",
+  "appearance": {
+    "default": "dark",
+    "strict": true
+  },
+  "api": {
+    "openapi": [
+      "openapi.json"
+    ],
+    "playground": {
+      "display": "interactive",
+      "proxy": false
+    },
+    "examples": {
+      "languages": [
+        "bash",
+        "python",
+        "javascript",
+        "java"
+      ],
+      "defaults": "required"
+    }
+  },
+  "redirects": [
+    {
+      "source": "/guides/tools/web-search",
+      "destination": "/"
+    },
+    {
+      "source": "/api-reference/tools/web-search",
+      "destination": "/"
+    }
+  ],
   "navigation": {
-    "tabs": [
+    "versions": [
       {
-        "tab": "Guides",
-        "groups": [
+        "version": "English",
+        "tabs": [
           {
-            "group": "Get Started",
-            "pages": [
-              "introduction",
-              "quickstart",
-              "development"
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Overview",
+                "pages": [
+                  "guides/overview/pricing"
+                ]
+              },
+              {
+                "group": "Language Models",
+                "pages": [
+                  "guides/llm/glm-4-32b-0414-128k"
+                ]
+              },
+              {
+                "group": "Video Generation Models",
+                "pages": [
+                  "guides/video/cogvideox-2",
+                  "guides/video/vidu-q1",
+                  "guides/video/vidu2"
+                ]
+              }
             ]
           },
           {
-            "group": "Essentials",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API Reference",
-        "groups": [
-          {
-            "group": "API Documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint Examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete"
+            "tab": "API Reference",
+            "groups": [
+              {
+                "group": "Language Models",
+                "pages": [
+                  "api-reference/llm/glm-4-32b-0414-128k"
+                ]
+              },
+              {
+                "group": "Video Generation Models",
+                "pages": [
+                  "api-reference/video/cogvideox-2&vidu",
+                  "api-reference/video/get-video-status"
+                ]
+              }
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
+    "light": "/logo/dark.svg",
+    "dark": "/logo/light.svg",
+    "href": "https://z.ai"
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/Zai_org",
+      "github": "https://github.com/THUDM",
+      "discord": "https://discord.com/channels/1346756824233148527/1359832169333395496"
     }
   }
 }
