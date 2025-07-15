@@ -96,7 +96,8 @@
               {
                 "group": "Agent Models",
                 "pages": [
-                  "api-reference/agents/agent"
+                  "api-reference/agents/agent",
+                  "api-reference/agents/get-async-result"
                 ]
               }
             ]
