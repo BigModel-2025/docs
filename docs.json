@@ -92,6 +92,12 @@
                   "api-reference/video/cogvideox-2&vidu",
                   "api-reference/video/get-video-status"
                 ]
+              },
+              {
+                "group": "Agent Models",
+                "pages": [
+                  "api-reference/agents/agent"
+                ]
               }
             ]
           }
