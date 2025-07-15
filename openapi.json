@@ -526,6 +526,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/RetrievalToolSchema"
+                },
+                {
+                  "$ref": "#/components/schemas/WebSearchToolSchema"
                 }
               ]
             }
@@ -562,13 +565,8 @@
           },
           "search_engine": {
             "type": "string",
-            "description": "Type of search engine.\nDefault is `search_std`. Supports: `search_std`, `search_pro`, `search_pro_sogou`, `search_pro_quark`, `search_pro_jina`, `search_pro_bing`.",
+            "description": "Type of search engine.\nDefault is `search_pro_bing`. Supports: `search_pro_bing`.",
             "enum": [
-              "search_std",
-              "search_pro",
-              "search_pro_sogou",
-              "search_pro_quark",
-              "search_pro_jina",
               "search_pro_bing"
             ]
           },
@@ -776,6 +774,13 @@
                 "type": "integer",
                 "description": "Total number of calls"
               }
+            }
+          },
+          "web_search": {
+            "description": "Search results.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WebSearchObjectResponse"
             }
           }
         }
@@ -1400,38 +1405,41 @@
             "description": "Search results.",
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "type": "string",
-                  "description": "Title."
-                },
-                "content": {
-                  "type": "string",
-                  "description": "Content summary."
-                },
-                "link": {
-                  "type": "string",
-                  "description": "Result URL."
-                },
-                "media": {
-                  "type": "string",
-                  "description": "Website name."
-                },
-                "icon": {
-                  "type": "string",
-                  "description": "Website icon."
-                },
-                "refer": {
-                  "type": "string",
-                  "description": "Index number."
-                },
-                "publish_date": {
-                  "type": "string",
-                  "description": "Website publication date."
-                }
-              }
+              "$ref": "#/components/schemas/WebSearchObjectResponse"
             }
+          }
+        }
+      },
+      "WebSearchObjectResponse": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title."
+          },
+          "content": {
+            "type": "string",
+            "description": "Content summary."
+          },
+          "link": {
+            "type": "string",
+            "description": "Result URL."
+          },
+          "media": {
+            "type": "string",
+            "description": "Website name."
+          },
+          "icon": {
+            "type": "string",
+            "description": "Website icon."
+          },
+          "refer": {
+            "type": "string",
+            "description": "Index number."
+          },
+          "publish_date": {
+            "type": "string",
+            "description": "Website publication date."
           }
         }
       },
