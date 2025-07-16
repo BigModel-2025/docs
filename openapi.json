@@ -245,6 +245,87 @@
         }
       }
     },
+    "/paas/v4/files": {
+      "post": {
+        "description": "File upload for general translation.",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "purpose": {
+                    "type": "string",
+                    "default": "agent",
+                    "enum": [
+                      "agent"
+                    ]
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "File to upload. Limit to `100MB`. Allowed formats: `pdf`, `doc`, `xlsx`, `ppt`, `txt`, `jpg`, `png`."
+                  }
+                },
+                "required": [
+                  "purpose",
+                  "file"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Business processing successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique identifier of the uploaded file."
+                    },
+                    "object": {
+                      "type": "string",
+                      "description": "Object type."
+                    },
+                    "bytes": {
+                      "type": "integer",
+                      "description": "File size in bytes."
+                    },
+                    "filename": {
+                      "type": "string",
+                      "description": "Name of the uploaded file."
+                    },
+                    "purpose": {
+                      "type": "string",
+                      "description": "Purpose of the uploaded file."
+                    },
+                    "created_at": {
+                      "type": "integer",
+                      "description": "Timestamp of file creation."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "The request has failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/agents": {
       "post": {
         "description": "General Translation: General Translation API provides large model-based multilingual translation services, including general translation, paraphrase translation, two-step translation, and three-pass translation strategies. It supports automatic language detection, glossary customization, translation suggestions, and streaming output. Users only need to call the Translation API, input the text to be processed, specify the source language (auto-detection supported) and target language to receive high-quality translation results. \n\n Popular Special Effects Videos: Popular special effects videos are intelligent templates launched based on trending features from pan-entertainment platforms, designed to precisely adapt to short video creative production needs. Currently, three effect templates are available: `French Kiss`, `Body Shake Dance`, and `Sexy Me`. After selecting a template, users only need to upload an image and enter corresponding prompts to generate a special effects video.",
@@ -370,6 +451,7 @@
     },
     "/v1/agents/async-result": {
       "post": {
+        "description": "This endpoint is used to query the result of an asynchronous request.",
         "parameters": [
           {
             "$ref": "#/components/parameters/AcceptLanguage"

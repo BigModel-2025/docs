@@ -97,6 +97,7 @@
                 "group": "Agent Models",
                 "pages": [
                   "api-reference/agents/agent",
+                  "api-reference/agents/file-upload",
                   "api-reference/agents/get-async-result"
                 ]
               }
