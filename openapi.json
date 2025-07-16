@@ -247,7 +247,7 @@
     },
     "/paas/v4/files": {
       "post": {
-        "description": "File upload for general translation.",
+        "description": "This API is designed for uploading auxiliary files (such as glossaries, terminology lists) to support the translation service. It allows users to upload reference materials that can enhance translation accuracy and consistency.",
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -256,6 +256,7 @@
                 "properties": {
                   "purpose": {
                     "type": "string",
+                    "description": "Upload purpose (agent)",
                     "default": "agent",
                     "enum": [
                       "agent"
