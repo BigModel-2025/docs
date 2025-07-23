@@ -87,6 +87,13 @@
                 ]
               }
             ]
+          },
+          {
+            "tab": "Terms and Policy",
+            "pages": [
+              "legal-agreement/privacy-policy",
+              "legal-agreement/terms-of-use"
+            ]
           }
         ]
       }
