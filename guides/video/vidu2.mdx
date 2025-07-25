@@ -30,7 +30,7 @@ description: "Vidu 2 is a next-generation video generation model that strikes a 
 
 ### **Resources**
 
-[API Documentation](/api-reference/video/cogvideox-2&vidu): Learn how to call the API.
+[API Documentation](/api-reference/video/cogvideox-3&vidu): Learn how to call the API.
 
 ### **Detailed Description**
 
@@ -60,46 +60,170 @@ The model strikes a balance between creativity and stability, delivering signifi
 
 <video src="https://cdn.bigmodel.cn/static/platform/videos/usage-guide/vidu/2.0-2.mp4" controls />
 
-```JSON Image-to-Video Generation
-curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations' \
---header 'Authorization: Bearer {your apikey}' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "model":"vidu2-image",
-    "image_url":"https://example.com/path/to/your/image.jpg",
-    "prompt":"Peter Rabbit drives a small car along the road, his face filled with joy and happiness.",
-    "duration":4,
-    "size":"720x480",
-    "movement_amplitude":"auto"
-}'
-```
+### **Example**
 
-```JSON Start and End Frame
-curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations' \
---header 'Authorization: Bearer {your apikey}' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "model":"vidu2-start-end",
-    "image_url":["https://example.com/path/to/your/image1.jpg","https://example.com/path/to/your/image2.jpg"],
-    "prompt":"Peter Rabbit drives a small car along the road, his face filled with joy and happiness.",
-    "duration":4,
-    "size":"720x480",
-    "movement_amplitude":"auto"
-}'
-```
+#### Image-to-Video Generation
+<Tabs>
+    <Tab title="Curl">
+        ```json 
+        curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations' \
+        --header 'Authorization: Bearer {your apikey}' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{
+            "model":"vidu2-image",
+            "image_url":"https://example.com/path/to/your/image.jpg",
+            "prompt":"Peter Rabbit drives a small car along the road, his face filled with joy and happiness.",
+            "duration":4,
+            "size":"720x480",
+            "movement_amplitude":"auto"
+        }'
+        ```
+    </Tab>
+    <Tab title="Python">
+        ```python
+        from zai import ZaiClient
 
-```JSON Reference-based Video Generation
-curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations' \
---header 'Authorization: Bearer {your apikey}' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "model":"vidu2-reference",
-    "image_url":["https://example.com/path/to/your/image1.jpg","https://example.com/path/to/your/image2.jpg","https://example.com/path/to/your/image3.jpg"],
-    "prompt":"Peter Rabbit drives a small car along the road, his face filled with joy and happiness.",
-    "duration":4,
-    "aspect_ratio":"16:9",
-    "size":"720x480",
-    "movement_amplitude":"auto",
-    "with_audio":true
-}'
-```
+        # Initialize the client, please replace your-api-key with your own APIKey.
+        client = ZaiClient(api_key="your-api-key")
+
+        # Video generation example from images.
+        response = client.videos.generations(
+            model="vidu2-image",
+            image_url="https://example.com/path/to/your/image.jpg",
+            prompt="Peter Rabbit is driving a small car, cruising on the road, with a face full of happiness and joy.",
+            duration=4,
+            size="1280x720",
+            movement_amplitude="auto"
+        )
+
+        # Print the response result.
+        print(response)
+        ```
+    </Tab>
+    <Tab title="Java">
+        ```java
+        import ai.z.openapi.ZaiClient;
+        import ai.z.openapi.service.videos.VideoCreateParams;
+        import ai.z.openapi.service.videos.VideosResponse;
+
+        public class Vidu2Example {
+            public static void main(String[] args) throws InterruptedException {
+                String apiKey = "your_api_key"; // Please fill in your own APIKey.
+                ZaiClient client = ZaiClient.builder().apiKey(apiKey).build();
+
+                // Construct video generation request parameters.
+                VideoCreateParams request = VideoCreateParams.builder()
+                    .model("vidu2-image")
+                    .imageUrl("https://example.com/path/to/your/image.jpg")
+                    .prompt("Peter Rabbit is driving a small car, cruising on the road, with a face full of happiness and joy.")
+                    .duration(4)
+                    .size("1280x720")
+                    .build();
+
+                // Initiate video generation request.
+                VideosResponse response = client.videos().videoGenerations(request);
+                System.out.println(response.getData());
+                
+                // Wait for 10 minutes, then asynchronously retrieve the final generated video using the task ID.
+                Thread.sleep(600000L);
+                VideosResponse videosResponse = client.videos().videoGenerationsResult(response.getData().getId());
+                System.out.println(videosResponse.getData().getVideoResult());
+            }
+        }
+        ```
+    </Tab>
+</Tabs>
+
+#### Start and End Frame
+<Tabs>
+    <Tab title="Curl">
+        ```json 
+        curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations' \
+        --header 'Authorization: Bearer {your apikey}' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{
+            "model":"vidu2-start-end",
+            "image_url":["https://example.com/path/to/your/image1.jpg","https://example.com/path/to/your/image2.jpg"],
+            "prompt":"Peter Rabbit drives a small car along the road, his face filled with joy and happiness.",
+            "duration":4,
+            "size":"720x480",
+            "movement_amplitude":"auto"
+        }'
+        ```
+    </Tab>
+    <Tab title="Python">
+        ```python
+        from zai import ZaiClient
+
+        # Initialize the client, please replace "your-api-key" with your own APIKey.
+        client = ZaiClient(api_key="your-api-key")
+
+        # Define URLs for first frame and last frame
+        sample_first_frame = "https://gd-hbimg.huaban.com/ccee58d77afe8f5e17a572246b1994f7e027657fe9e6-qD66In_fw1200webp"
+        sample_last_frame = "https://gd-hbimg.huaban.com/cc2601d568a72d18d90b2cc7f1065b16b2d693f7fa3f7-hDAwNq_fw1200webp"
+
+        # Video generation request (first and last frame mode)
+        response = client.videos.generations(
+            model="vidu2-start-end",
+            image_url=[sample_first_frame, sample_last_frame],  # The first and last frame images
+            prompt="Peter Rabbit driving a car, wandering on the road, with a happy and joyful expression on his face.",
+            duration=4,  #Video duration (seconds)
+            size="1280x720",  # Video resolution
+            movement_amplitude="auto",  # Movement amplitude
+        )
+
+        # Print the response result
+        print(response)
+        ```
+    </Tab>
+</Tabs>
+
+#### Reference-based Video Generation
+<Tabs>
+    <Tab title="Curl">
+        ```json 
+        curl --location --request POST 'https://api.z.ai/api/paas/v4/videos/generations' \
+        --header 'Authorization: Bearer {your apikey}' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{
+            "model":"vidu2-reference",
+            "image_url":["https://example.com/path/to/your/image1.jpg","https://example.com/path/to/your/image2.jpg","https://example.com/path/to/your/image3.jpg"],
+            "prompt":"Peter Rabbit drives a small car along the road, his face filled with joy and happiness.",
+            "duration":4,
+            "aspect_ratio":"16:9",
+            "size":"720x480",
+            "movement_amplitude":"auto",
+            "with_audio":true
+        }'
+        ```
+    </Tab>
+    <Tab title="Python">
+        ```python
+        from zai import ZaiClient
+
+        # Initialize client with your API key (replace 'your-api-key')
+        client = ZaiClient(api_key="your-api-key")  
+
+        ref_image_url = [
+            "https://gd-hbimg.huaban.com/ccee58d77afe8f5e17a572246b1994f7e027657fe9e6-qD66In_fw1200webp",
+            "https://gd-hbimg.huaban.com/cc2601d568a72d18d90b2cc7f1065b16b2d693f7fa3f7-hDAwNq_fw1200webp",
+            "https://gd-hbimg.huaban.com/cc2601d568a72d18d90b2cc7f1065b16b2d693f7fa3f7-hDAwNq_fw1200webp"
+            ]
+
+        # Generate video using reference images
+        response = client.videos.generations(
+            model="vidu2-reference",  # Using reference image model
+            image_url=ref_image_url,  # List of reference image URLs
+            prompt="Peter Rabbit driving a car, wandering on the road, with a happy and joyful expression on his face.",
+            duration=4,  # Video duration in seconds
+            aspect_ratio="16:9",  # Standard widescreen aspect ratio
+            size="1280x720",  # HD resolution
+            movement_amplitude="auto",  # Automatic motion control
+            with_audio=True,  # Enable audio generation
+        )
+
+        # Print API response
+        print(response)
+        ```
+    </Tab>
+</Tabs>

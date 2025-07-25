@@ -10,7 +10,7 @@ description: "GLM-4-32B-0414-128K is a highly cost-effective foundation language
 
 ### **Recommended Use Cases**
 
-1. **Intelligent Q&A Assistant:** Supports real-time online search to retrieve the latest information, accurately parses complex queries on e-commerce product inquiries, financial service terms, education course Q&A, and generates precise, professional answers based on enterprise knowledge bases. 
+1. **Intelligent Q&A Assistant:** Supports real-time online search to retrieve the latest information, accurately parses complex queries on e-commerce product inquiries, financial service terms, education course Q&A, and generates precise, professional answers based on enterprise knowledge bases.
 2. **Intelligent Quality Inspection:** Accurately identifies and extracts key information and business fields from complex texts such as customer service tickets, automating analyses like sales pitch inspection and risk identification, strictly adhering to SOP processes and greatly reducing data processing time.
 3. **Financial Data Analysis:** Real-time cleansing of financial data, automated extraction of key insights, and detection of potential trends and correlations. Supports scenarios such as bid document analysis, financial report interpretation, and market trend monitoring.
 4. **Code Generation:** Based on intent decomposition and logical reasoning, accurately generates initial code frameworks or key functions in mainstream languages such as Python, Java, and JavaScript. Supports multi-turn contextual iterative development, intelligent comments, and rewriting functions to add clear annotations to code.
@@ -33,64 +33,70 @@ The model performs comparably to much larger domestic and international mainstre
 - Streaming Output
 - Structured Output
 - Function Calling
+- Knowledge base retrieval
+- Web search: the search engine supports Jina AI, with a price of \$0.01 per use.
 
 ### **Example**
 
-```Python Example Request
-curl --request POST \
-  --url https://api.z.ai/api/paas/v4/chat/completions \
-  --header 'Accept-Language: en-US,en' \
-  --header 'Authorization: Bearer {your apikey}' \
-  --header 'Content-Type: application/json' \
-  --data '{
-  "model": "glm-4-32b-0414-128k",
-  "do_sample": true,
-  "stream": false,
-  "messages": [
-    {
-      "role": "user",
-      "content": "As a marketing expert, please create an attractive slogan for my business"
-    },
-    {
-      "role": "assistant",
-      "content": "Of course! To create an attractive slogan, please tell me a bit about your product"
-    },
-    {
-      "role": "user",
-      "content": "A Chinese restaurant"
-    },
-    {
-      "role": "assistant",
-      "content": "Ignite the future — Z.AI maps the infinite, making innovation within reach!"
-    },
-    {
-      "role": "user",
-      "content": "Create a more precise and compelling slogan"
-    }
-  ]
-}'
-```
+<Tabs>
+    <Tab title="Python">
+        ```python
+        from zai import ZaiClient
 
-```json Example Response
-{
-    "choices": [
-        {
-            "finish_reason": "stop",
-            "index": 0,
-            "message": {
-                "content": "Okay, let's craft some compelling and precise slogans specifically for your **Chinese restaurant**. To make them even better, could you tell me a bit more about your restaurant's style? (e.g., casual, fine dining, specific regional cuisine like Sichuan or Cantonese, family-friendly, modern twist, etc.)?\n\nIn the meantime, here are some options based on general appeal:\n\n**Focusing on Flavor & Authenticity:**\n\n1.  **[Your Restaurant Name]: Authentic Flavors, Served Passionately.** (Highlights genuineness and care)\n2.  **Taste the Heart of China. Right Here.** (Evokes authenticity and local presence)\n3.  **[Your Restaurant Name]: Where Every Bite Tells a Story.** (Suggests depth, tradition, and flavor)\n4.  **Experience the True Taste of China.** (Direct, classic, and focuses on authenticity)\n5.  **Savor the Craft, Savor China.** (Emphasizes skill and the origin of the food)\n\n**Focusing on Experience & Atmosphere:**\n\n6.  **[Your Restaurant Name]: More Than Food, It's an Escape.** (Suggests ambiance and enjoyment beyond just eating)\n7.  **Where Every Meal Feels Like a Celebration.** (Evokes happiness, togetherness, and positive dining)\n8.  **Discover the Magic of Chinese Cuisine.** (Intriguing and focuses on the unique aspects of the food)\n9.  **[Your Restaurant Name]: Crafting Moments, One Dish at a Time.** (Highlights the experience and the quality of each dish)\n10. **Your Invitation to Chinese Flavor.** (Inviting and focuses on the cuisine)\n\n**Focusing on Quality & Freshness:**\n\n11. **[Your Restaurant Name]: Fresh Ingredients, Time-Honored Recipes.** (Highlights quality sourcing and tradition)\n12. **Quality You Can Taste. Chinese Food Done Right.** (Simple, confident, and focuses on excellence)\n13. **The Taste of Carefully Crafted Chinese Dishes.** (Emphasizes attention to detail and quality)\n\n**Short & Catchy:**\n\n14. **[Your Restaurant Name]: Flavorfully Chinese.**\n15. **Simply Delicious. Truly Chinese.**\n\nOnce you share more about your restaurant's specific vibe, I can tailor these further or create new options!",
-                "role": "assistant"
+        # Initialize the client
+        client = ZaiClient(api_key="your-api-key")
+
+        # Create a chat completion request
+        response = client.chat.completions.create(
+            model="glm-4-32b-0414-128k",
+            messages=[
+                {"role": "user", "content": "As a marketing expert, please create an attractive slogan for my product."}
+            ]
+        )
+
+        # Get the response
+        print(response.choices[0].message.content)
+        ```
+    </Tab>
+    <Tab title="Java">
+        ```java
+        import ai.z.openapi.ZaiClient;
+        import ai.z.openapi.service.model.ChatCompletionCreateParams;
+        import ai.z.openapi.service.model.ChatCompletionResponse;
+        import ai.z.openapi.service.model.ChatMessage;
+        import ai.z.openapi.service.model.ChatMessageRole;
+        import java.util.Arrays;
+
+        public class BasicChat {
+            public static void main(String[] args) {
+                // Initialize the client
+                ZaiClient client = ZaiClient.builder()
+                    .apiKey("your-api-key")
+                    .build();
+
+                // Create a chat completion request
+                ChatCompletionCreateParams request = ChatCompletionCreateParams.builder()
+                    .model("glm-4-32b-0414-128k")
+                    .messages(Arrays.asList(
+                        ChatMessage.builder()
+                            .role(ChatMessageRole.USER.value())
+                            .content("As a marketing expert, please create an attractive slogan for my product.")
+                            .build()
+                    ))
+                    .build();
+
+                // Send request
+                ChatCompletionResponse response = client.chat().createChatCompletion(request);
+
+                // Get the response
+                if (response.isSuccess()) {
+                    Object reply = response.getData().getChoices().get(0).getMessage().getContent();
+                    System.out.println("AI Reply: " + reply);
+                } else {
+                    System.err.println("Error: " + response.getMsg());
+                }
             }
         }
-    ],
-    "created": 1751709071,
-    "id": "202507051751030b941a39706d4a68",
-    "model": "glm-4-32b-0414-128k",
-    "request_id": "202507051751030b941a39706d4a68",
-    "usage": {
-        "completion_tokens": 496,
-        "prompt_tokens": 71,
-        "total_tokens": 567
-    }
-}
-```
+        ```
+    </Tab>
+</Tabs>

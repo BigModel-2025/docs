@@ -82,8 +82,8 @@
               "schema": {
                 "oneOf": [
                   {
-                    "title": "CogVideoX-2",
-                    "$ref": "#/components/schemas/CogVideoX2Request"
+                    "title": "CogVideoX-3",
+                    "$ref": "#/components/schemas/CogVideoX3Request"
                   },
                   {
                     "title": "Vidu: Text to Video",
@@ -244,6 +244,253 @@
           }
         }
       }
+    },
+    "/paas/v4/files": {
+      "post": {
+        "description": "This API is designed for uploading auxiliary files (such as glossaries, terminology lists) to support the translation service. It allows users to upload reference materials that can enhance translation accuracy and consistency.",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "purpose": {
+                    "type": "string",
+                    "description": "Upload purpose (agent)",
+                    "default": "agent",
+                    "enum": [
+                      "agent"
+                    ]
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "File to upload. Limit to `100MB`. Allowed formats: `pdf`, `doc`, `xlsx`, `ppt`, `txt`, `jpg`, `png`."
+                  }
+                },
+                "required": [
+                  "purpose",
+                  "file"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Business processing successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique identifier of the uploaded file."
+                    },
+                    "object": {
+                      "type": "string",
+                      "description": "Object type."
+                    },
+                    "bytes": {
+                      "type": "integer",
+                      "description": "File size in bytes."
+                    },
+                    "filename": {
+                      "type": "string",
+                      "description": "Name of the uploaded file."
+                    },
+                    "purpose": {
+                      "type": "string",
+                      "description": "Purpose of the uploaded file."
+                    },
+                    "created_at": {
+                      "type": "integer",
+                      "description": "Timestamp of file creation."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "The request has failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/agents": {
+      "post": {
+        "description": "General Translation: General Translation API provides large model-based multilingual translation services, including general translation, paraphrase translation, two-step translation, and three-pass translation strategies. It supports automatic language detection, glossary customization, translation suggestions, and streaming output. Users only need to call the Translation API, input the text to be processed, specify the source language (auto-detection supported) and target language to receive high-quality translation results. \n\n Popular Special Effects Videos: Popular special effects videos are intelligent templates launched based on trending features from pan-entertainment platforms, designed to precisely adapt to short video creative production needs. Currently, three effect templates are available: `French Kiss`, `Body Shake Dance`, and `Sexy Me`. After selecting a template, users only need to upload an image and enter corresponding prompts to generate a special effects video.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AcceptLanguage"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "title": "General Translation",
+                    "$ref": "#/components/schemas/TranslationAgentRequest"
+                  },
+                  {
+                    "title": "Popular Special Effects Videos",
+                    "$ref": "#/components/schemas/SpecialEffectsVideosAgentRequest"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Business processing successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "title": "General Translation",
+                      "$ref": "#/components/schemas/TranslationAgentResponse"
+                    },
+                    {
+                      "title": "Popular Special Effects Videos",
+                      "$ref": "#/components/schemas/SpecialEffectsVideosAgentResponse"
+                    }
+                  ]
+                },
+                "examples": {
+                  "General Translation": {
+                    "value": {
+                      "id": "<string>",
+                      "agent_id": "<string>",
+                      "choices": [
+                        {
+                          "index": 123,
+                          "finish_reason": "<string>",
+                          "messages": [
+                            {
+                              "role": "<string>",
+                              "content": {
+                                "text": "<string>",
+                                "type": "<string>"
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "usage": {
+                        "prompt_tokens": 123,
+                        "completion_tokens": 123,
+                        "total_tokens": 123,
+                        "total_calls": 123
+                      }
+                    }
+                  },
+                  "Popular Special Effects Videos": {
+                    "value": {
+                      "status": "<string>",
+                      "agent_id": "<string>",
+                      "async_id": "<string>"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "The request has failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "title": "General Translation",
+                      "$ref": "#/components/schemas/Error"
+                    },
+                    {
+                      "title": "Popular Special Effects Videos",
+                      "$ref": "#/components/schemas/SpecialEffectsVideosAgentError"
+                    }
+                  ]
+                },
+                "examples": {
+                  "General Translation": {
+                    "value": {
+                      "code": 123,
+                      "message": "<string>"
+                    }
+                  },
+                  "Popular Special Effects Videos": {
+                    "value": {
+                      "status": "<string>",
+                      "agent_id": "<string>",
+                      "error": {
+                        "code": "<string>",
+                        "message": "<string>"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/agents/async-result": {
+      "post": {
+        "description": "This endpoint is used to query the result of an asynchronous request.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AcceptLanguage"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommonAgentResultRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Business processing successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommonAgentResultResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "The request has failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpecialEffectsVideosAgentError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -287,7 +534,7 @@
               "properties": {
                 "role": {
                   "type": "string",
-                  "description": "The role of the messages author. Choice between: system, user, or assistant.",
+                  "description": "The role of the messages author. Choice between: `system`, `user`, or `assistant`.",
                   "example": "user",
                   "default": "user",
                   "enum": [
@@ -355,18 +602,19 @@
           "tools": {
             "type": "array",
             "description": "A list of tools the model may call. Currently, only functions are supported as a tool. Use this to provide a list of functions the model may generate JSON inputs for. A max of 128 functions are supported.\n",
-            "anyOf": [
-              {
-                "items": {
+            "items": {
+              "anyOf": [
+                {
                   "$ref": "#/components/schemas/FunctionToolSchema"
-                }
-              },
-              {
-                "items": {
+                },
+                {
                   "$ref": "#/components/schemas/RetrievalToolSchema"
+                },
+                {
+                  "$ref": "#/components/schemas/WebSearchToolSchema"
                 }
-              }
-            ]
+              ]
+            }
           }
         }
       },
@@ -400,14 +648,9 @@
           },
           "search_engine": {
             "type": "string",
-            "description": "Type of search engine.\nDefault is `search_std`. Supports: `search_std`, `search_pro`, `search_pro_sogou`, `search_pro_quark`, `search_pro_jina`, `search_pro_bing`.",
+            "description": "Type of search engine.\nDefault is `search_pro_jina`. Supports: `search_pro_jina`.",
             "enum": [
-              "search_std",
-              "search_pro",
-              "search_pro_sogou",
-              "search_pro_quark",
-              "search_pro_jina",
-              "search_pro_bing"
+              "search_pro_jina"
             ]
           },
           "search_query": {
@@ -548,7 +791,7 @@
           },
           "prompt_template": {
             "type": "string",
-            "description": "Prompt template for requesting the model, a custom request template containing placeholders `{{ knowledge }}` and `{{ question }}`. Default template: `Search for the answer to the question `{{question}}` in the document `{{ knowledge }}`. If an answer is found, respond only using statements from the document; if no answer is found, use your own knowledge to answer and inform the user that the information is not from the document. Do not repeat the question, start the answer directly.`"
+            "description": "Prompt template for requesting the model, a custom request template containing placeholders `{{ knowledge }}` and `{{ question }}`. Default template: Search for the answer to the question `{{question}}` in the document `{{ knowledge }}`. If an answer is found, respond only using statements from the document; if no answer is found, use your own knowledge to answer and inform the user that the information is not from the document. Do not repeat the question, start the answer directly."
           }
         },
         "required": [
@@ -582,7 +825,7 @@
               "properties": {
                 "index": {
                   "type": "integer",
-                  "description": "Result index"
+                  "description": "Result index."
                 },
                 "message": {
                   "$ref": "#/components/schemas/ChatCompletionResponseMessage"
@@ -609,7 +852,18 @@
               "total_tokens": {
                 "type": "integer",
                 "description": "Total number of tokens"
+              },
+              "total_calls": {
+                "type": "integer",
+                "description": "Total number of calls"
               }
+            }
+          },
+          "web_search": {
+            "description": "Search results.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WebSearchObjectResponse"
             }
           }
         }
@@ -666,7 +920,7 @@
           }
         }
       },
-      "CogVideoX2Request": {
+      "CogVideoX3Request": {
         "allOf": [
           {
             "type": "object",
@@ -675,7 +929,7 @@
                 "type": "string",
                 "description": "The model code to be called.",
                 "enum": [
-                  "cogvideox-2"
+                  "cogvideox-3"
                 ]
               },
               "prompt": {
@@ -684,7 +938,7 @@
               },
               "quality": {
                 "type": "string",
-                "description": "Output mode, default is `speed`.\n `quality`: Prioritizes quality, higher generation quality. \n`speed`: Prioritizes speed, faster generation time, relatively lower quality.",
+                "description": "Output mode, default is `speed`.\n- `quality`: Prioritizes quality, higher generation quality. \n- `speed`: Prioritizes speed, faster generation time, relatively lower quality.",
                 "example": "speed",
                 "enum": [
                   "speed",
@@ -697,31 +951,33 @@
                 "example": false
               },
               "image_url": {
-                "description": "Image to base the content generation on. If provided, the system will operate based on this image. Supports URL or Base64 encoded images. Image requirements: Supports .png, .jpeg, .jpg formats; image size: no more than 5M. Either image_url or prompt must be provided, or both.",
-                "oneOf": [
-                  {
-                    "title": "Image URL",
-                    "type": "string",
-                    "format": "uri",
-                    "example": "https://example.com/image.png"
-                  },
-                  {
-                    "title": "Base64 Encoded Image",
-                    "type": "string",
-                    "format": "byte",
-                    "example": "data:image/png;base64, XXX"
-                  }
-                ]
+                "type": "array",
+                "description": "Provide an image based on which content will be generated. If this parameter is passed, the system will operate based on this image. Supports passing images via URL or Base64 encoding. Image requirements: images support `.png`, `.jpeg`, `.jpg` formats; image size: no more than `5M`. Either image_url and prompt can be used, or both can be passed simultaneously.\nFirst and last frames: supports inputting two images. The first uploaded image is regarded as the first frame, and the second image is regarded as the last frame. The model will generate the video based on the images passed in this parameter.\nFirst and last frame mode only supports `speed` mode",
+                "items": {
+                  "oneOf": [
+                    {
+                      "title": "Image URL",
+                      "type": "string",
+                      "format": "uri",
+                      "example": "https://example.com/image.png"
+                    },
+                    {
+                      "title": "Base64 Encoded Image",
+                      "type": "string",
+                      "format": "byte",
+                      "example": "data:image/png;base64, XXX"
+                    }
+                  ]
+                }
               },
               "size": {
                 "type": "string",
-                "description": "Default: If not specified, the short side of the generated video defaults to 1080, with the long side scaled according to the original image ratio. Supports up to 4K resolution. Resolution options: `720x480`, `1024x1024`, `1280x960`, `960x1280`, `1920x1080`, `1080x1920`, `2048x1080`, `3840x2160`.",
+                "description": "Default value: if not specified, the short side of the generated video is 1080 by default, and the long side is determined according to the original image ratio. Maximum support for 4K resolution. Resolution options: \"1280x720\", \"720x1280\", \"1024x1024\", \"1080x1920\", \"2048x1080\", \"3840x2160\"",
                 "example": "1920x1080",
                 "enum": [
-                  "720x480",
+                  "1280x720",
+                  "720x1280",
                   "1024x1024",
-                  "1280x960",
-                  "960x1280",
                   "1920x1080",
                   "1080x1920",
                   "2048x1080",
@@ -735,6 +991,15 @@
                 "enum": [
                   30,
                   60
+                ]
+              },
+              "duration": {
+                "type": "integer",
+                "description": "Video duration, default is 5 seconds, supports `5` and `10` seconds.",
+                "example": 5,
+                "enum": [
+                  5,
+                  10
                 ]
               }
             },
@@ -765,7 +1030,7 @@
               },
               "style": {
                 "type": "string",
-                "description": "Style\nDefault: `general`\nOptional values: `general` , `anime`\n`general`: General style, can be controlled using prompts to define the style.\n`anime`: Anime style, optimized for anime-specific visuals. The style can be controlled using different anime-themed prompts.",
+                "description": "Style\nDefault: `general`\nOptional values: `general` , `anime`\n- `general`: General style, can be controlled using prompts to define the style.\n- `anime`: Anime style, optimized for anime-specific visuals. The style can be controlled using different anime-themed prompts.",
                 "enum": [
                   "general",
                   "anime"
@@ -1234,35 +1499,558 @@
             "description": "Search results.",
             "type": "array",
             "items": {
+              "$ref": "#/components/schemas/WebSearchObjectResponse"
+            }
+          }
+        }
+      },
+      "WebSearchObjectResponse": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title."
+          },
+          "content": {
+            "type": "string",
+            "description": "Content summary."
+          },
+          "link": {
+            "type": "string",
+            "description": "Result URL."
+          },
+          "media": {
+            "type": "string",
+            "description": "Website name."
+          },
+          "icon": {
+            "type": "string",
+            "description": "Website icon."
+          },
+          "refer": {
+            "type": "string",
+            "description": "Index number."
+          },
+          "publish_date": {
+            "type": "string",
+            "description": "Website publication date."
+          }
+        }
+      },
+      "TranslationAgentRequest": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "Fixed value: `general_translation`.",
+            "enum": [
+              "general_translation"
+            ]
+          },
+          "stream": {
+            "type": "boolean",
+            "description": "False for sync calls (default). True for streaming."
+          },
+          "messages": {
+            "type": "array",
+            "description": "Session message body.",
+            "items": {
               "type": "object",
               "properties": {
-                "title": {
+                "role": {
                   "type": "string",
-                  "description": "Title."
+                  "description": "User input role: `user`",
+                  "example": "user",
+                  "default": "user",
+                  "enum": [
+                    "user"
+                  ]
                 },
                 "content": {
-                  "type": "string",
-                  "description": "Content summary."
+                  "type": "array",
+                  "description": "Content list.",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "description": "Supported type: `text`.",
+                        "default": "text",
+                        "enum": [
+                          "text"
+                        ]
+                      },
+                      "text": {
+                        "type": "string",
+                        "description": "User text input."
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "text"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "role",
+                "content"
+              ]
+            }
+          },
+          "custom_variables": {
+            "type": "object",
+            "properties": {
+              "source_lang": {
+                "type": "string",
+                "description": "Supported language codes (default: `auto`):\n- `auto`: Auto Detect\n- `zh-CN`: Simplified Chinese\n- `zh-TW`: Traditional Chinese\n- `wyw`: Classical Chinese\n- `yue`: Cantonese\n- `en`: English\n- `ja`: Japanese\n- `ko`: Korean\n- `fr`: French\n- `de`: German\n- `es`: Spanish\n- `ru`: Russian\n- `pt`: Portuguese\n- `it`: Italian\n- `ar`: Arabic\n- `hi`: Hindi\n- `bg`: Bulgarian\n- `cs`: Czech\n- `da`: Danish\n- `el`: Greek\n- `et`: Estonian\n- `fi`: Finnish\n- `hu`: Hungarian\n- `id`: Indonesian\n- `lt`: Lithuanian\n- `lv`: Latvian\n- `nl`: Dutch\n- `no`: Norwegian Bokmål\n- `pl`: Polish\n- `ro`: Romanian\n- `sk`: Slovak\n- `sl`: Slovenian\n- `sv`: Swedish\n- `th`: Thai\n- `tr`: Turkish\n- `uk`: Ukrainian\n- `vi`: Vietnamese\n- `my`: Burmese\n- `ms`: Malay\n- `Pinyin`: Pinyin\n- `IPA`: International Phonetic Alphabet\n",
+                "enum": [
+                  "auto",
+                  "zh-CN",
+                  "zh-TW",
+                  "wyw",
+                  "yue",
+                  "en",
+                  "ja",
+                  "ko",
+                  "fr",
+                  "de",
+                  "es",
+                  "ru",
+                  "pt",
+                  "it",
+                  "ar",
+                  "hi",
+                  "bg",
+                  "cs",
+                  "da",
+                  "el",
+                  "et",
+                  "fi",
+                  "hu",
+                  "id",
+                  "lt",
+                  "lv",
+                  "nl",
+                  "no",
+                  "pl",
+                  "ro",
+                  "sk",
+                  "sl",
+                  "sv",
+                  "th",
+                  "tr",
+                  "uk",
+                  "vi",
+                  "my",
+                  "ms",
+                  "Pinyin",
+                  "IPA"
+                ]
+              },
+              "target_lang": {
+                "type": "string",
+                "description": "Target language code (default: `zh-CN`):\n- `zh-CN`: Simplified Chinese\n- `zh-TW`: Traditional Chinese\n- `wyw`: Classical Chinese\n- `yue`: Cantonese\n- `en`: English\n- `en-GB`: English (British)\n- `en-US`: English (American)\n- `ja`: Japanese\n- `ko`: Korean\n- `fr`: French\n- `de`: German\n- `es`: Spanish\n- `ru`: Russian\n- `pt`: Portuguese\n- `it`: Italian\n- `ar`: Arabic\n- `hi`: Hindi\n- `bg`: Bulgarian\n- `cs`: Czech\n- `da`: Danish\n- `el`: Greek\n- `et`: Estonian\n- `fi`: Finnish\n- `hu`: Hungarian\n- `id`: Indonesian\n- `lt`: Lithuanian\n- `lv`: Latvian\n- `nl`: Dutch\n- `no`: Norwegian Bokmål\n- `pl`: Polish\n- `ro`: Romanian\n- `sk`: Slovak\n- `sl`: Slovenian\n- `sv`: Swedish\n- `th`: Thai\n- `tr`: Turkish\n- `uk`: Ukrainian\n- `vi`: Vietnamese\n- `my`: Burmese\n- `ms`: Malay\n- `Pinyin`: Pinyin\n- `IPA`: International Phonetic Alphabet\n.",
+                "enum": [
+                  "zh-CN",
+                  "zh-TW",
+                  "wyw",
+                  "yue",
+                  "en",
+                  "en-GB",
+                  "en-US",
+                  "ja",
+                  "ko",
+                  "fr",
+                  "de",
+                  "es",
+                  "ru",
+                  "pt",
+                  "it",
+                  "ar",
+                  "hi",
+                  "bg",
+                  "cs",
+                  "da",
+                  "el",
+                  "et",
+                  "fi",
+                  "hu",
+                  "id",
+                  "lt",
+                  "lv",
+                  "nl",
+                  "no",
+                  "pl",
+                  "ro",
+                  "sk",
+                  "sl",
+                  "sv",
+                  "th",
+                  "tr",
+                  "uk",
+                  "vi",
+                  "my",
+                  "ms",
+                  "Pinyin",
+                  "IPA"
+                ]
+              },
+              "glossary": {
+                "type": "string",
+                "description": "Glossary ID."
+              },
+              "strategy": {
+                "type": "string",
+                "description": "Translation strategy (default: `general`)，Optional:\n- `general`: General Translation\n- `paraphrase`: Paraphrase Translation\n- `two_step`: Two-Step Translation\n- `three_step`: Three-Stage Translation\n- `reflection`: Reflection Translation; cot: COT Translation",
+                "enum": [
+                  "general",
+                  "paraphrase",
+                  "two_step",
+                  "three_step",
+                  "reflection"
+                ]
+              },
+              "strategy_config": {
+                "type": "object",
+                "description": "Strategy parameters.",
+                "properties": {
+                  "general": {
+                    "type": "object",
+                    "properties": {
+                      "suggestion": {
+                        "type": "string",
+                        "description": "Translation suggestions or style requirements (e.g., terminology mapping, style guidelines)."
+                      }
+                    }
+                  },
+                  "cot": {
+                    "type": "object",
+                    "description": "Parameters when strategy is `cot`.",
+                    "properties": {
+                      "reason_lang": {
+                        "type": "string",
+                        "description": "Language for translation reasoning, values: [`from`｜`to`], default: `to`.",
+                        "enum": [
+                          "from",
+                          "to"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "agent_id",
+          "messages"
+        ]
+      },
+      "TranslationAgentResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Task ID."
+          },
+          "agent_id": {
+            "type": "string",
+            "description": "Agent ID."
+          },
+          "status": {
+            "type": "string",
+            "description": "Task status."
+          },
+          "choices": {
+            "type": "array",
+            "description": "Model output content.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "index": {
+                  "type": "integer",
+                  "description": "Result index."
                 },
-                "link": {
+                "finish_reason": {
                   "type": "string",
-                  "description": "Result URL."
+                  "description": "Termination reason: `stop` (normal completion), `tool_calls` (model calls), `length` (token limit exceeded), `sensitive` (content flagged), `network_error` (model inference error)."
                 },
-                "media": {
+                "messages": {
+                  "type": "object",
+                  "description": "Model response message.",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "description": "Dialog role (default: `assistant`)."
+                    },
+                    "content": {
+                      "type": "object",
+                      "description": "Inference result",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "description": "Result type."
+                        },
+                        "text": {
+                          "type": "string",
+                          "description": "Result content."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "usage": {
+            "type": "object",
+            "description": "Token usage statistics.",
+            "properties": {
+              "prompt_tokens": {
+                "type": "integer",
+                "description": "Input tokens count."
+              },
+              "completion_tokens": {
+                "type": "integer",
+                "description": "Output tokens count."
+              },
+              "total_tokens": {
+                "type": "integer",
+                "description": "Total tokens count."
+              },
+              "total_calls": {
+                "type": "integer",
+                "description": "Total number of calls"
+              }
+            }
+          }
+        }
+      },
+      "SpecialEffectsVideosAgentRequest": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "Fixed value: `vidu_template_agent`.",
+            "enum": [
+              "vidu_template_agent"
+            ]
+          },
+          "request_id": {
+            "type": "string",
+            "description": "User-defined unique ID; used to distinguish requests. Auto-generated if omitted."
+          },
+          "messages": {
+            "type": "array",
+            "description": "Session message body.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": {
                   "type": "string",
-                  "description": "Website name."
+                  "description": "User input role: `user`",
+                  "example": "user",
+                  "default": "user",
+                  "enum": [
+                    "user"
+                  ]
                 },
-                "icon": {
-                  "type": "string",
-                  "description": "Website icon."
+                "content": {
+                  "type": "array",
+                  "description": "Content list.",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "title": "text",
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "description": "Specifies that this content is text.",
+                            "enum": [
+                              "text"
+                            ]
+                          },
+                          "text": {
+                            "type": "string",
+                            "description": "User text input."
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "text"
+                        ]
+                      },
+                      {
+                        "title": "image_url",
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "description": "Specifies that this content is an image URL.",
+                            "enum": [
+                              "image_url"
+                            ]
+                          },
+                          "image_url": {
+                            "type": "string",
+                            "format": "uri",
+                            "description": "Image URL input."
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "image_url"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "role",
+                "content"
+              ]
+            }
+          },
+          "custom_variables": {
+            "type": "object",
+            "description": "Agent extension parameters.",
+            "properties": {
+              "template": {
+                "type": "string",
+                "description": "Effect template: `french_kiss`, `bodyshake`, or `sexy_me`.",
+                "enum": [
+                  "french_kiss",
+                  "bodyshake",
+                  "sexy_me"
+                ]
+              }
+            },
+            "required": [
+              "template"
+            ]
+          }
+        },
+        "required": [
+          "agent_id",
+          "messages"
+        ]
+      },
+      "SpecialEffectsVideosAgentResponse": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "async_id": {
+                "type": "string",
+                "description": "Asynchronous task ID."
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/SpecialEffectsVideosAgentError"
+          }
+        ]
+      },
+      "SpecialEffectsVideosAgentError": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Status: `pending` (task created), `failed` (task creation failed)."
+          },
+          "agent_id": {
+            "type": "string",
+            "description": "Fixed value: `vidu_template_agent`."
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "Error code."
+              },
+              "message": {
+                "type": "string",
+                "description": "Error message."
+              }
+            }
+          }
+        }
+      },
+      "CommonAgentResultRequest": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "Fixed value: `vidu_template_agent`."
+          },
+          "async_id": {
+            "type": "string",
+            "description": "Task ID from async response."
+          }
+        }
+      },
+      "CommonAgentResultResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "`pending` (processing), `success` (completed), `failed` (failed)."
+          },
+          "agent_id": {
+            "type": "string",
+            "description": "Fixed value: `vidu_template_agent`."
+          },
+          "async_id": {
+            "type": "string",
+            "description": "Asynchronous task ID."
+          },
+          "choices": {
+            "type": "array",
+            "description": "Agent output.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "index": {
+                  "type": "integer",
+                  "description": "Result index."
                 },
-                "refer": {
+                "finish_reason": {
                   "type": "string",
-                  "description": "Index number."
+                  "description": "Reason for model inference termination. Can be ‘stop’, ‘tool_calls’, ‘length’, ‘sensitive’, or ‘network_error’."
                 },
-                "publish_date": {
-                  "type": "string",
-                  "description": "Website publication date."
+                "message": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "role": {
+                        "type": "string",
+                        "description": "Role: fixed as `assistant`."
+                      },
+                      "content": {
+                        "type": "array",
+                        "description": "Video file metadata",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "description": "Fixed value: `video_url`."
+                            },
+                            "video_url": {
+                              "type": "string",
+                              "description": "MP4 video URL."
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1278,13 +2066,16 @@
           "message"
         ],
         "type": "object",
+        "description": "The request has failed.",
         "properties": {
           "code": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "description": "Error code."
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "description": "Error message."
           }
         }
       }

@@ -63,9 +63,16 @@
               {
                 "group": "Video Generation Models",
                 "pages": [
-                  "guides/video/cogvideox-2",
+                  "guides/video/cogvideox-3",
                   "guides/video/vidu-q1",
                   "guides/video/vidu2"
+                ]
+              },
+              {
+                "group": "Agents",
+                "pages": [
+                  "guides/agents/translation",
+                  "guides/agents/video-template"
                 ]
               }
             ]
@@ -82,8 +89,16 @@
               {
                 "group": "Video Generation Models",
                 "pages": [
-                  "api-reference/video/cogvideox-2&vidu",
+                  "api-reference/video/cogvideox-3&vidu",
                   "api-reference/video/get-video-status"
+                ]
+              },
+              {
+                "group": "Agent Models",
+                "pages": [
+                  "api-reference/agents/agent",
+                  "api-reference/agents/file-upload",
+                  "api-reference/agents/get-async-result"
                 ]
               }
             ]
