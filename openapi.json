@@ -627,11 +627,11 @@
       },
       "ChatThinking": {
         "type": "object",
-        "description": "Only support by GLM-4.5 and above models. This parameter is used to control whether the model can think before responding to the user.",
+        "description": "Only support by GLM-4.5 and above models. This parameter is used to control whether the model enable the chain of thought.",
         "properties": {
           "type": {
             "type": "string",
-            "description": "Whether to let the large model to think, default: enabled",
+            "description": "Whether to enable the chain of thought, default: enabled",
             "default": "enabled",
             "enum": [
               "enabled",
