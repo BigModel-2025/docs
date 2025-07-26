@@ -81,20 +81,20 @@
             "tab": "API Reference",
             "groups": [
               {
-                "group": "Language Models",
+                "group": "Language API",
                 "pages": [
-                  "api-reference/llm/glm-4-32b-0414-128k"
+                  "api-reference/llm/chat-completion"
                 ]
               },
               {
-                "group": "Video Generation Models",
+                "group": "Video Generation API",
                 "pages": [
-                  "api-reference/video/cogvideox-3&vidu",
+                  "api-reference/video/generate-video",
                   "api-reference/video/get-video-status"
                 ]
               },
               {
-                "group": "Agent Models",
+                "group": "Agent API",
                 "pages": [
                   "api-reference/agents/agent",
                   "api-reference/agents/file-upload",
