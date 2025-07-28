@@ -51,12 +51,14 @@
               {
                 "group": "Overview",
                 "pages": [
+                  "guides/overview/quick-start",
                   "guides/overview/pricing"
                 ]
               },
               {
                 "group": "Language Models",
                 "pages": [
+                  "guides/llm/glm-4.5",
                   "guides/llm/glm-4-32b-0414-128k"
                 ]
               },
