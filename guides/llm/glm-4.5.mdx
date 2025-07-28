@@ -13,9 +13,42 @@ GLM-4.5 and GLM-4.5-Air are optimized for tool invocation, web browsing, softwar
 
 Both models support hybrid reasoning modes, offering two execution modes: Thinking Mode for complex reasoning and tool usage, and Non-Thinking Mode for instant responses. These modes can be toggled via the `thinking.type`parameter (with `enabled` and `disabled` settings), and dynamic thinking is enabled by default.
 
-| **Input Modalities** | **Output Modalities** | **Context Length** | **Maximum Output Tokens** |
-| :------------------- | :-------------------- | :----------------- | :------------------------ |
-| Text                 | Text                  | 128K               | 96K                       |
+
+<CardGroup cols={3}>
+    <Card title="Input Modalities" icon="arrow-down-right">
+        Text
+    </Card>
+    <Card title="Output Modalitie" icon="arrow-down-left">
+        Text
+    </Card>
+    <Card title="Context Length" icon="arrow-down-arrow-up" iconType="regular">
+        128K
+    </Card>
+    <Card title="Maximum Output Tokens" icon="maximize" iconType="regular">
+        96K
+    </Card>
+</CardGroup>
+
+
+## Capability Support
+
+<CardGroup cols={3}>
+    <Card title="Deep Thinking" icon="brain" iconType="solid">
+        启用深度思考模式，提供更深层次的推理分析
+    </Card>
+    <Card title="Streaming Output" icon="maximize" iconType="regular">
+        支持实时流式响应，提升用户交互体验
+    </Card>
+    <Card title="Function Call" icon="function" iconType="regular">
+        强大的工具调用能力，支持多种外部工具集成
+    </Card>
+    <Card title="Context Caching" icon="database" iconType="regular">
+        智能缓存机制，优化长对话性能
+    </Card>
+    <Card title="Structured Output" icon="code" iconType="regular">
+        支持JSON等结构化格式输出，便于系统集成
+    </Card>
+</CardGroup>
 
 
 ## Benchmarking GLM-4.5
@@ -26,9 +59,7 @@ The first-principle measure of AGI lies in integrating more general intelligence
 
 To comprehensively evaluate the model’s general intelligence, we selected 12 of the most representative benchmark suites, including MMLU Pro, AIME24, MATH 500, SciCode, GPQA, HLE, LiveCodeBench, SWE-Bench, Terminal-bench, TAU-Bench, BFCL v3, and BrowseComp. Based on the aggregated average scores, GLM-4.5 ranks second globally among all models, first among domestic models, and first among open-source models.
 
-<img
-  style={{ width:"1280%" }}
-/>
+![Description](/resource/benchmark.png)
 
 ### **Higher Parameter Efficiency**
 
@@ -36,9 +67,7 @@ GLM-4.5 has half the number of parameters of DeepSeek-R1 and one-third that of K
 
 On charts such as SWE-Bench Verified, the GLM-4.5 series lies on the Pareto frontier for performance-to-parameter ratio, demonstrating that at the same scale, the GLM-4.5 series delivers optimal performance.
 
-<img
-  style={{ width:"1280%" }}
-/>
+![Description](/resource/benchmark1.png)
 
 ### **Low Cost, High Speed**
 
@@ -46,16 +75,22 @@ Beyond performance optimization, the GLM-4.5 series also achieves breakthroughs 
 
 At the same time, the high-speed version demonstrates a generation speed exceeding 100 tokens per second in real-world tests, supporting low-latency and high-concurrency deployment scenarios—balancing cost-effectiveness with user interaction experience.
 
-<img
-  style={{ width:"1280%" }}
-/>
+![Description](/resource/benchmark2.png)
+
+
+### **Real-World Evaluation**
+
+Real-world performance matters more than leaderboard rankings. To evaluate GLM-4.5’s effectiveness in practical Agent Coding scenarios, we integrated it into Claude Code and benchmarked it against Claude 4 Sonnet, Kimi-K2, and Qwen3-Coder.
+
+The evaluation consisted of 52 programming and development tasks spanning six major domains, executed in isolated container environments with multi-turn interaction tests.
+
+As shown in the results (below), GLM-4.5 demonstrates a strong competitive advantage over other open-source models, particularly in tool invocation reliability and task completion rate. While there remains room for improvement compared to Claude 4 Sonnet, GLM-4.5 delivers a largely comparable experience in most scenarios.
+
+To ensure transparency, we have released all [52 test problems along with full agent trajectories](https://huggingface.co/datasets/zai-org/CC-Bench-trajectories) for industry validation and reproducibility.
+
+![Description](/resource/expr1.jepg)
 
 ## Recommended Scenarios
-
-**Tips:**
-
-1. Clicking “Try It” will take you to the Experience Center. We recommend reviewing the User Guide before starting your trial.
-2. The trial will consume model tokens. If the experience fails, you can purchase discounted resource packages through the provided [link](https://bigmodel.cn/special_area).
 
 ### Intelligent Question Answering
 
@@ -67,7 +102,6 @@ At the same time, the high-speed version demonstrates a generation speed exceedi
 
 **Use Case:** In complex business workflows, accuracy improves by _60%_, and reasoning efficiency improves by _70%_.
 
-**Try It: **_Explain the concept of “lucid dreaming” and how it works._
 
 ### Smart Office
 
@@ -89,7 +123,6 @@ At the same time, the high-speed version demonstrates a generation speed exceedi
 
 **Use Case:** Complete refactoring-level tasks within 1 hour; generate full product prototypes in 5 minutes.
 
-**Try It:** Develop a Google-powered search website.
 
 ### AI Assistant
 
@@ -101,7 +134,6 @@ At the same time, the high-speed version demonstrates a generation speed exceedi
 
 **Use Case:** In multi-module collaborative development projects, delivery cycles were shortened by 40%, and manpower investment was reduced by approximately 30%.
 
-**Try It:** Build a webpage using Three.js and JavaScript that creates a 3D world displaying places I've visited, based on an array. Clicking markers on the 3D globe will animate a zoom effect and open detailed trip information with photos.
 
 ### Complex Text Translation
 
@@ -113,7 +145,6 @@ At the same time, the high-speed version demonstrates a generation speed exceedi
 
 **Use Cases:** Suitable for publishing house translations, content localization for overseas markets, cross-border customer service, and social media platforms.
 
-**Try It:** _Translate the following English text into Chinese without annotations; output only the translated text:_ _He smiled understandingly—much more than understandingly. It was one of those rare smiles with a quality of eternal reassurance in it, that you may come across four or five times in life._
 
 ### **Content Creation**
 
@@ -125,7 +156,6 @@ At the same time, the high-speed version demonstrates a generation speed exceedi
 
 **Use Case:** Ideal for deployment in content creation platforms, marketing toolchains, or AI writing assistants to enhance content production efficiency and personalization.
 
-**Try It:** _Write a short background story for my Dungeons & Dragons character: a clumsy wizard._
 
 ### **Virtual Characters**
 
@@ -137,11 +167,9 @@ At the same time, the high-speed version demonstrates a generation speed exceedi
 
 **Use Case:** Ideal for virtual humans, social AI, and brand personification operations.
 
-**Try It:** _Write a diary entry from the perspective of a dog who took a walk in the park today and chased a squirrel._
 
 ## Try and Use
 
-- **Experience Center:** Quickly test the model’s performance in business scenarios.
 - **API Documentation:** Details on how to invoke the API.
 
 ## Use Examples
@@ -151,7 +179,7 @@ At the same time, the high-speed version demonstrates a generation speed exceedi
 GLM-4.5 offers a “Deep Thinking Mode” that users can enable or disable by setting the `thinking.type` parameter. This parameter supports two values: `enabled` (enabled) and `disabled` (disabled). By default, dynamic thinking is enabled.
 
 - **Simple Tasks (No Thinking Required):** For straightforward requests that do not require complex reasoning (e.g., fact retrieval or classification), thinking is unnecessary. Examples include:
-  - When was Zhipu AI founded?
+  - When was Z.AI founded?
   - Translate the sentence “I love you” into Chinese.
 - **Moderate Tasks (Default/Some Thinking Required):** Many common requests require stepwise processing or deeper understanding. The GLM-4.5 series can flexibly apply thinking capabilities to handle tasks such as:
   - Why does Jupiter have more moons than Saturn, despite Saturn being larger?
@@ -162,29 +190,69 @@ GLM-4.5 offers a “Deep Thinking Mode” that users can enable or disable by se
 - Explain in detail how different experts in a Mixture-of-Experts (MoE) model collaborate.
 - Based on the recent week’s fluctuations of the Shanghai Composite Index and current political information, should I invest in a stock index ETF? Why?
 
-### Python
+### Samples Code
 
-**Sample Request**
+<Tabs>
+    <Tab title="Python">
+        ```python
+        from zai import ZaiClient
 
-```
-from zhipuai import ZhipuAI
+        client = ZaiClient(api_key="your-api-key")  # Your API Key
 
-# Initialize client with your API key
-client = ZhipuAI(api_key="YOUR_API_KEY_HERE")  # Please replace with your actual API key
+        response = client.chat.completions.create(
+            model="glm-4.5",
+            messages=[
+                {"role": "user", "content": "As a marketing expert, please create an attractive slogan for my product."},
+                {"role": "assistant", "content": "Sure, to craft a compelling slogan, please tell me more about your product."},
+                {"role": "user", "content": "Z.AI Open Platform"}
+            ],
+            thinking={
+                "type": "enabled",    # Optional: "disabled" or "enabled", default is "enabled"
+            },
+            stream=True,
+            max_tokens=4096,
+            temperature=0.7
+        )
 
-response = client.chat.completions.create(
-    model="glm-4.5",  # Specify the model you want to call
-    messages=[
-        {"role": "user", "content": "As a marketing expert, please create an attractive slogan for my product."},
-        {"role": "assistant", "content": "Sure, to craft a compelling slogan, please tell me more about your product."},
-        {"role": "user", "content": "Zhipu AI Open Platform"},
-        {"role": "assistant", "content": "Ignite the future, Zhipu AI paints infinity, making innovation within reach!"},
-        {"role": "user", "content": "Create a more precise and attractive slogan."}
-    ],
-    thinking={
-        "type": "enabled",  # Optional: "disabled" or "enabled", default is "enabled"
-    },
-)
+        for chunk in response:
+            if chunk.choices[0].delta.content:
+                print(chunk.choices[0].delta.content, end='')
 
-print(response)
-```
+        ```
+    </Tab>
+    <Tab title="Java">
+        ```java
+        import ai.z.openapi.ZaiClient;
+        import ai.z.openapi.service.model.ChatCompletionCreateParams;
+        import ai.z.openapi.service.model.ChatCompletionResponse;
+        import ai.z.openapi.service.model.ChatMessage;
+        import ai.z.openapi.service.model.ChatMessageRole;
+        import java.util.Arrays;
+
+        public class BasicChat {
+            public static void main(String[] args) {
+                ZaiClient client = ZaiClient.builder()
+                    .apiKey("your-api-key")
+                    .build();
+
+                ChatCompletionCreateParams request = ChatCompletionCreateParams.builder()
+                    .model("glm-4.5").messages(Arrays.asList(
+                        ChatMessage.builder().role(ChatMessageRole.USER.value())
+                            .content("As a marketing expert, please create an attractive slogan for my product.").build(),
+                        ChatMessage.builder().role(ChatMessageRole.ASSISTANT.value())
+                            .content("Sure, to craft a compelling slogan, please tell me more about your product.").build(),
+                        ChatMessage.builder().role(ChatMessageRole.USER.value())
+                            .content("Z.AI Open Platform").build())).build();
+
+                ChatCompletionResponse response = client.chat().createChatCompletion(request);
+
+
+                if (response.isSuccess()) {
+                    Object reply = response.getData().getChoices().get(0).getMessage().getContent();
+                    System.out.println("Response: " + reply);
+                }
+            }
+        }
+        ```
+    </Tab>
+</Tabs>
