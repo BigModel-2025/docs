@@ -1,0 +1,38 @@
+---
+title: "Claude Code"
+description: "Methods for integrating the latest GLM-4.5 series models from Z.AI with Claude Code"
+---
+
+Z.AI's GLM-4.5 models can be integrated with Claude Code through an Anthropic API-compatible endpoint. This allows Claude Code to communicate with GLM-4.5 without requiring any code modifications to Claude Code itself.
+
+## 1. Obtain Your Z.AI API Key
+
+Visit Z.AI to get your [API Key](https://z.ai/manage-apikey/apikey-list)
+
+## 2. Configure Environment Variables
+
+After installing Claude Code, set up environment variables using one of the following two methods:
+
+**Method 1: Using a Script (Recommended for First-Time Users)**
+
+```bash
+curl -O "http://bigmodel-us3-prod-marketplace.cn-wlcb.ufileos.com/1753683755292-30b3431f487b4cc1863e57a81d78e289.sh?ufileattname=claude_code_prod_zai.sh"
+```
+
+**Method 2: Manual Configuration**
+
+```bash
+export ANTHROPIC_BASE_URL=https://api.z.ai/api/anthropic
+
+export ANTHROPIC_AUTH_TOKEN={YOUR_API_KEY} 
+```
+
+## 3. Quick Start with Claude Code
+
+> If prompted with "Do you want to use this API key," select "Yes."
+
+After launching, grant Claude Code permission to access files in your folder as shown below:
+
+![Description](https://cdn.bigmodel.cn/markdown/1753631613096claude-2.png?attname=claude-2.png)
+
+You can now use Claude Code for development\!

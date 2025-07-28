@@ -1,0 +1,40 @@
+---
+title: "Grok CLI"
+description: "Quick Start Guide for Connecting to Z.AI GLM Models Using Grok CLI"
+---
+
+Grok CLI is a streamlined command-line AI assistant that enables quick access to Z.AI's GLM models for conversation and code generation.
+
+## 1. Installing Grok CLI
+
+Install Grok CLI globally via npm:
+
+```bash
+npm install -g @vibe-kit/grok-cli  
+```
+
+## 2. Environment Configuration
+
+Set the API base URL and API Key:
+
+```bash
+export GROK_BASE_URL="https://api.z.ai/api/paas/v4"  
+export GROK_API_KEY="your_api_key"  
+```
+
+## 3. Getting Started
+
+Launch Grok CLI with a specified model:
+
+```bash
+grok --model glm-4.5  
+```
+
+![Description](https://cdn.bigmodel.cn/markdown/1753631674840gemini-4.png?attname=gemini-4.png)
+
+## Notes
+
+> **Important Note**: Grok CLI currently has limited compatibility with thinking models, and thinking content will be displayed in full. Recommendations:
+>
+> - Wait for Grok CLI to improve compatibility with thinking models
+> - Or use non-thinking versions of the models

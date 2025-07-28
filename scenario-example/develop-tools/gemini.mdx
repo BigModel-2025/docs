@@ -1,0 +1,68 @@
+---
+title: "Gemini CLI"
+description: "Complete Guide to Accessing Z.AI GLM Models Using a Customized Gemini CLI"
+---
+
+Gemini CLI is a command-line interface tool that can be made compatible with Z.AI's GLM models by using a customized fork.
+
+## 1. Obtaining the Custom Version
+
+### 1. Cloning the Custom Repository
+
+Since the official Gemini CLI repository only supports Google's Gemini models, we need to use a customized branch that supports OpenRouter compatibility:
+
+```bash
+git clone https://github.com/heartyguy/gemini-cli  
+cd gemini-cli  
+```
+
+### 2. Switching to the Compatible Branch
+
+```bash
+git checkout feature/openrouter-support  
+```
+
+## 2. Environment Configuration
+
+### 1. Setting Environment Variables
+
+![Description](https://cdn.bigmodel.cn/markdown/1753631661971gemini-1.png?attname=gemini-1.png)
+
+Configure the API base URL:
+
+```bash
+export OPENROUTER_BASE_URL="https://api.z.ai/api/paas/v4"  
+```
+
+Configure the API Key:
+
+```bash
+export OPENROUTER_API_KEY="your_api_key"  
+```
+
+## 3. Installation and Launch
+
+### 1. System Requirements
+
+Ensure your Node.js version is \>= 18.
+
+### 2. Installing Dependencies
+
+```bash
+npm install  
+```
+
+### 3. Launch Process
+
+![Description](https://cdn.bigmodel.cn/markdown/1753631666323gemini-2.png?attname=gemini-2.png)
+
+After launching, complete the following steps:
+
+1. Select a background color theme.
+2. User login (recommended to use a Google account for authentication, which will redirect to a webpage for verification).
+
+## 4. Usage Results
+
+![Description](https://cdn.bigmodel.cn/markdown/1753631670672gemini-3.png?attname=gemini-3.png)
+
+Once configured, you can use Z.AI's GLM models in the command line for conversations and code generation.
