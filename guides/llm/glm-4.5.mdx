@@ -1,0 +1,193 @@
+---
+description: "Description of your new file."
+title: "GLM-4.5 User Guide"
+---
+
+## Model Overview
+
+GLM-4.5 and GLM-4.5-Air are our latest flagship models, purpose-built as foundational models for agent-oriented applications. Both leverage a Mixture-of-Experts (MoE) architecture. GLM-4.5 has a total parameter count of 355B with 32B active parameters per forward pass, while GLM-4.5-Air adopts a more streamlined design with 106B total parameters and 12B active parameters.
+
+Both models share a similar training pipeline: an initial pretraining phase on 15 trillion tokens of general-domain data, followed by targeted fine-tuning on datasets covering code, reasoning, and agent-specific tasks. The context length has been extended to 128k tokens, and reinforcement learning was applied to further enhance reasoning, coding, and agent performance.
+
+GLM-4.5 and GLM-4.5-Air are optimized for tool invocation, web browsing, software engineering, and front-end development. They can be integrated into code-centric agents such as Claude Code and Roo Code, and also support arbitrary agent applications through tool invocation APIs.
+
+Both models support hybrid reasoning modes, offering two execution modes: Thinking Mode for complex reasoning and tool usage, and Non-Thinking Mode for instant responses. These modes can be toggled via the `thinking.type`parameter (with `enabled` and `disabled` settings), and dynamic thinking is enabled by default.
+
+| **Input Modalities** | **Output Modalities** | **Context Length** | **Maximum Output Tokens** |
+| :------------------- | :-------------------- | :----------------- | :------------------------ |
+| Text                 | Text                  | 128K               | 96K                       |
+
+<table style="min-width: 125px">
+<colgroup><col style="min-width: 25px"><col style="min-width: 25px"><col style="min-width: 25px"><col style="min-width: 25px"><col style="min-width: 25px"></colgroup><tbody><tr><th colspan="5" rowspan="1" style="border:1px solid rgb(222, 224, 227);font-size:10pt;padding:8px;vertical-align:top;font-weight:500;background-color:rgb(242, 243, 245);text-align:left;"><p><strong>Capability Support 🌟</strong></p></th></tr><tr><td colspan="1" rowspan="1" style="border:1px solid rgb(222, 224, 227);font-size:10pt;padding:8px;vertical-align:top;"><p>Deep Thinking</p></td><td colspan="1" rowspan="1" style="border:1px solid rgb(222, 224, 227);font-size:10pt;padding:8px;vertical-align:top;"><p>Streaming Output</p></td><td colspan="1" rowspan="1" style="border:1px solid rgb(222, 224, 227);font-size:10pt;padding:8px;vertical-align:top;"><p>Function Call</p></td><td colspan="1" rowspan="1" style="border:1px solid rgb(222, 224, 227);font-size:10pt;padding:8px;vertical-align:top;"><p>Context Caching</p></td><td colspan="1" rowspan="1" style="border:1px solid rgb(222, 224, 227);font-size:10pt;padding:8px;vertical-align:top;"><p>Structured Output</p></td></tr></tbody>
+</table>
+
+## Benchmarking GLM-4.5
+
+### Overview
+
+The first-principle measure of AGI lies in integrating more general intelligence capabilities without compromising existing functions. GLM-4.5 represents our first complete realization of this concept. It combines advanced reasoning, coding, and agent capabilities within a single model, achieving a significant technological breakthrough by natively fusing reasoning, coding, and agent abilities to meet the complex demands of agent-based applications.
+
+To comprehensively evaluate the model’s general intelligence, we selected 12 of the most representative benchmark suites, including MMLU Pro, AIME24, MATH 500, SciCode, GPQA, HLE, LiveCodeBench, SWE-Bench, Terminal-bench, TAU-Bench, BFCL v3, and BrowseComp. Based on the aggregated average scores, GLM-4.5 ranks second globally among all models, first among domestic models, and first among open-source models.
+
+<img
+  style={{ width:"1280%" }}
+/>
+
+### **Higher Parameter Efficiency**
+
+GLM-4.5 has half the number of parameters of DeepSeek-R1 and one-third that of Kimi-K2, yet it outperforms them on multiple standard benchmark tests. This is attributed to the higher parameter efficiency of GLM architecture. Notably, GLM-4.5-Air, with 106 billion total parameters and 12 billion active parameters, achieves a significant breakthrough—surpassing models such as Gemini 2.5 Flash, Qwen3-235B, and Claude 4 Opus on reasoning benchmarks like Artificial Analysis, ranking among the top three domestic models in performance.
+
+On charts such as SWE-Bench Verified, the GLM-4.5 series lies on the Pareto frontier for performance-to-parameter ratio, demonstrating that at the same scale, the GLM-4.5 series delivers optimal performance.
+
+<img
+  style={{ width:"1280%" }}
+/>
+
+### **Low Cost, High Speed**
+
+Beyond performance optimization, the GLM-4.5 series also achieves breakthroughs in cost and efficiency, resulting in pricing far lower than mainstream models: API call costs are as low as ¥0.8 per million input tokens and ¥2 per million output tokens.
+
+At the same time, the high-speed version demonstrates a generation speed exceeding 100 tokens per second in real-world tests, supporting low-latency and high-concurrency deployment scenarios—balancing cost-effectiveness with user interaction experience.
+
+<img
+  style={{ width:"1280%" }}
+/>
+
+## Recommended Scenarios
+
+**Tips:**
+
+1. Clicking “Try It” will take you to the Experience Center. We recommend reviewing the User Guide before starting your trial.
+2. The trial will consume model tokens. If the experience fails, you can purchase discounted resource packages through the provided [link](https://bigmodel.cn/special_area).
+
+### Intelligent Question Answering
+
+**Core Capability:** <u>Model reasoning power</u> → Precise instruction parsing \| Multi-turn logical reasoning \| Domain knowledge integration
+
+- **Deep Natural Language Understanding** – Accurately interprets natural language instructions, extracts key intents, and converts them into executable tasks.
+- **Complex Multi-Turn Reasoning** – Supports multi-step logical reasoning chains, efficiently handling composite problems involving cross-step dependencies and multiple variables.
+- **Domain Knowledge Fusion** – Integrates domain-specific expertise with contextual information to enhance reasoning accuracy and output stability.
+
+**Use Case:** In complex business workflows, accuracy improves by _60%_, and reasoning efficiency improves by _70%_.
+
+**Try It: **_Explain the concept of “lucid dreaming” and how it works._
+
+### Smart Office
+
+**Core Capability:** <u>PPT Creation</u> → Clear logic \| Complete content \| Effective visual presentation
+
+- **Content Expansion by Theme:** Generates multi-slide PPT content from a single title or central concept.
+- **Logical Structure Organization:** Automatically segments content into introduction, body, and conclusion modules with well-organized semantic flow.
+- **Slide Layout Suggestions:** Works with template systems to recommend optimal presentation styles for the generated content.
+
+**Use Case:** Suitable for office automation platforms, AI presentation tools, and other productivity-focused products.
+
+### Web Development
+
+**Core Capability:** <u>Coding Skills</u> → Intelligent code generation \| Real-time code completion \| Automated bug fixing
+
+- Supports major languages including Python, JavaScript, and Java.
+- Generates well-structured, scalable, high-quality code based on natural language instructions.
+- Focuses on real-world development needs, avoiding templated or generic outputs.
+
+**Use Case:** Complete refactoring-level tasks within 1 hour; generate full product prototypes in 5 minutes.
+
+**Try It:** Develop a Google-powered search website.
+
+### AI Assistant
+
+**Core Capabilities:** <u>Agent Abilities</u> → Autonomous task planning \| Multi-tool orchestration \| Dynamic environment interaction
+
+- Automatically decomposes complex tasks into clear, executable step-by-step plans.
+- Flexibly invokes development tools to complete coding, debugging, and validation in a one-stop workflow.
+- Dynamically adjusts strategies based on real-time feedback, quickly adapting to task changes and continuously optimizing execution paths.
+
+**Use Case:** In multi-module collaborative development projects, delivery cycles were shortened by 40%, and manpower investment was reduced by approximately 30%.
+
+**Try It:** Build a webpage using Three.js and JavaScript that creates a 3D world displaying places I've visited, based on an array. Clicking markers on the 3D globe will animate a zoom effect and open detailed trip information with photos.
+
+### Complex Text Translation
+
+**Core Capabilities:** <u>Translation Proficiency</u> → Strong contextual consistency \| Accurate style preservation \| Excellent handling of long passages
+
+- **Long, Complex Sentence Translation:** Maintains semantic coherence and structural accuracy, ideal for policy and academic materials.
+- **Style Retention and Adaptation:** Preserves the original tone or adapts to the target language’s commonly used expression style during translation.
+- **Support for Low-Resource Languages and Informal Contexts:** Preliminary coverage of 26 languages, with capabilities to translate social and informal texts.
+
+**Use Cases:** Suitable for publishing house translations, content localization for overseas markets, cross-border customer service, and social media platforms.
+
+**Try It:** _Translate the following English text into Chinese without annotations; output only the translated text:_ _He smiled understandingly—much more than understandingly. It was one of those rare smiles with a quality of eternal reassurance in it, that you may come across four or five times in life._
+
+### **Content Creation**
+
+**Core Capability:** <u>Creative Writing</u> → Natural expression \| Rich emotion \| Complete structure
+
+- Generates coherent literary texts with clear narrative flow based on given themes, characters, or worldviews.
+- Produces emotionally engaging copy tailored to audience profiles and product characteristics.
+- Supports short videos and new media scripts aligned with platforms like Douyin and Xiaohongshu, integrating emotion control and narrative pacing.
+
+**Use Case:** Ideal for deployment in content creation platforms, marketing toolchains, or AI writing assistants to enhance content production efficiency and personalization.
+
+**Try It:** _Write a short background story for my Dungeons & Dragons character: a clumsy wizard._
+
+### **Virtual Characters**
+
+**Core Capability:** <u>Humanized Expression</u> → Natural tone \| Accurate emotional conveyance \| Consistent character behavior
+
+- **Role-Playing Dialogue System:** Maintains consistent tone and behavior of the designated character across multi-turn conversations.
+- **Emotionally Rich Copywriting:** Delivers warm, relatable expressions suitable for building “humanized” brands or companion-style user products.
+- **Virtual Persona Content Creation:** Supports generation of content aligned with virtual streamers or character IPs, including social posts and fan interactions.
+
+**Use Case:** Ideal for virtual humans, social AI, and brand personification operations.
+
+**Try It:** _Write a diary entry from the perspective of a dog who took a walk in the park today and chased a squirrel._
+
+## Try and Use
+
+- **Experience Center:** Quickly test the model’s performance in business scenarios.
+- **API Documentation:** Details on how to invoke the API.
+
+## Use Examples
+
+### Thinking Mode
+
+GLM-4.5 offers a “Deep Thinking Mode” that users can enable or disable by setting the `thinking.type` parameter. This parameter supports two values: `enabled` (enabled) and `disabled` (disabled). By default, dynamic thinking is enabled.
+
+- **Simple Tasks (No Thinking Required):** For straightforward requests that do not require complex reasoning (e.g., fact retrieval or classification), thinking is unnecessary. Examples include:
+  - When was Zhipu AI founded?
+  - Translate the sentence “I love you” into Chinese.
+- **Moderate Tasks (Default/Some Thinking Required):** Many common requests require stepwise processing or deeper understanding. The GLM-4.5 series can flexibly apply thinking capabilities to handle tasks such as:
+  - Why does Jupiter have more moons than Saturn, despite Saturn being larger?
+  - Compare the advantages and disadvantages of flying versus taking the high-speed train from Beijing to Shanghai.
+
+**Difficult Tasks (Maximum Thinking Capacity):** For truly complex challenges—such as solving advanced math problems, network-related questions, or coding issues—these tasks require the model to fully engage its reasoning and planning abilities, often involving many internal steps before arriving at an answer. Examples include:
+
+- Explain in detail how different experts in a Mixture-of-Experts (MoE) model collaborate.
+- Based on the recent week’s fluctuations of the Shanghai Composite Index and current political information, should I invest in a stock index ETF? Why?
+
+### Python
+
+**Sample Request**
+
+```
+from zhipuai import ZhipuAI
+
+# Initialize client with your API key
+client = ZhipuAI(api_key="YOUR_API_KEY_HERE")  # Please replace with your actual API key
+
+response = client.chat.completions.create(
+    model="glm-4.5",  # Specify the model you want to call
+    messages=[
+        {"role": "user", "content": "As a marketing expert, please create an attractive slogan for my product."},
+        {"role": "assistant", "content": "Sure, to craft a compelling slogan, please tell me more about your product."},
+        {"role": "user", "content": "Zhipu AI Open Platform"},
+        {"role": "assistant", "content": "Ignite the future, Zhipu AI paints infinity, making innovation within reach!"},
+        {"role": "user", "content": "Create a more precise and attractive slogan."}
+    ],
+    thinking={
+        "type": "enabled",  # Optional: "disabled" or "enabled", default is "enabled"
+    },
+)
+
+print(response)
+```
