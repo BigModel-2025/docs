@@ -1,0 +1,83 @@
+---
+title: "Kilo Code"
+description: "A complete guide to integrating the GLM model from  Z.AI using the Kilo Code plugin in VS Code"
+---
+
+Kilo Code is a powerful VS Code plugin that supports MCP (Model Context Protocol), enabling you to leverage AI models for efficient code development directly in your editor.
+
+## 1. Installing the Kilo Code Plugin
+
+### 1. Open the Extensions Marketplace
+
+1. Launch VS Code
+2. Click the Extensions Marketplace icon on the left sidebar
+3. Search for `Kilo Code` in the search bar
+4. Locate the `Kilo Code` plugin
+
+![Description](https://cdn.bigmodel.cn/markdown/1753687809443k1.jpg?attname=k1.jpg)
+
+### 2. Install the Plugin
+
+1. Click the `Install` button to begin installation
+2. After installation, choose to trust the developer
+
+![Description](https://cdn.bigmodel.cn/markdown/1753687816703k2.jpg?attname=k2.jpg)
+
+## 2. Configuring API Settings
+
+### 1. Select API Key Authentication
+
+Choose `Use your own API key`
+
+![Description](https://cdn.bigmodel.cn/markdown/1753687824352k3.jpg?attname=k3.jpg)
+
+### 2. Enter Configuration Details
+
+Fill in the following information as specified:
+
+- **API Provider**: Select `OpenAI Compatible`
+- **OpenAI Base URL**: Enter `https://api.z.ai/api/paas/v4`
+- **API Key**: Input your Z.AI API Key
+- **Model Name**: Enter `glm-4.5` and select **Use Custom**
+
+![Description](https://cdn.bigmodel.cn/markdown/1753687831283k4.jpg?attname=k4.jpg)
+
+## 3. Configuring MCP (Optional)
+
+### 1. Add an MCP Server
+
+Kilo Code supports MCP (Model Context Protocol) to extend the capabilities of AI models. Below is an example configuration for an SQLite MCP server:
+
+Refer to the https://github.com/modelcontextprotocol/servers-archived/tree/main/src/sqlite documentation and add the MCP configuration:
+
+```json
+{
+    "mcpServers": {
+        "SQLite": {
+            "command": "uv",
+            "args": [
+                "--directory",
+                "parent_of_servers_repo/servers/src/sqlite",
+                "run",
+                "mcp-server-sqlite",
+                "--db-path",
+                "~/test.db"
+            ]
+        }
+    }
+}
+```
+
+## 4. Getting Started
+
+Once configured, you can enter prompts in the input box to leverage the AI model for various tasks, such as:
+
+- Analyzing database table structures
+- Calculating statistics and averages
+- Generating and optimizing SQL queries
+- Code generation and refactoring
+- Project analysis and documentation writing
+
+### Demo
+
+<video src="https://cdn.bigmodel.cn/agent-demos/kilo/demo.mp4" controls />
