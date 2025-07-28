@@ -112,7 +112,6 @@
                 "group": "Develop Tools",
                 "pages": [
                   "scenario-example/develop-tools/claude",
-                  "scenario-example/develop-tools/forge",
                   "scenario-example/develop-tools/kilo",
                   "scenario-example/develop-tools/roo",
                   "scenario-example/develop-tools/gemini",
