@@ -80,6 +80,21 @@ The model strikes a balance between creativity and stability, delivering signifi
         ```
     </Tab>
     <Tab title="Python">
+        **Install SDK**
+        ```bash
+        # Install latest version
+        pip install zai-sdk
+
+        # Or specify version
+        pip install zai-sdk==0.0.1
+        ```
+
+        **Verify Installation**
+        ```python
+        import zai
+        print(zai.__version__)
+        ```
+
         ```python
         from zai import ZaiClient
 
@@ -101,6 +116,23 @@ The model strikes a balance between creativity and stability, delivering signifi
         ```
     </Tab>
     <Tab title="Java">
+
+        **Install SDK**
+
+        **Maven**
+        ```xml
+        <dependency>
+            <groupId>ai.z.openapi</groupId>
+            <artifactId>zai-sdk</artifactId>
+            <version>0.0.2</version>
+        </dependency>
+        ```
+
+        **Gradle (Groovy)**
+        ```groovy
+        implementation 'ai.z.openapi:zai-sdk:0.0.2'
+        ```
+
         ```java
         import ai.z.openapi.ZaiClient;
         import ai.z.openapi.service.videos.VideoCreateParams;

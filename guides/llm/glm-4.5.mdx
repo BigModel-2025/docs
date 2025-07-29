@@ -248,6 +248,21 @@ GLM-4.5 offers a “Deep Thinking Mode” that users can enable or disable by se
 
 <Tabs>
     <Tab title="Python">
+        **Install SDK**
+        ```bash
+        # Install latest version
+        pip install zai-sdk
+
+        # Or specify version
+        pip install zai-sdk==0.0.1
+        ```
+
+        **Verify Installation**
+        ```python
+        import zai
+        print(zai.__version__)
+        ```
+
         ```python
         from zai import ZaiClient
 
@@ -275,6 +290,22 @@ GLM-4.5 offers a “Deep Thinking Mode” that users can enable or disable by se
         ```
     </Tab>
     <Tab title="Java">
+        **Install SDK**
+
+        **Maven**
+        ```xml
+        <dependency>
+            <groupId>ai.z.openapi</groupId>
+            <artifactId>zai-sdk</artifactId>
+            <version>0.0.2</version>
+        </dependency>
+        ```
+
+        **Gradle (Groovy)**
+        ```groovy
+        implementation 'ai.z.openapi:zai-sdk:0.0.2'
+        ```
+
         ```java
         import ai.z.openapi.ZaiClient;
         import ai.z.openapi.service.model.ChatCompletionCreateParams;
