@@ -680,17 +680,17 @@
           },
           "count": {
             "type": "integer",
-            "description": "Number of returned results\nRange: `1-50`, max `50` results per search\nDefault is `10`\nSupported engines: `search_std`, `search_pro`, `search_pro_sogou`\nFor `search_pro_sogou`: allowed values are `10`, `20`, `30`, `40`, `50`",
+            "description": "Number of returned results\nRange: `1-50`, max `50` results per search\nDefault is `10`\nSupported engines: `search_pro_jina`\n",
             "minimum": 1,
             "maximum": 50
           },
           "search_domain_filter": {
             "type": "string",
-            "description": "Limits search results to specified whitelisted domains. Whitelist: input domains directly (e.g., www.example.com)\nSupported engines: `search_std`, `search_pro`, `search_pro_sogou`, `search_pro_Jina`"
+            "description": "Limits search results to specified whitelisted domains. Whitelist: input domains directly (e.g., www.example.com)\nSupported engines: `search_pro_jina`"
           },
           "search_recency_filter": {
             "type": "string",
-            "description": "Limits search to a specific time range.\nDefault is `noLimit`\nValues:\n`oneDay`, within a day\n`oneWeek`, within a week\n`oneMonth`, within a month\n`oneYear`, within a year\n`noLimit`, no limit (default)\nSupported engines: `search_std`, `search_pro`, `search_pro_sogou`, `search_pro_quark`",
+            "description": "Limits search to a specific time range.\nDefault is `noLimit`\nValues:\n`oneDay`, within a day\n`oneWeek`, within a week\n`oneMonth`, within a month\n`oneYear`, within a year\n`noLimit`, no limit (default)\nSupported engines: `search_pro_jina`",
             "enum": [
               "oneDay",
               "oneWeek",
@@ -1429,30 +1429,26 @@
           },
           "search_engine": {
             "type": "string",
-            "description": "The search engine code to call. Currently supported:\n`search_std`: Z.AI Basic Search Engine\n`search_pro`: Z.AI Advanced Search Engine\n`search_pro_sogou`: Sogou Search Engine\n`search_pro_quark`: Quark Search Engine.\n`search_pro_jina`: jina.ai Search Engine\nDefault is `search_std`.",
-            "example": "search_std",
-            "default": "search_std",
+            "description": "The search engine code to call. Currently supported:\n`search_pro_jina`\n`search_pro_jina`: jina.ai Search Engine\nDefault is `search_pro_jina`.",
+            "example": "search_pro_jina",
+            "default": "search_pro_jina",
             "enum": [
-              "search_std",
-              "search_pro",
-              "search_pro_sogou",
-              "search_pro_quark",
               "search_pro_jina"
             ]
           },
           "count": {
             "type": "integer",
-            "description": "The number of results to return\nFillable range: `1-50`, maximum `50` results per single search\nDefault is `10`\nSupported search engines: \n`search_pro`、`search_std`、`search_pro_sogou`\nSogou: Optional enumerated values are `10`, `20`, `30`, `40`, `50`.",
+            "description": "The number of results to return\nFillable range: `1-50`, maximum `50` results per single search\nDefault is `10`\nSupported search engines: \n`search_pro_jina`.",
             "minimum": 1,
             "maximum": 50
           },
           "search_domain_filter": {
             "type": "string",
-            "description": "Used to limit the scope of search results and only return content from specified whitelist domains.\nWhitelist: Directly enter the domain name (e.g., `www.example.com`)\nSupported search engines: \n`search_std`、`search_pro`、`search_pro_sogou`、`search_pro_jina`"
+            "description": "Used to limit the scope of search results and only return content from specified whitelist domains.\nWhitelist: Directly enter the domain name (e.g., `www.example.com`)\nSupported search engines: \n`search_pro_jina`"
           },
           "search_recency_filter": {
             "type": "string",
-            "description": "Search for webpages within a specified time range.\nDefault is `noLimit`\nFillable values:\n`oneDay`: within one day\n`oneWeek`: within one week\n`oneMonth`: within one month\n`oneYear`: within one year\n`noLimit`: no limit (default)\nSupported search engines: \n`search_std`、`search_pro`、`search_pro_sogou`、`search_pro_quark`",
+            "description": "Search for webpages within a specified time range.\nDefault is `noLimit`\nFillable values:\n`oneDay`: within one day\n`oneWeek`: within one week\n`oneMonth`: within one month\n`oneYear`: within one year\n`noLimit`: no limit (default)\nSupported search engines: \n`search_pro_jina`",
             "enum": [
               "oneDay",
               "oneWeek",
