@@ -28,7 +28,7 @@
   "paths": {
     "/paas/v4/chat/completions": {
       "post": {
-        "description": "GLM-4 offers multiple models suitable for various application scenarios.",
+        "description": "Create a chat completion model that generates AI replies for given conversation messages. It supports multimodal inputs (text, images, audio, video), offers configurable parameters (like temperature, max tokens, tool use), and supports both streaming and non-streaming output modes.",
         "parameters": [
           {
             "$ref": "#/components/parameters/AcceptLanguage"
@@ -500,7 +500,7 @@
         "in": "header",
         "schema": {
           "type": "string",
-          "description": "It is an HTTP request header used to inform the server of the browser's preferred list of languages, so the server can return content in the language that best matches the user's preference.",
+          "description": "Config desired response language for HTTP requests.",
           "default": "en-US,en",
           "enum": [
             "en-US,en"
@@ -519,7 +519,7 @@
         "properties": {
           "model": {
             "type": "string",
-            "description": "The model code to be called.",
+            "description": "The model code to be called. GLM-4.5 and GLM-4.5-Air are the latest flagship model series, foundational models specifically designed for agent applications.",
             "example": "glm-4.5",
             "default": "glm-4.5",
             "enum": [
@@ -559,8 +559,7 @@
                 "content"
               ]
             },
-            "minItems": 1,
-            "maxItems": 10
+            "minItems": 1
           },
           "request_id": {
             "type": "string",
@@ -594,18 +593,17 @@
             "type": "number",
             "description": "Another method of temperature sampling, value range is: `[0.0, 1.0]`, default value is `0.7`.",
             "format": "float",
-            "example": 0.7,
-            "default": 0.7,
+            "example": 0.6,
+            "default": 0.6,
             "minimum": 0.0,
             "maximum": 1.0
           },
           "max_tokens": {
             "type": "integer",
-            "description": "The maximum number of tokens for model output, maximum output is `4095`, default value is `1024`.",
+            "description": "The maximum number of tokens for model output, the GLM-4.5 supports 96K maximum output, GLM-4.1v serials support 16K maximum output, GLM-Z1 supports 32K maximum output.",
             "example": 1024,
-            "default": 1024,
             "minimum": 1,
-            "maximum": 4095
+            "maximum": 98304
           },
           "tools": {
             "type": "array",
