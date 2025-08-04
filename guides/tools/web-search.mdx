@@ -32,9 +32,9 @@ Web Search API is a search engine specifically designed for large language model
 - Example: Search Financial News
 
 ```python Search Financial News
-from zhipuai import ZhipuAI
+from zai import ZaiClient
 
-client = ZhipuAI(api_key="")  # Fill in your own APIKey
+client = ZaiClient(api_key="")  # Fill in your own APIKey
 
 response = client.web_search.web_search(
    search_engine="search-pro",
@@ -145,10 +145,10 @@ Web Search in Chat allows the Completions API to call search engines, combining 
 - Example: Financial Analysis Summary
 
 ```python Financial Analysis Summary
-from zhipuai import ZhipuAI
+from zai import ZaiClient
 
-# Initialize the ZhipuAI client
-client = ZhipuAI(api_key="YourAPIKey")
+# Initialize the ZaiClient client
+client = ZaiClient(api_key="YourAPIKey")
 
 # Define tool parameters
 tools = [{
@@ -261,10 +261,10 @@ Based on the search intent, intelligently decompose it into multiple search quer
 - **Use Case Example**: Risk assessment report generation
 
 ```python Risk assessment report generation
-from zhipuai import ZhipuAI  
+from zai import ZaiClient
 api_key = "Your API key"  
 url = "https://api.z.ai/api/paas/v4"  
-client = ZhipuAI(api_key=api_key, base_url=url)  
+client = ZaiClient(api_key=api_key, base_url=url)
 generate = client.assistant.conversation(  
     assistant_id="659e54b1b8006379b4b2abd6",  
     conversation_id=None,  
