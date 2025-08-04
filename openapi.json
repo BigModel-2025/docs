@@ -591,7 +591,7 @@
           },
           "top_p": {
             "type": "number",
-            "description": "Another method of temperature sampling, value range is: `[0.0, 1.0]`, default value is `0.7`.",
+            "description": "Another method of temperature sampling, value range is: `[0.0, 1.0]`, default value is `0.6`.",
             "format": "float",
             "example": 0.6,
             "default": 0.6,
@@ -600,7 +600,7 @@
           },
           "max_tokens": {
             "type": "integer",
-            "description": "The maximum number of tokens for model output, the GLM-4.5 supports 96K maximum output, GLM-4.1v serials support 16K maximum output, GLM-Z1 supports 32K maximum output.",
+            "description": "The maximum number of tokens for model output, the GLM-4.5 supports 96K maximum output, GLM-4-32B-0414-128K supports 16K maximum output.",
             "example": 1024,
             "minimum": 1,
             "maximum": 98304
@@ -621,6 +621,33 @@
                 }
               ]
             }
+          },
+          "user_id": {
+            "type": "string",
+            "description": "Unique ID for the end user, 6–128 characters. Avoid using sensitive information.",
+            "minLength": 6,
+            "maxLength": 128
+          },
+          "stop": {
+            "type": "array",
+            "description": "Stop word list. Generation stops when the model encounters any specified string. Currently, only one stop word is supported, in the format [\"stop_word1\"].",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 1
+          },
+          "response_format": {
+            "type": "object",
+            "description": "Specifies the response format of the model. Defaults to text. Supports two formats:{ \"type\": \"text\" } plain text mode, returns natural language text, { \"type\": \"json_object\" } JSON mode, returns valid JSON data. When using JSON mode, it’s recommended to clearly request JSON output in the prompt.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["text", "json_object"],
+                "default": "text",
+                "description": "Output format type: text for plain text, json_object for JSON-formatted output."
+              }
+            },
+            "required": ["type"]
           }
         }
       },
