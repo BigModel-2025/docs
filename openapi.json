@@ -890,20 +890,25 @@
             "description": "Token usage statistics returned when the model call ends.",
             "properties": {
               "prompt_tokens": {
-                "type": "integer",
+                "type": "number",
                 "description": "Number of tokens in user input"
               },
               "completion_tokens": {
-                "type": "integer",
-                "description": "Number of tokens in model output"
+                "type": "number",
+                "description": "Number of output tokens"
+              },
+              "prompt_tokens_details": {
+                "type": "object",
+                "properties": {
+                  "cached_tokens": {
+                    "type": "number",
+                    "description": "Number of tokens served from cache"
+                  }
+                }
               },
               "total_tokens": {
                 "type": "integer",
                 "description": "Total number of tokens"
-              },
-              "total_calls": {
-                "type": "integer",
-                "description": "Total number of calls"
               }
             }
           },
@@ -927,6 +932,10 @@
           "content": {
             "type": "string",
             "description": "Current conversation content. Hits function is null, otherwise returns model inference result."
+          },
+          "reasoning_content": {
+            "type": "string",
+            "description": "Reasoning content, supports by GLM-4.5 serials."
           },
           "tool_calls": {
             "type": "array",
