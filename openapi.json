@@ -46,7 +46,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -109,7 +109,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful.",
+            "description": "Processing successful.",
             "content": {
               "application/json": {
                 "schema": {
@@ -150,7 +150,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -223,7 +223,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -279,7 +279,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -356,7 +356,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -470,7 +470,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -535,28 +535,163 @@
             "type": "array",
             "description": "The current conversation message list as the model’s prompt input, provided in JSON array format, e.g.,`{“role”: “user”, “content”: “Hello”}`. Possible message types include system messages, user messages, assistant messages, and tool messages. Note: The input must not consist of system messages or assistant messages only.",
             "items": {
-              "type": "object",
-              "properties": {
-                "role": {
-                  "type": "string",
-                  "description": "The role of the messages author. Choice between: `system`, `user`, or `assistant`.",
-                  "example": "user",
-                  "default": "user",
-                  "enum": [
-                    "user",
-                    "assistant",
-                    "system"
-                  ]
+              "oneOf": [
+                {
+                  "title": "User Message",
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "enum": ["user"],
+                      "description": "Role of the message author",
+                      "default": "user"
+                    },
+                    "content": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "description": "Text message content (can switch to multimodal message above)",
+                          "example": "What opportunities and challenges will the Chinese large model industry face in 2025?"
+                        },
+                        {
+                          "type": "array",
+                          "description": "Multimodal message content, supports text, images, video and audio",
+                          "items": {
+                            "$ref": "#/components/schemas/MultimodalContentItem"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "required": ["role", "content"]
                 },
-                "content": {
-                  "type": "string",
-                  "description": "Message content.",
-                  "example": "What opportunities and challenges will the Chinese large model industry face in 2025?"
+                {
+                  "title": "System Message",
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "enum": ["system"],
+                      "description": "Role of the message author",
+                      "default": "system"
+                    },
+                    "content": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "description": "Message text content",
+                          "example": "You are a helpful assistant."
+                        },
+                        {
+                          "type": "array",
+                          "description": "Multimodal message content, supports text, images, video and audio",
+                          "items": {
+                            "$ref": "#/components/schemas/MultimodalContentItem"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "required": ["role", "content"]
+                },
+
+                {
+                  "title": "Assistant Message",
+                  "type": "object",
+                  "description": "Can include tool calls",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "enum": ["assistant"],
+                      "description": "Role of the message author",
+                      "default": "assistant"
+                    },
+                    "content": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "description": "Text message content (can switch to multimodal message above)",
+                          "example": "I'll help you with that analysis."
+                        },
+                        {
+                          "type": "array",
+                          "description": "Multimodal message content, supports text, images, video and audio",
+                          "items": {
+                            "$ref": "#/components/schemas/MultimodalContentItem"
+                          }
+                        }
+                      ]
+                    },
+                    "tool_calls": {
+                      "type": "array",
+                      "description": "Tool call messages generated by the model. When this field is provided, content is usually empty.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Tool call ID"
+                          },
+                          "type": {
+                            "type": "string",
+                            "description": "Tool type, supports web_search, retrieval, function",
+                            "enum": ["function", "web_search", "retrieval"]
+                          },
+                          "function": {
+                            "type": "object",
+                            "description": "Function call information, not empty when type is function",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "Function name"
+                              },
+                              "arguments": {
+                                "type": "string",
+                                "description": "Function parameters, JSON format string"
+                              }
+                            },
+                            "required": ["name", "arguments"]
+                          }
+                        },
+                        "required": ["id", "type"]
+                      }
+                    }
+                  },
+                  "required": ["role"]
+                },
+                {
+                  "title": "Tool Message",
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "enum": ["tool"],
+                      "description": "Role of the message author",
+                      "default": "tool"
+                    },
+                    "content": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "description": "Message text content",
+                          "example": "Function executed successfully with result: ..."
+                        },
+                        {
+                          "type": "array",
+                          "description": "Multimodal message content, supports text, images, video and audio",
+                          "items": {
+                            "$ref": "#/components/schemas/MultimodalContentItem"
+                          }
+                        }
+                      ]
+                    },
+                    "tool_call_id": {
+                      "type": "string",
+                      "description": "Indicates the tool call ID corresponding to this message"
+                    }
+                  },
+                  "required": ["role", "content", "tool_call_id"]
                 }
-              },
-              "required": [
-                "role",
-                "content"
               ]
             },
             "minItems": 1
@@ -650,6 +785,112 @@
             "required": ["type"]
           }
         }
+      },
+      "MultimodalContentItem": {
+        "oneOf": [
+          {
+            "title": "Text",
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["text"],
+                "description": "Content type is text",
+                "default": "text"
+              },
+              "text": {
+                "type": "string",
+                "description": "Text content"
+              }
+            },
+            "required": ["type", "text"],
+            "additionalProperties": false
+          },
+          {
+            "title": "Image",
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["image_url"],
+                "description": "Content type is image URL",
+                "default": "image_url"
+              },
+              "image_url": {
+                "type": "object",
+                "description": "Image information",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "Image URL or Base64 encoding. Image size limit is under 5M per image, with pixels not exceeding 6000*6000. Supports jpg, png, jpeg formats."
+                  }
+                },
+                "required": ["url"],
+                "additionalProperties": false
+              }
+            },
+            "required": ["type", "image_url"],
+            "additionalProperties": false
+          },
+          {
+            "title": "Audio",
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["input_audio"],
+                "description": "Content type is audio input",
+                "default": "input_audio"
+              },
+              "input_audio": {
+                "type": "object",
+                "description": "Audio information",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "description": "Base64 encoding of audio file. Audio duration should not exceed 10 minutes. 1s audio = 12.5 Tokens, rounded up."
+                  },
+                  "format": {
+                    "type": "string",
+                    "description": "Audio file format, supports wav and mp3",
+                    "enum": ["wav", "mp3"]
+                  }
+                },
+                "required": ["data", "format"],
+                "additionalProperties": false
+              }
+            },
+            "required": ["type", "input_audio"],
+            "additionalProperties": false
+          },
+          {
+            "title": "Video",
+            "type": "object",
+
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["video_url"],
+                "description": "Content type is video URL",
+                "default": "video_url"
+              },
+              "video_url": {
+                "type": "object",
+                "description": "Video information.",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "Video URL address."
+                  }
+                },
+                "required": ["url"],
+                "additionalProperties": false
+              }
+            },
+            "required": ["type", "video_url"],
+            "additionalProperties": false
+          }
+        ]
       },
       "ChatThinking": {
         "type": "object",

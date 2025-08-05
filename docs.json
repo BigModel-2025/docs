@@ -93,13 +93,13 @@
             "tab": "API Reference",
             "groups": [
               {
-                "group": "Language API",
+                "group": "Model API",
                 "pages": [
                   "api-reference/llm/chat-completion"
                 ]
               },
               {
-                "group": "Video Generation API",
+                "group": "Video API",
                 "pages": [
                   "api-reference/video/generate-video",
                   "api-reference/video/get-video-status"
