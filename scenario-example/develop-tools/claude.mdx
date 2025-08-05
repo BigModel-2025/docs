@@ -36,3 +36,34 @@ After launching, grant Claude Code permission to access files in your folder as 
 ![Description](https://cdn.bigmodel.cn/markdown/1753631613096claude-2.png?attname=claude-2.png)
 
 You can now use Claude Code for development\!
+
+Mark: The default model is **GLM-4.5**. We support switching to **GLM-4.5-Air** by modifying the Claude Code configuration file like below. 
+
+## Additional Instructions: How to Switch the Model in Use
+
+> Currently, switching to other models is not supported.
+
+1. Configure `~/.claude/settings.json` with the following content:
+
+```text
+{
+  "env": {
+      "ANTHROPIC_MODEL": "glm-4.5-air"
+  }
+}
+```
+
+2. Open a new terminal window and run `claude` to start Claude Code.
+3. In Claude Code, enter `/status` to check the current model status.
+
+![claude-code](/images/claudecode.png)
+
+4. To switch back to the **GLM-4.5** model, modify `~/.claude/settings.json` as follows:
+
+```text
+{
+  "env": {
+      "ANTHROPIC_MODEL": "glm-4.5"
+  }
+}
+```

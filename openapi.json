@@ -582,19 +582,19 @@
           },
           "temperature": {
             "type": "number",
-            "description": "Sampling temperature, controls the randomness of the output, must be a positive number within the range: `[0.0, 1.0]`.\n The GLM-4.5 series default value is `0.95`, the GLM-4-32B-0414-128K default value is `0.75`",
+            "description": "Sampling temperature, controls the randomness of the output, must be a positive number within the range: `[0.0, 1.0]`. The GLM-4.5 series default value is `0.6`, GLM-4-32B-0414-128K default value is `0.75`.",
             "format": "float",
-            "example": 0.95,
-            "default": 0.95,
+            "example": 0.6,
+            "default": 0.6,
             "minimum": 0.0,
             "maximum": 1.0
           },
           "top_p": {
             "type": "number",
-            "description": "Another method of temperature sampling, value range is: `[0.0, 1.0]`.\n The GLM-4.5 series default value is `0.6`, the GLM-4-32B-0414-128K default value is `0.9`",
+            "description": "Another method of temperature sampling, value range is: `[0.0, 1.0]`. The GLM-4.5 series default value is `0.95`, GLM-4-32B-0414-128K default value is `0.9`.",
             "format": "float",
-            "example": 0.6,
-            "default": 0.6,
+            "example": 0.95,
+            "default": 0.95,
             "minimum": 0.0,
             "maximum": 1.0
           },
