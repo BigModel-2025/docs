@@ -159,6 +159,13 @@ print(completion.choices[0].message.content)
 ### Streaming Response
 
 ```python
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="your-Z.AI-api-key",
+    base_url="https://api.z.ai/api/paas/v4/"
+)
+
 stream = client.chat.completions.create(
     model="glm-4.5",
     messages=[
@@ -178,6 +185,8 @@ print()  # New line
 ### Multi-turn Conversation
 
 ```python
+from openai import OpenAI
+
 class ChatBot:
     def __init__(self, api_key: str):
         self.client = OpenAI(
@@ -224,6 +233,12 @@ print(bot.chat("Write a Python quicksort algorithm"))
 
 ```python
 import json
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="your-Z.AI-api-key",
+    base_url="https://api.z.ai/api/paas/v4/"
+)
 
 def get_weather(location: str) -> str:
     """Get weather information for specified location"""
@@ -269,46 +284,6 @@ if message.tool_calls:
             args = json.loads(tool_call.function.arguments)
             result = get_weather(args["location"])
             print(f"Function call result: {result}")
-```
-
-### Image Understanding
-
-```python
-import base64
-from PIL import Image
-import io
-
-def encode_image(image_path: str) -> str:
-    """Encode image to base64 string"""
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
-
-# Image understanding example
-image_base64 = encode_image("path/to/your/image.jpg")
-
-response = client.chat.completions.create(
-    model="glm-4v",
-    messages=[
-        {
-            "role": "user",
-            "content": [
-                {
-                    "type": "text",
-                    "text": "Please describe the content of this image"
-                },
-                {
-                    "type": "image_url",
-                    "image_url": {
-                        "url": f"data:image/jpeg;base64,{image_base64}"
-                    }
-                }
-            ]
-        }
-    ],
-    temperature=0.6
-)
-
-print(response.choices[0].message.content)
 ```
 
 ## Parameter Configuration
