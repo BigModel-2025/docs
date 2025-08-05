@@ -150,9 +150,7 @@ completion = client.chat.completions.create(
     messages=[
         {"role": "system", "content": "You are a smart and creative novelist"},
         {"role": "user", "content": "Please write a short fairy tale story as a fairy tale master"}
-    ],
-    top_p=0.6,
-    temperature=0.9
+    ]
 )
 
 print(completion.choices[0].message.content)
@@ -387,15 +385,6 @@ response = client.chat.completions.create(
     messages=[{"role": "user", "content": "Hello!"}]
 )
 ```
-
-### Model Mapping
-
-| OpenAI Model | Z.AI Equivalent | Description |
-|--------------|-------------------|-------------|
-| gpt-4 | glm-4.5 | Highest performance model |
-| gpt-4-turbo | glm-4-air-250414 | Balanced performance and cost |
-| gpt-3.5-turbo | glm-4-flash | Fast response model |
-| gpt-4-vision | glm-4v-plus | Vision understanding model |
 
 ## Getting Help
 
