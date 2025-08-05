@@ -533,7 +533,7 @@
           },
           "messages": {
             "type": "array",
-            "description": "The current conversation message list as the model’s prompt input, provided in JSON array format, e.g.,`{“role”: “user”, “content”: “Hello”}`. Possible message types include system messages, user messages, assistant messages, and tool messages.",
+            "description": "The current conversation message list as the model’s prompt input, provided in JSON array format, e.g.,`{“role”: “user”, “content”: “Hello”}`. Possible message types include system messages, user messages, assistant messages, and tool messages. Note: The input must not consist of system messages or assistant messages only.",
             "items": {
               "type": "object",
               "properties": {
@@ -600,7 +600,7 @@
           },
           "max_tokens": {
             "type": "integer",
-            "description": "The maximum number of tokens for model output, the GLM-4.5 supports 96K maximum output, GLM-4-32B-0414-128K supports 16K maximum output.",
+            "description": "The maximum number of tokens for model output, the GLM-4.5 series supports 96K maximum output, GLM-4-32B-0414-128K supports 16K maximum output.",
             "example": 1024,
             "minimum": 1,
             "maximum": 98304
@@ -935,7 +935,7 @@
           },
           "reasoning_content": {
             "type": "string",
-            "description": "Reasoning content, supports by GLM-4.5 serials."
+            "description": "Reasoning content, supports by GLM-4.5 series."
           },
           "tool_calls": {
             "type": "array",

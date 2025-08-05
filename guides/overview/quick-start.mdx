@@ -9,10 +9,50 @@ title: "Quick Start"
 ## Getting Started
 
 <Steps>
-  <Step title="Register Account">
-    Access [Z.AI Open Platform](https://z.ai/manage-apikey/apikey-list), Login and get the API Key.
+  <Step title="Get API Key">
+    - Access [Z.AI Open Platform](https://z.ai/model-api), Register or Login.
+    - Create an API Key in the [API Keys](https://z.ai/manage-apikey/apikey-list) management page.
+    - Copy your API Key for use.
   </Step>
-  <Step title="Make API Calls">
+  <Step title="Choose Model">
+    > The platform offers multiple models, and you can select the appropriate model based on your needs. For detailed model introductions, please refer to the [Models & Agents](pricing).
+      <CardGroup cols={2}>
+          <Card title="GLM-4.5" icon="book-open" href="/guides/llm/glm-4.5">
+              Our latest flagship models, purpose-built as foundational models for agent-oriented applications
+          </Card>
+          <Card title="GLM-4-32b-0414-128K" icon="book" href="/guides/llm/glm-4-32b-0414-128k">
+              Highly cost-effective foundation language model
+          </Card>
+          <Card title="CogVideoX-3" icon="video" href="/guides/video/cogvideox-3">
+              New frame generation capabilities that significantly improve image stability and clarity
+          </Card>
+          <Card title="Vidu-2" icon="video" href="/guides/video/vidu2">
+              A next-generation video generation model that strikes a balance between speed and quality
+          </Card>
+      </CardGroup>
+  </Step>
+    <Step title="Choose the Calling Method">
+        Our platform provides various development approaches; you can select the best fit for your project needs and tech stack.
+
+        <CardGroup cols={2}>
+            <Card title="HTTP API" icon="globe" href="/guides/develop/http/introduction">
+                Standard RESTful API, compatible with all programming languages.
+            </Card>
+            <Card title="Z.AI Python SDK" icon="python" href="/guides/develop/python/introduction">
+                Official Python SDK, featuring full type hints and async support.
+            </Card>
+            <Card title="Z.AI Java SDK" icon="java" href="/guides/develop/java/introduction">
+                Official Java SDK, designed for high concurrency and availability.
+            </Card>
+            <Card title="OpenAI Python SDK" icon="python" href="/guides/develop/openai/python">
+                OpenAI SDK Compatibility, quickly migrating from OpenAI.
+            </Card>
+            <Card title="API Reference" icon="book" href="/api-reference">
+                Complete API documentation with parameter descriptions.
+            </Card>
+        </CardGroup>
+    </Step>
+  <Step title="Make API Call">
     After preparing your `API Key` and selecting a model, you can start making API calls. Here are examples using `curl`, `Python SDK`, and `Java SDK`:
 
     <Tabs>
@@ -20,6 +60,7 @@ title: "Quick Start"
         ```bash
         curl -X POST "https://api.z.ai/api/paas/v4/chat/completions" \
         -H "Content-Type: application/json" \
+        -H "Accept-Language: en-US,en" \
         -H "Authorization: Bearer YOUR_API_KEY" \
         -d '{
             "model": "glm-4.5",
@@ -32,20 +73,18 @@ title: "Quick Start"
                     "role": "user",
                     "content": "Hello, please introduce yourself."
                 }
-            ],
-            "temperature": 0.7,
-            "top_p": 0.8
+            ]
         }'
         ```
       </Tab>
-      <Tab title="Python SDK">
+      <Tab title="Official Python SDK">
         **Install SDK**
         ```bash
         # Install latest version
         pip install zai-sdk
         
         # Or specify version
-        pip install zai-sdk==0.0.1
+        pip install zai-sdk==0.0.2
         ```
         
         **Verify Installation**
@@ -73,16 +112,14 @@ title: "Quick Start"
                     "role": "user",
                     "content": "Hello, please introduce yourself."
                 }
-            ],
-            temperature=0.7,
-            top_p=0.8
+            ]
         )
         
         # Get response
         print(response.choices[0].message.content)
         ```
       </Tab>
-      <Tab title="Java SDK">
+      <Tab title="Official Java SDK">
         **Install SDK**
         
         **Maven**
@@ -122,8 +159,6 @@ title: "Quick Start"
                             .build()
                     ))
                     .stream(false)
-                    .temperature(0.7f)
-                    .maxTokens(1024)
                     .build();
         
                 // Send request
@@ -135,6 +170,38 @@ title: "Quick Start"
         }
         ```
       </Tab>
+        <Tab title="OpenAI Python SDK">
+            **Install SDK**
+            ```bash
+            # Install or upgrade to latest version
+            pip install --upgrade 'openai>=1.0'
+            ```
+
+            **Verify Installation**
+            ```python
+            python -c "import openai; print(openai.__version__)"
+            ```
+
+            **Usage Example**
+            ```python
+            from openai import OpenAI
+
+            client = OpenAI(
+                api_key="your-Z.AI-api-key",
+                base_url="https://api.z.ai/api/paas/v4/"
+            )
+
+            completion = client.chat.completions.create(
+                model="glm-4.5",
+                messages=[
+                    {"role": "system", "content": "You are a smart and creative novelist"},
+                    {"role": "user", "content": "Please write a short fairy tale story as a fairy tale master"}
+                ]
+            )
+
+            print(completion.choices[0].message.content)
+            ```
+        </Tab>
     </Tabs>
   </Step>
 </Steps>

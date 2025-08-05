@@ -52,7 +52,17 @@
                 "group": "Overview",
                 "pages": [
                   "guides/overview/quick-start",
-                  "guides/overview/pricing"
+                  "guides/overview/pricing",
+                  {
+                    "group": "SDKs Guide",
+                    "pages": [
+                      "guides/develop/http/introduction",
+                      "guides/develop/python/introduction",
+                      "guides/develop/java/introduction",
+                      "guides/develop/openai/python",
+                      "guides/develop/langchain/introduction"
+                    ]
+                  }
                 ]
               },
               {
