@@ -535,28 +535,163 @@
             "type": "array",
             "description": "The current conversation message list as the model’s prompt input, provided in JSON array format, e.g.,`{“role”: “user”, “content”: “Hello”}`. Possible message types include system messages, user messages, assistant messages, and tool messages. Note: The input must not consist of system messages or assistant messages only.",
             "items": {
-              "type": "object",
-              "properties": {
-                "role": {
-                  "type": "string",
-                  "description": "The role of the messages author. Choice between: `system`, `user`, or `assistant`.",
-                  "example": "user",
-                  "default": "user",
-                  "enum": [
-                    "user",
-                    "assistant",
-                    "system"
-                  ]
+              "oneOf": [
+                {
+                  "title": "用户消息",
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "enum": ["user"],
+                      "description": "消息作者的角色",
+                      "default": "user"
+                    },
+                    "content": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "description": "文本消息内容（可从上方切换至多模态消息）",
+                          "example": "What opportunities and challenges will the Chinese large model industry face in 2025?"
+                        },
+                        {
+                          "type": "array",
+                          "description": "多模态消息内容，支持文本、图片、视频和音频",
+                          "items": {
+                            "$ref": "#/components/schemas/MultimodalContentItem"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "required": ["role", "content"]
                 },
-                "content": {
-                  "type": "string",
-                  "description": "Message content.",
-                  "example": "What opportunities and challenges will the Chinese large model industry face in 2025?"
+                {
+                  "title": "系统消息",
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "enum": ["system"],
+                      "description": "消息作者的角色",
+                      "default": "system"
+                    },
+                    "content": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "description": "消息文本内容",
+                          "example": "You are a helpful assistant."
+                        },
+                        {
+                          "type": "array",
+                          "description": "多模态消息内容，支持文本、图片、视频和音频",
+                          "items": {
+                            "$ref": "#/components/schemas/MultimodalContentItem"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "required": ["role", "content"]
+                },
+
+                {
+                  "title": "助手消息",
+                  "type": "object",
+                  "description": "可包含工具调用",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "enum": ["assistant"],
+                      "description": "消息作者的角色",
+                      "default": "assistant"
+                    },
+                    "content": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "description": "文本消息内容（可从上方切换至多模态消息）",
+                          "example": "I'll help you with that analysis."
+                        },
+                        {
+                          "type": "array",
+                          "description": "多模态消息内容，支持文本、图片、视频和音频",
+                          "items": {
+                            "$ref": "#/components/schemas/MultimodalContentItem"
+                          }
+                        }
+                      ]
+                    },
+                    "tool_calls": {
+                      "type": "array",
+                      "description": "模型生成的工具调用消息。当提供此字段时，content通常为空。",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "工具调用ID"
+                          },
+                          "type": {
+                            "type": "string",
+                            "description": "工具类型，支持web_search、retrieval、function",
+                            "enum": ["function", "web_search", "retrieval"]
+                          },
+                          "function": {
+                            "type": "object",
+                            "description": "函数调用信息，当type为function时不为空",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "函数名称"
+                              },
+                              "arguments": {
+                                "type": "string",
+                                "description": "函数参数，JSON格式字符串"
+                              }
+                            },
+                            "required": ["name", "arguments"]
+                          }
+                        },
+                        "required": ["id", "type"]
+                      }
+                    }
+                  },
+                  "required": ["role"]
+                },
+                {
+                  "title": "工具消息",
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "enum": ["tool"],
+                      "description": "消息作者的角色",
+                      "default": "tool"
+                    },
+                    "content": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "description": "消息文本内容",
+                          "example": "Function executed successfully with result: ..."
+                        },
+                        {
+                          "type": "array",
+                          "description": "多模态消息内容，支持文本、图片、视频和音频",
+                          "items": {
+                            "$ref": "#/components/schemas/MultimodalContentItem"
+                          }
+                        }
+                      ]
+                    },
+                    "tool_call_id": {
+                      "type": "string",
+                      "description": "指示此消息对应的工具调用 ID"
+                    }
+                  },
+                  "required": ["role", "content", "tool_call_id"]
                 }
-              },
-              "required": [
-                "role",
-                "content"
               ]
             },
             "minItems": 1
@@ -650,6 +785,112 @@
             "required": ["type"]
           }
         }
+      },
+      "MultimodalContentItem": {
+        "oneOf": [
+          {
+            "title": "文本",
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["text"],
+                "description": "内容类型为文本",
+                "default": "text"
+              },
+              "text": {
+                "type": "string",
+                "description": "文本内容"
+              }
+            },
+            "required": ["type", "text"],
+            "additionalProperties": false
+          },
+          {
+            "title": "图片",
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["image_url"],
+                "description": "内容类型为图片URL",
+                "default": "image_url"
+              },
+              "image_url": {
+                "type": "object",
+                "description": "图片信息",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "图片的URL地址或Base64编码。图像大小上传限制为每张图像5M以下，且像素不超过6000*6000。支持jpg、png、jpeg格式。注意：GLM-4V-Flash不支持Base64编码。GLM-4V-Plus-0111最多支持同时处理5张图像。"
+                  }
+                },
+                "required": ["url"],
+                "additionalProperties": false
+              }
+            },
+            "required": ["type", "image_url"],
+            "additionalProperties": false
+          },
+          {
+            "title": "音频",
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["input_audio"],
+                "description": "内容类型为音频输入",
+                "default": "input_audio"
+              },
+              "input_audio": {
+                "type": "object",
+                "description": "音频信息，仅glm-4-voice支持音频输入",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "description": "语音文件的base64编码。音频最长不超过 10 分钟。1s音频=12.5 Tokens，向上取整。"
+                  },
+                  "format": {
+                    "type": "string",
+                    "description": "语音文件的格式，支持wav和mp3",
+                    "enum": ["wav", "mp3"]
+                  }
+                },
+                "required": ["data", "format"],
+                "additionalProperties": false
+              }
+            },
+            "required": ["type", "input_audio"],
+            "additionalProperties": false
+          },
+          {
+            "title": "视频",
+            "type": "object",
+
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["video_url"],
+                "description": "内容类型为视频URL",
+                "default": "video_url"
+              },
+              "video_url": {
+                "type": "object",
+                "description": "视频信息。注意：对于 GLM-4V-Plus-0111，video_url 参数必须在 content 数组的第一个位置。",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "视频的URL地址。对于 GLM-4V-Plus，视频大小限制为20M以内，视频时长不超过30s。对于其他多模态模型，视频大小限制为200M以内。视频类型：mp4。"
+                  }
+                },
+                "required": ["url"],
+                "additionalProperties": false
+              }
+            },
+            "required": ["type", "video_url"],
+            "additionalProperties": false
+          }
+        ]
       },
       "ChatThinking": {
         "type": "object",
