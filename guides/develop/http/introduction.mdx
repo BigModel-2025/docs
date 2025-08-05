@@ -215,7 +215,7 @@ curl --location 'https://api.z.ai/api/paas/v4/chat/completions' \
     <Tab title="JavaScript">
 
         ```javascript
-        async function callZhipuAPI(messages, model = 'glm-4.5') {
+        async function callZAPI(messages, model = 'glm-4.5') {
             const url = 'https://api.z.ai/api/paas/v4/chat/completions';
 
             const response = await fetch(url, {
@@ -244,7 +244,7 @@ curl --location 'https://api.z.ai/api/paas/v4/chat/completions' \
             { role: 'user', content: 'Hello, please introduce yourself' }
         ];
 
-        callZhipuAPI(messages)
+        callZAPI(messages)
             .then(result => {
                 console.log(result.choices[0].message.content);
             })
