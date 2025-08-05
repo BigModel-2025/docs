@@ -403,7 +403,7 @@ else:
     print(response.choices[0].message.content)
 ```
 
-#### Web Search Tool
+### Web Search Tool
 
 ```python
 from zai import ZaiClient
@@ -434,104 +434,7 @@ response = client.chat.completions.create(
 print(response)
 ```
 
-### Multimodal Processing
-
-#### Image Understanding
-
-```python
-import base64
-from zai import ZaiClient
-
-def encode_image(image_path):
-    """Encode image to base64 format"""
-    with open(image_path, 'rb') as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
-
-client = ZaiClient(api_key="your-api-key")
-
-# Method 1: Using image URL
-response = client.chat.completions.create(
-    model="glm-4v",
-    messages=[
-        {
-            "role": "user",
-            "content": [
-                {
-                    "type": "text",
-                    "text": "What's in this image? Please describe in detail."
-                },
-                {
-                    "type": "image_url",
-                    "image_url": {
-                        "url": "https://example.com/image.jpg"
-                    }
-                }
-            ]
-        }
-    ]
-)
-
-print(response.choices[0].message.content)
-
-# Method 2: Using base64 encoded image
-base64_image = encode_image('path/to/your/image.jpg')
-
-response = client.chat.completions.create(
-    model="glm-4v",
-    messages=[
-        {
-            "role": "user",
-            "content": [
-                {
-                    "type": "text",
-                    "text": "Analyze the content in this image"
-                },
-                {
-                    "type": "image_url",
-                    "image_url": {
-                        "url": f"data:image/jpeg;base64,{base64_image}"
-                    }
-                }
-            ]
-        }
-    ]
-)
-
-print(response.choices[0].message.content)
-```
-
-#### Image Generation
-
-```python
-from zai import ZaiClient
-
-# Initialize client
-client = ZaiClient(api_key="your-api-key")
-
-# Image generation
-response = client.images.generations(
-    model="cogview-3",
-    prompt="A beautiful landscape painting, traditional Chinese style, ink wash painting",
-    size="1024x1024",
-    quality="standard",
-)
-
-image_url = response.data[0].url
-print(f"Generated image URL: {image_url}")
-
-# High quality image generation
-response = client.images.generations(
-    model="cogview-3-plus",
-    prompt="Futuristic city concept design, sci-fi style, high-definition details",
-    size="1024x1024",
-    quality="hd",
-)
-
-image_url = response.data[0].url
-print(f"Generated image URL: {image_url}")
-```
-
-#### Video Generation
+### Video Generation
 
 ```python
 from zai import ZaiClient
@@ -555,57 +458,6 @@ print(response)
 time.sleep(60)  # Wait for a while to ensure video generation is complete
 result = client.videos.retrieve_videos_result(id=response.id)
 print(result)
-```
-
-### Text Embedding
-
-```python
-# Basic text embedding
-from zai import ZaiClient
-client = ZaiClient(api_key="your-api-key")
-
-response = client.embeddings.create(
-    model="embedding-3",
-    input=[
-        "This is the first text",
-        "This is the second text",
-        "This is the third text"
-    ]
-)
-
-for i, embedding in enumerate(response.data):
-    print(f"Text {i+1} embedding vector dimension: {len(embedding.embedding)}")
-    print(f"First 5 dimension values: {embedding.embedding[:5]}")
-
-# Calculate text similarity
-import numpy as np
-from sklearn.metrics.pairwise import cosine_similarity
-
-def calculate_similarity(texts):
-    """Calculate similarity between texts"""
-    response = client.embeddings.create(
-        model="embedding-2",
-        input=texts
-    )
-    
-    embeddings = [data.embedding for data in response.data]
-    embeddings_array = np.array(embeddings)
-    
-    # Calculate cosine similarity
-    similarity_matrix = cosine_similarity(embeddings_array)
-    
-    return similarity_matrix
-
-# Usage example
-texts = [
-    "I like eating apples",
-    "Apples are my favorite fruit",
-    "The weather is nice today"
-]
-
-similarity = calculate_similarity(texts)
-print("Similarity matrix:")
-print(similarity)
 ```
 
 ### Streaming Processing
