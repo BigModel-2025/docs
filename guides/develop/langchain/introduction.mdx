@@ -242,51 +242,6 @@ result = agent_executor.invoke({"input": "what is LangChain?"})
 print(result['output'])
 ```
 
-### Custom Tools
-
-```python
-from langchain.tools import tool
-from langchain.agents import AgentExecutor, create_react_agent
-from langchain import hub
-from langchain_openai import ChatOpenAI
-
-@tool
-def get_weather(city: str) -> str:
-    """Get weather information for specified city"""
-    # This should call a real weather API
-    # Example return
-    return f"Weather in {city}: Sunny, temperature 25°C, humidity 60%"
-
-@tool
-def get_stock_price(symbol):
-    """Get stock price"""
-    # Simulate stock API call
-    return {
-        "symbol": symbol,
-        "price": 150.25,
-        "change": "+2.5%"
-    }
-
-# Create LLM
-llm = ChatOpenAI(
-    model="glm-4-plus",
-    openai_api_key="your-Z.AI-api-key",
-    openai_api_base="https://api.z.ai/api/paas/v4/",
-)
-
-# Tool list
-tools = [get_weather, get_stock_price]
-
-# Create agent
-prompt = hub.pull("hwchase17/react")
-agent = create_react_agent(llm, tools, prompt)
-agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, max_iterations=3)
-
-# Use agent
-result = agent_executor.invoke({"input": "How's the weather in Beijing today? Then help me check stock price for symbol 000001"})
-print(result['output'])
-```
-
 ### Streaming Output
 
 ```python
