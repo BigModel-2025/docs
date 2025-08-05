@@ -202,6 +202,88 @@ title: "Quick Start"
             print(completion.choices[0].message.content)
             ```
         </Tab>
+        <Tab title="OpenAI NodeJs SDK">
+            **Install SDK**
+            ```bash
+            # Install or upgrade to latest version
+            npm install openai
+            
+            # Or using yarn
+            yarn add openai
+            ```
+
+            **Usage Example**
+            ```javascript
+            import OpenAI from "openai";
+
+            const client = new OpenAI({
+                apiKey: "your-Z.AI-api-key",
+                baseURL: "https://api.z.ai/api/paas/v4/"
+            });
+
+            async function main() {
+                const completion = await client.chat.completions.create({
+                    model: "glm-4.5",
+                    messages: [
+                        { role: "system", content: "You are a helpful AI assistant." },
+                        { role: "user", content: "Hello, please introduce yourself." }
+                    ]
+                });
+
+                console.log(completion.choices[0].message.content);
+            }
+
+            main();
+            ```
+        </Tab>
+        <Tab title="OpenAI Java SDK">
+            **Install SDK**
+            
+            **Maven**
+            ```xml
+            <dependency>
+                <groupId>com.openai</groupId>
+                <artifactId>openai-java</artifactId>
+                <version>2.20.1</version>
+            </dependency>
+            ```
+            
+            **Gradle (Groovy)**
+            ```groovy
+            implementation 'com.openai:openai-java:2.20.1'
+            ```
+
+            **Usage Example**
+            ```java
+            import com.openai.client.OpenAIClient;
+            import com.openai.client.okhttp.OpenAIOkHttpClient;
+            import com.openai.models.chat.completions.ChatCompletion;
+            import com.openai.models.chat.completions.ChatCompletionCreateParams;
+            
+            public class QuickStart {
+                public static void main(String[] args) {
+                    // Initialize client
+                    OpenAIClient client = OpenAIOkHttpClient.builder()
+                        .apiKey("your-Z.AI-api-key")
+                        .baseUrl("https://api.z.ai/api/paas/v4/")
+                        .build();
+            
+                    // Create chat completion request
+                    ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()
+                        .addSystemMessage("You are a helpful AI assistant.")
+                        .addUserMessage("Hello, please introduce yourself.")
+                        .model("glm-4.5")
+                        .build();
+            
+                    // Send request and get response
+                    ChatCompletion chatCompletion = client.chat().completions().create(params);
+                    Object response = chatCompletion.choices().get(0).message().content();
+            
+                    System.out.println(response);
+                }
+            }
+            ```
+        </Tab>
     </Tabs>
   </Step>
 </Steps>
