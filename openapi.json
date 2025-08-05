@@ -46,7 +46,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -109,7 +109,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful.",
+            "description": "Processing successful.",
             "content": {
               "application/json": {
                 "schema": {
@@ -150,7 +150,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -223,7 +223,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -279,7 +279,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -356,7 +356,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -470,7 +470,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
