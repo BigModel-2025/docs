@@ -535,12 +535,13 @@ print(f"Generated image URL: {image_url}")
 
 ```python
 from zai import ZaiClient
+import time
 
 client = ZaiClient(api_key="your-api-key")
 
 # Submit generation task
 response = client.videos.generations(
-    model="cogvideox-2",  # Video generation model to use
+    model="cogvideox-3",  # Video generation model to use
     image_url=image_url,  # Provided image URL or Base64 encoding
     prompt="Make the scene come alive",
     quality="speed",  # Output mode: "quality" for quality priority, "speed" for speed priority
@@ -564,7 +565,7 @@ from zai import ZaiClient
 client = ZaiClient(api_key="your-api-key")
 
 response = client.embeddings.create(
-    model="embedding-2",
+    model="embedding-3",
     input=[
         "This is the first text",
         "This is the second text",
