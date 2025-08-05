@@ -54,7 +54,7 @@
                   "guides/overview/quick-start",
                   "guides/overview/pricing",
                   {
-                    "group": "SDK Start",
+                    "group": "SDKs Guide",
                     "pages": [
                       "guides/develop/http/introduction",
                       "guides/develop/python/introduction",
