@@ -126,7 +126,8 @@
                   "scenario-example/develop-tools/roo",
                   "scenario-example/develop-tools/gemini",
                   "scenario-example/develop-tools/gork",
-                  "scenario-example/develop-tools/cline"
+                  "scenario-example/develop-tools/cline",
+                  "scenario-example/develop-tools/opencode"
                 ]
               }
             ]
