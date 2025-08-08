@@ -329,7 +329,7 @@
     },
     "/v1/agents": {
       "post": {
-        "description": "General Translation: General Translation API provides large model-based multilingual translation services, including general translation, paraphrase translation, two-step translation, and three-pass translation strategies. It supports automatic language detection, glossary customization, translation suggestions, and streaming output. Users only need to call the Translation API, input the text to be processed, specify the source language (auto-detection supported) and target language to receive high-quality translation results. \n\n Popular Special Effects Videos: Popular special effects videos are intelligent templates launched based on trending features from pan-entertainment platforms, designed to precisely adapt to short video creative production needs. Currently, three effect templates are available: `French Kiss`, `Body Shake Dance`, and `Sexy Me`. After selecting a template, users only need to upload an image and enter corresponding prompts to generate a special effects video.",
+        "description": "General Translation: General Translation API provides large model-based multilingual translation services, including general translation, paraphrase translation, two-step translation, and three-pass translation strategies. It supports automatic language detection, glossary customization, translation suggestions, and streaming output. Users only need to call the Translation API, input the text to be processed, specify the source language (auto-detection supported) and target language to receive high-quality translation results. \n\n Popular Special Effects Videos: Popular special effects videos are intelligent templates launched based on trending features from pan-entertainment platforms, designed to precisely adapt to short video creative production needs. Currently, three effect templates are available: `French Kiss`, `Body Shake Dance`, and `Sexy Me`. After selecting a template, users only need to upload an image and enter corresponding prompts to generate a special effects video. \n\n GLM Slide/Poster Agent: An intelligent creation agent built for working people and creators. It goes beyond traditional engineering-style assembly tools—supporting one-click generation of slides or posters from natural language instructions. By natively integrating content generation with layout aesthetics and design conventions, it helps you quickly produce polished, professional-grade materials while lowering design barriers and boosting creative efficiency.",
         "parameters": [
           {
             "$ref": "#/components/parameters/AcceptLanguage"
@@ -347,6 +347,10 @@
                   {
                     "title": "Popular Special Effects Videos",
                     "$ref": "#/components/schemas/SpecialEffectsVideosAgentRequest"
+                  },
+                  {
+                    "title": "GLM Slide",
+                    "$ref": "#/components/schemas/GlmSlideAgentRequest"
                   }
                 ]
               }
@@ -368,6 +372,10 @@
                     {
                       "title": "Popular Special Effects Videos",
                       "$ref": "#/components/schemas/SpecialEffectsVideosAgentResponse"
+                    },
+                    {
+                      "title": "GLM Slide",
+                      "$ref": "#/components/schemas/GlmSlideAgentResponse"
                     }
                   ]
                 },
@@ -485,6 +493,48 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SpecialEffectsVideosAgentError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/agents/conversation": {
+      "post": {
+        "description": "This endpoint is used to query the agent conversation history.Only support slides_glm_agent",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AcceptLanguage"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GlmSlideAgentConversationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Processing successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlmSlideAgentConversationResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "The request has failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -1836,7 +1886,7 @@
         "properties": {
           "agent_id": {
             "type": "string",
-            "description": "Fixed value: `general_translation`.",
+            "description": "Agent ID: `general_translation`.",
             "enum": [
               "general_translation"
             ]
@@ -2127,7 +2177,7 @@
         "properties": {
           "agent_id": {
             "type": "string",
-            "description": "Fixed value: `vidu_template_agent`.",
+            "description": "Agent ID: `vidu_template_agent`.",
             "enum": [
               "vidu_template_agent"
             ]
@@ -2258,7 +2308,195 @@
           },
           "agent_id": {
             "type": "string",
-            "description": "Fixed value: `vidu_template_agent`."
+            "description": "Agent ID"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "Error code."
+              },
+              "message": {
+                "type": "string",
+                "description": "Error message."
+              }
+            }
+          }
+        }
+      },
+      "GlmSlideAgentRequest": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "Agent ID.",
+            "enum": [
+              "slides_glm_agent"
+            ]
+          },
+          "conversation_id": {
+            "type": "string",
+            "description": "Conversation Id."
+          },
+          "request_id": {
+            "type": "string",
+            "description": "User-defined unique ID; used to distinguish requests. Auto-generated if omitted."
+          },
+          "messages": {
+            "type": "array",
+            "description": "Message body.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "type": "string",
+                  "description": "User input role: `user`",
+                  "example": "user",
+                  "default": "user",
+                  "enum": [
+                    "user"
+                  ]
+                },
+                "content": {
+                  "type": "array",
+                  "description": "Content list.",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "title": "text",
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "description": "Specifies that this content is text.",
+                            "enum": [
+                              "text"
+                            ]
+                          },
+                          "text": {
+                            "type": "string",
+                            "description": "User text input."
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "text"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "role",
+                "content"
+              ]
+            }
+          }
+        },
+        "required": [
+          "agent_id",
+          "messages"
+        ]
+      },
+      "GlmSlideAgentResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Request ID"
+          },
+          "conversation_id": {
+            "type": "string",
+            "description": "Conversation ID"
+          },
+          "agent_id": {
+            "type": "string",
+            "description": "Agent ID"
+          },
+          "choices": {
+            "type": "array",
+            "description": "Agent output.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "index": {
+                  "type": "integer",
+                  "description": "Result index."
+                },
+                "finish_reason": {
+                  "type": "string",
+                  "description": "Reason for model inference termination. Can be ‘stop’, ‘tool_calls’, ‘length’, ‘sensitive’, or ‘network_error’."
+                },
+                "message": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "role": {
+                        "type": "string",
+                        "description": "Role: fixed as `assistant`."
+                      },
+                      "phase": {
+                        "type": "string",
+                        "description": "Current role type: thinking、tool、answer"
+                      },
+                      "content": {
+                        "type": "array",
+                        "description": "Content metadata",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "description": "Response Content type: text、object"
+                            },
+                            "tag_cn": {
+                              "type": "string",
+                              "description": "CN Tag."
+                            },
+                            "tag_en": {
+                              "type": "string",
+                              "description": "EN Tag."
+                            },
+                            "text": {
+                              "type": "string",
+                              "description": "Output string content when type is text"
+                            },
+                            "object": {
+                              "type": "object",
+                              "description": "Output object content when type is object",
+                              "properties": {
+                                "tool_name": {
+                                  "type": "string",
+                                  "description": "Tool name eg: search、insert_page"
+                                },
+                                "input": {
+                                  "type": "string",
+                                  "description": "Tool input content"
+                                },
+                                "output": {
+                                  "type": "string",
+                                  "description": "Tool output content, will output html when generate slide"
+                                },
+                                "position": {
+                                  "type": "array",
+                                  "description": "If the tool involves operations on a PPT file, the position field specifies which slides are being manipulated.\n If the user says, “Insert a slide after the second slide,” then position = [3], and the output is the HTML content of the third slide.\n If the user says, “Please delete slides 4, 5, and 6,” then position = [4, 5, 6].",
+                                  "items": {
+                                    "type": "number"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "error": {
             "type": "object",
@@ -2280,11 +2518,128 @@
         "properties": {
           "agent_id": {
             "type": "string",
-            "description": "Fixed value: `vidu_template_agent`."
+            "description": "Agent ID: `vidu_template_agent`."
           },
           "async_id": {
             "type": "string",
             "description": "Task ID from async response."
+          }
+        }
+      },
+      "GlmSlideAgentConversationRequest": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "Agent ID"
+          },
+          "conversation_id": {
+            "type": "string",
+            "description": "Conversation ID"
+          },
+          "custom_variables": {
+            "type": "object",
+            "description": "Custom variables",
+            "properties": {
+              "include_pdf": {
+                "type": "boolean",
+                "description": "Is export the pdf file"
+              },
+              "pages": {
+                "type": "object",
+                "description": "Slides Pages",
+                "properties": {
+                  "position": {
+                    "type": "number",
+                    "description": "Slide Page Position"
+                  },
+                  "width": {
+                    "type": "number",
+                    "description": "Slide Width, unit: pt"
+                  },
+                  "height": {
+                    "type": "number",
+                    "description": "Slide Height, unit: pt"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "GlmSlideAgentConversationResponse": {
+        "type": "object",
+        "properties": {
+          "conversation_id": {
+            "type": "string",
+            "description": "Conversation ID"
+          },
+          "agent_id": {
+            "type": "string",
+            "description": "Agent ID"
+          },
+          "choices": {
+            "type": "array",
+            "description": "Agent output.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "role": {
+                        "type": "string",
+                        "description": "Role: fixed as `assistant`."
+                      },
+                      "content": {
+                        "type": "array",
+                        "description": "Content metadata",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "description": "Response Content type: file_url、image_url"
+                            },
+                            "tag_cn": {
+                              "type": "string",
+                              "description": "CN Tag."
+                            },
+                            "tag_en": {
+                              "type": "string",
+                              "description": "EN Tag."
+                            },
+                            "file_url": {
+                              "type": "string",
+                              "description": "Output file_url content when type is file_url"
+                            },
+                            "image_url": {
+                              "type": "string",
+                              "description": "Output image_url content when type is image_url"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "Error code."
+              },
+              "message": {
+                "type": "string",
+                "description": "Error message."
+              }
+            }
           }
         }
       },
@@ -2297,7 +2652,7 @@
           },
           "agent_id": {
             "type": "string",
-            "description": "Fixed value: `vidu_template_agent`."
+            "description": "Agent ID"
           },
           "async_id": {
             "type": "string",
@@ -2334,7 +2689,7 @@
                           "properties": {
                             "type": {
                               "type": "string",
-                              "description": "Fixed value: `video_url`."
+                              "description": "object type: `video_url`."
                             },
                             "video_url": {
                               "type": "string",
