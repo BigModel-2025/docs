@@ -84,7 +84,8 @@
                 "group": "Agents",
                 "pages": [
                   "guides/agents/translation",
-                  "guides/agents/video-template"
+                  "guides/agents/video-template",
+                  "guides/agents/slide"
                 ]
               }
             ]
