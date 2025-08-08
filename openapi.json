@@ -2343,6 +2343,11 @@
             "type": "string",
             "description": "User-defined unique ID; used to distinguish requests. Auto-generated if omitted."
           },
+          "stream": {
+            "type": "boolean",
+            "description": "False for sync calls (default). True for streaming.",
+            "default": true
+          },
           "messages": {
             "type": "array",
             "description": "Message body.",
