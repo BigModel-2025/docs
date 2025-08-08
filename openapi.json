@@ -499,6 +499,48 @@
           }
         }
       }
+    },
+    "/v1/agents/conversation": {
+      "post": {
+        "description": "This endpoint is used to query the agent conversation history.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AcceptLanguage"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GlmSlideAgentConversationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Processing successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlmSlideAgentConversationResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "The request has failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1844,7 +1886,7 @@
         "properties": {
           "agent_id": {
             "type": "string",
-            "description": "Fixed value: `general_translation`.",
+            "description": "Agent ID: `general_translation`.",
             "enum": [
               "general_translation"
             ]
@@ -2135,7 +2177,7 @@
         "properties": {
           "agent_id": {
             "type": "string",
-            "description": "Fixed value: `vidu_template_agent`.",
+            "description": "Agent ID: `vidu_template_agent`.",
             "enum": [
               "vidu_template_agent"
             ]
@@ -2266,7 +2308,7 @@
           },
           "agent_id": {
             "type": "string",
-            "description": "Fixed value: `vidu_template_agent`."
+            "description": "Agent ID"
           },
           "error": {
             "type": "object",
@@ -2476,11 +2518,128 @@
         "properties": {
           "agent_id": {
             "type": "string",
-            "description": "Fixed value: `vidu_template_agent`."
+            "description": "Agent ID: `vidu_template_agent`."
           },
           "async_id": {
             "type": "string",
             "description": "Task ID from async response."
+          }
+        }
+      },
+      "GlmSlideAgentConversationRequest": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "Agent ID"
+          },
+          "conversation_id": {
+            "type": "string",
+            "description": "Conversation ID"
+          },
+          "custom_variables": {
+            "type": "object",
+            "description": "Custom variables",
+            "properties": {
+              "include_pdf": {
+                "type": "boolean",
+                "description": "Is export the pdf file"
+              },
+              "pages": {
+                "type": "object",
+                "description": "Slides Pages",
+                "properties": {
+                  "position": {
+                    "type": "number",
+                    "description": "Slide Page Position"
+                  },
+                  "width": {
+                    "type": "number",
+                    "description": "Slide Width, unit: pt"
+                  },
+                  "height": {
+                    "type": "number",
+                    "description": "Slide Height, unit: pt"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "GlmSlideAgentConversationResponse": {
+        "type": "object",
+        "properties": {
+          "conversation_id": {
+            "type": "string",
+            "description": "Conversation ID"
+          },
+          "agent_id": {
+            "type": "string",
+            "description": "Agent ID"
+          },
+          "choices": {
+            "type": "array",
+            "description": "Agent output.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "role": {
+                        "type": "string",
+                        "description": "Role: fixed as `assistant`."
+                      },
+                      "content": {
+                        "type": "array",
+                        "description": "Content metadata",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "description": "Response Content type: file_url、image_url"
+                            },
+                            "tag_cn": {
+                              "type": "string",
+                              "description": "CN Tag."
+                            },
+                            "tag_en": {
+                              "type": "string",
+                              "description": "EN Tag."
+                            },
+                            "file_url": {
+                              "type": "string",
+                              "description": "Output file_url content when type is file_url"
+                            },
+                            "image_url": {
+                              "type": "string",
+                              "description": "Output image_url content when type is image_url"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "Error code."
+              },
+              "message": {
+                "type": "string",
+                "description": "Error message."
+              }
+            }
           }
         }
       },
@@ -2493,7 +2652,7 @@
           },
           "agent_id": {
             "type": "string",
-            "description": "Fixed value: `vidu_template_agent`."
+            "description": "Agent ID"
           },
           "async_id": {
             "type": "string",
@@ -2530,7 +2689,7 @@
                           "properties": {
                             "type": {
                               "type": "string",
-                              "description": "Fixed value: `video_url`."
+                              "description": "object type: `video_url`."
                             },
                             "video_url": {
                               "type": "string",

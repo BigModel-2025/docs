@@ -111,7 +111,8 @@
                 "pages": [
                   "api-reference/agents/agent",
                   "api-reference/agents/file-upload",
-                  "api-reference/agents/get-async-result"
+                  "api-reference/agents/get-async-result",
+                  "api-reference/agents/agent-conversation"
                 ]
               }
             ]
