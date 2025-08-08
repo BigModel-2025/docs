@@ -2335,6 +2335,11 @@
               "slides_glm_agent"
             ]
           },
+          "stream": {
+            "type": "boolean",
+            "default": true,
+            "description": "False for sync calls (default). True for streaming."
+          },
           "conversation_id": {
             "type": "string",
             "description": "Conversation Id."
@@ -2342,11 +2347,6 @@
           "request_id": {
             "type": "string",
             "description": "User-defined unique ID; used to distinguish requests. Auto-generated if omitted."
-          },
-          "stream": {
-            "type": "boolean",
-            "description": "False for sync calls (default). True for streaming.",
-            "default": true
           },
           "messages": {
             "type": "array",
