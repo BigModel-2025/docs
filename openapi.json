@@ -349,7 +349,7 @@
                     "$ref": "#/components/schemas/SpecialEffectsVideosAgentRequest"
                   },
                   {
-                    "title": "GLM Slide",
+                    "title": "GLM Slide/Poster",
                     "$ref": "#/components/schemas/GlmSlideAgentRequest"
                   }
                 ]
@@ -374,7 +374,7 @@
                       "$ref": "#/components/schemas/SpecialEffectsVideosAgentResponse"
                     },
                     {
-                      "title": "GLM Slide",
+                      "title": "GLM Slide/Poster",
                       "$ref": "#/components/schemas/GlmSlideAgentResponse"
                     }
                   ]
