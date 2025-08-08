@@ -28,7 +28,7 @@
   "paths": {
     "/paas/v4/chat/completions": {
       "post": {
-        "description": "GLM-4 offers multiple models suitable for various application scenarios.",
+        "description": "Create a chat completion model that generates AI replies for given conversation messages. It supports multimodal inputs (text, images, audio, video), offers configurable parameters (like temperature, max tokens, tool use), and supports both streaming and non-streaming output modes.",
         "parameters": [
           {
             "$ref": "#/components/parameters/AcceptLanguage"
@@ -46,7 +46,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -109,7 +109,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful.",
+            "description": "Processing successful.",
             "content": {
               "application/json": {
                 "schema": {
@@ -150,7 +150,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -223,7 +223,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -279,7 +279,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -356,7 +356,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -470,7 +470,7 @@
         },
         "responses": {
           "200": {
-            "description": "Business processing successful",
+            "description": "Processing successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -500,7 +500,7 @@
         "in": "header",
         "schema": {
           "type": "string",
-          "description": "It is an HTTP request header used to inform the server of the browser's preferred list of languages, so the server can return content in the language that best matches the user's preference.",
+          "description": "Config desired response language for HTTP requests.",
           "default": "en-US,en",
           "enum": [
             "en-US,en"
@@ -519,43 +519,182 @@
         "properties": {
           "model": {
             "type": "string",
-            "description": "The model code to be called.",
-            "example": "glm-4-32b-0414-128k",
-            "default": "glm-4-32b-0414-128k",
+            "description": "The model code to be called. GLM-4.5 and GLM-4.5-Air are the latest flagship model series, foundational models specifically designed for agent applications.",
+            "example": "glm-4.5",
+            "default": "glm-4.5",
             "enum": [
+              "glm-4.5",
+              "glm-4.5-air",
+              "glm-4.5-x",
+              "glm-4.5-airx",
+              "glm-4.5-flash",
               "glm-4-32b-0414-128k"
             ]
           },
           "messages": {
             "type": "array",
-            "description": "The current conversation message list as the model’s prompt input, provided in JSON array format, e.g.,`{“role”: “user”, “content”: “Hello”}`. Possible message types include system messages, user messages, assistant messages, and tool messages.",
+            "description": "The current conversation message list as the model’s prompt input, provided in JSON array format, e.g.,`{“role”: “user”, “content”: “Hello”}`. Possible message types include system messages, user messages, assistant messages, and tool messages. Note: The input must not consist of system messages or assistant messages only.",
             "items": {
-              "type": "object",
-              "properties": {
-                "role": {
-                  "type": "string",
-                  "description": "The role of the messages author. Choice between: `system`, `user`, or `assistant`.",
-                  "example": "user",
-                  "default": "user",
-                  "enum": [
-                    "user",
-                    "assistant",
-                    "system"
-                  ]
+              "oneOf": [
+                {
+                  "title": "User Message",
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "enum": ["user"],
+                      "description": "Role of the message author",
+                      "default": "user"
+                    },
+                    "content": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "description": "Text message content (can switch to multimodal message above)",
+                          "example": "What opportunities and challenges will the Chinese large model industry face in 2025?"
+                        },
+                        {
+                          "type": "array",
+                          "description": "Multimodal message content, supports text, images, video and audio",
+                          "items": {
+                            "$ref": "#/components/schemas/MultimodalContentItem"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "required": ["role", "content"]
                 },
-                "content": {
-                  "type": "string",
-                  "description": "Message content.",
-                  "example": "What opportunities and challenges will the Chinese large model industry face in 2025?"
+                {
+                  "title": "System Message",
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "enum": ["system"],
+                      "description": "Role of the message author",
+                      "default": "system"
+                    },
+                    "content": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "description": "Message text content",
+                          "example": "You are a helpful assistant."
+                        },
+                        {
+                          "type": "array",
+                          "description": "Multimodal message content, supports text, images, video and audio",
+                          "items": {
+                            "$ref": "#/components/schemas/MultimodalContentItem"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "required": ["role", "content"]
+                },
+
+                {
+                  "title": "Assistant Message",
+                  "type": "object",
+                  "description": "Can include tool calls",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "enum": ["assistant"],
+                      "description": "Role of the message author",
+                      "default": "assistant"
+                    },
+                    "content": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "description": "Text message content (can switch to multimodal message above)",
+                          "example": "I'll help you with that analysis."
+                        },
+                        {
+                          "type": "array",
+                          "description": "Multimodal message content, supports text, images, video and audio",
+                          "items": {
+                            "$ref": "#/components/schemas/MultimodalContentItem"
+                          }
+                        }
+                      ]
+                    },
+                    "tool_calls": {
+                      "type": "array",
+                      "description": "Tool call messages generated by the model. When this field is provided, content is usually empty.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "Tool call ID"
+                          },
+                          "type": {
+                            "type": "string",
+                            "description": "Tool type, supports web_search, retrieval, function",
+                            "enum": ["function", "web_search", "retrieval"]
+                          },
+                          "function": {
+                            "type": "object",
+                            "description": "Function call information, not empty when type is function",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "Function name"
+                              },
+                              "arguments": {
+                                "type": "string",
+                                "description": "Function parameters, JSON format string"
+                              }
+                            },
+                            "required": ["name", "arguments"]
+                          }
+                        },
+                        "required": ["id", "type"]
+                      }
+                    }
+                  },
+                  "required": ["role"]
+                },
+                {
+                  "title": "Tool Message",
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "enum": ["tool"],
+                      "description": "Role of the message author",
+                      "default": "tool"
+                    },
+                    "content": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "description": "Message text content",
+                          "example": "Function executed successfully with result: ..."
+                        },
+                        {
+                          "type": "array",
+                          "description": "Multimodal message content, supports text, images, video and audio",
+                          "items": {
+                            "$ref": "#/components/schemas/MultimodalContentItem"
+                          }
+                        }
+                      ]
+                    },
+                    "tool_call_id": {
+                      "type": "string",
+                      "description": "Indicates the tool call ID corresponding to this message"
+                    }
+                  },
+                  "required": ["role", "content", "tool_call_id"]
                 }
-              },
-              "required": [
-                "role",
-                "content"
               ]
             },
-            "minItems": 1,
-            "maxItems": 10
+            "minItems": 1
           },
           "request_id": {
             "type": "string",
@@ -573,31 +712,33 @@
             "default": false,
             "description": "This parameter should be set to false or omitted when using synchronous call. It indicates that the model returns all content at once after generating all content. Default value is false. If set to true, the model will return the generated content in chunks via standard Event Stream. When the Event Stream ends, a `data: [DONE]` message will be returned."
           },
+          "thinking": {
+            "$ref": "#/components/schemas/ChatThinking"
+          },
           "temperature": {
             "type": "number",
-            "description": "Sampling temperature, controls the randomness of the output, must be a positive number within the range: `[0.0, 1.0]`, default value is `0.95`.",
+            "description": "Sampling temperature, controls the randomness of the output, must be a positive number within the range: `[0.0, 1.0]`. The GLM-4.5 series default value is `0.6`, GLM-4-32B-0414-128K default value is `0.75`.",
+            "format": "float",
+            "example": 0.6,
+            "default": 0.6,
+            "minimum": 0.0,
+            "maximum": 1.0
+          },
+          "top_p": {
+            "type": "number",
+            "description": "Another method of temperature sampling, value range is: `[0.0, 1.0]`. The GLM-4.5 series default value is `0.95`, GLM-4-32B-0414-128K default value is `0.9`.",
             "format": "float",
             "example": 0.95,
             "default": 0.95,
             "minimum": 0.0,
             "maximum": 1.0
           },
-          "top_p": {
-            "type": "number",
-            "description": "Another method of temperature sampling, value range is: `[0.0, 1.0]`, default value is `0.7`.",
-            "format": "float",
-            "example": 0.7,
-            "default": 0.7,
-            "minimum": 0.0,
-            "maximum": 1.0
-          },
           "max_tokens": {
             "type": "integer",
-            "description": "The maximum number of tokens for model output, maximum output is `4095`, default value is `1024`.",
+            "description": "The maximum number of tokens for model output, the GLM-4.5 series supports 96K maximum output, GLM-4-32B-0414-128K supports 16K maximum output.",
             "example": 1024,
-            "default": 1024,
             "minimum": 1,
-            "maximum": 4095
+            "maximum": 98304
           },
           "tools": {
             "type": "array",
@@ -615,6 +756,154 @@
                 }
               ]
             }
+          },
+          "user_id": {
+            "type": "string",
+            "description": "Unique ID for the end user, 6–128 characters. Avoid using sensitive information.",
+            "minLength": 6,
+            "maxLength": 128
+          },
+          "stop": {
+            "type": "array",
+            "description": "Stop word list. Generation stops when the model encounters any specified string. Currently, only one stop word is supported, in the format [\"stop_word1\"].",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 1
+          },
+          "response_format": {
+            "type": "object",
+            "description": "Specifies the response format of the model. Defaults to text. Supports two formats:{ \"type\": \"text\" } plain text mode, returns natural language text, { \"type\": \"json_object\" } JSON mode, returns valid JSON data. When using JSON mode, it’s recommended to clearly request JSON output in the prompt.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["text", "json_object"],
+                "default": "text",
+                "description": "Output format type: text for plain text, json_object for JSON-formatted output."
+              }
+            },
+            "required": ["type"]
+          }
+        }
+      },
+      "MultimodalContentItem": {
+        "oneOf": [
+          {
+            "title": "Text",
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["text"],
+                "description": "Content type is text",
+                "default": "text"
+              },
+              "text": {
+                "type": "string",
+                "description": "Text content"
+              }
+            },
+            "required": ["type", "text"],
+            "additionalProperties": false
+          },
+          {
+            "title": "Image",
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["image_url"],
+                "description": "Content type is image URL",
+                "default": "image_url"
+              },
+              "image_url": {
+                "type": "object",
+                "description": "Image information",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "Image URL or Base64 encoding. Image size limit is under 5M per image, with pixels not exceeding 6000*6000. Supports jpg, png, jpeg formats."
+                  }
+                },
+                "required": ["url"],
+                "additionalProperties": false
+              }
+            },
+            "required": ["type", "image_url"],
+            "additionalProperties": false
+          },
+          {
+            "title": "Audio",
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["input_audio"],
+                "description": "Content type is audio input",
+                "default": "input_audio"
+              },
+              "input_audio": {
+                "type": "object",
+                "description": "Audio information",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "description": "Base64 encoding of audio file. Audio duration should not exceed 10 minutes. 1s audio = 12.5 Tokens, rounded up."
+                  },
+                  "format": {
+                    "type": "string",
+                    "description": "Audio file format, supports wav and mp3",
+                    "enum": ["wav", "mp3"]
+                  }
+                },
+                "required": ["data", "format"],
+                "additionalProperties": false
+              }
+            },
+            "required": ["type", "input_audio"],
+            "additionalProperties": false
+          },
+          {
+            "title": "Video",
+            "type": "object",
+
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["video_url"],
+                "description": "Content type is video URL",
+                "default": "video_url"
+              },
+              "video_url": {
+                "type": "object",
+                "description": "Video information.",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "Video URL address."
+                  }
+                },
+                "required": ["url"],
+                "additionalProperties": false
+              }
+            },
+            "required": ["type", "video_url"],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "ChatThinking": {
+        "type": "object",
+        "description": "Only support by GLM-4.5 and above models. This parameter is used to control whether the model enable the chain of thought.",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Whether to enable the chain of thought, default: enabled",
+            "default": "enabled",
+            "enum": [
+              "enabled",
+              "disabled"
+            ]
           }
         }
       },
@@ -659,17 +948,17 @@
           },
           "count": {
             "type": "integer",
-            "description": "Number of returned results\nRange: `1-50`, max `50` results per search\nDefault is `10`\nSupported engines: `search_std`, `search_pro`, `search_pro_sogou`\nFor `search_pro_sogou`: allowed values are `10`, `20`, `30`, `40`, `50`",
+            "description": "Number of returned results\nRange: `1-50`, max `50` results per search\nDefault is `10`\nSupported engines: `search_pro_jina`\n",
             "minimum": 1,
             "maximum": 50
           },
           "search_domain_filter": {
             "type": "string",
-            "description": "Limits search results to specified whitelisted domains. Whitelist: input domains directly (e.g., www.example.com)\nSupported engines: `search_std`, `search_pro`, `search_pro_sogou`, `search_pro_Jina`"
+            "description": "Limits search results to specified whitelisted domains. Whitelist: input domains directly (e.g., www.example.com)\nSupported engines: `search_pro_jina`"
           },
           "search_recency_filter": {
             "type": "string",
-            "description": "Limits search to a specific time range.\nDefault is `noLimit`\nValues:\n`oneDay`, within a day\n`oneWeek`, within a week\n`oneMonth`, within a month\n`oneYear`, within a year\n`noLimit`, no limit (default)\nSupported engines: `search_std`, `search_pro`, `search_pro_sogou`, `search_pro_quark`",
+            "description": "Limits search to a specific time range.\nDefault is `noLimit`\nValues:\n`oneDay`, within a day\n`oneWeek`, within a week\n`oneMonth`, within a month\n`oneYear`, within a year\n`noLimit`, no limit (default)\nSupported engines: `search_pro_jina`",
             "enum": [
               "oneDay",
               "oneWeek",
@@ -842,20 +1131,25 @@
             "description": "Token usage statistics returned when the model call ends.",
             "properties": {
               "prompt_tokens": {
-                "type": "integer",
+                "type": "number",
                 "description": "Number of tokens in user input"
               },
               "completion_tokens": {
-                "type": "integer",
-                "description": "Number of tokens in model output"
+                "type": "number",
+                "description": "Number of output tokens"
+              },
+              "prompt_tokens_details": {
+                "type": "object",
+                "properties": {
+                  "cached_tokens": {
+                    "type": "number",
+                    "description": "Number of tokens served from cache"
+                  }
+                }
               },
               "total_tokens": {
                 "type": "integer",
                 "description": "Total number of tokens"
-              },
-              "total_calls": {
-                "type": "integer",
-                "description": "Total number of calls"
               }
             }
           },
@@ -879,6 +1173,10 @@
           "content": {
             "type": "string",
             "description": "Current conversation content. Hits function is null, otherwise returns model inference result."
+          },
+          "reasoning_content": {
+            "type": "string",
+            "description": "Reasoning content, supports by GLM-4.5 series."
           },
           "tool_calls": {
             "type": "array",
@@ -1408,30 +1706,26 @@
           },
           "search_engine": {
             "type": "string",
-            "description": "The search engine code to call. Currently supported:\n`search_std`: Z.AI Basic Search Engine\n`search_pro`: Z.AI Advanced Search Engine\n`search_pro_sogou`: Sogou Search Engine\n`search_pro_quark`: Quark Search Engine.\n`search_pro_jina`: jina.ai Search Engine\nDefault is `search_std`.",
-            "example": "search_std",
-            "default": "search_std",
+            "description": "The search engine code to call. Currently supported:\n`search_pro_jina`\n`search_pro_jina`: jina.ai Search Engine\nDefault is `search_pro_jina`.",
+            "example": "search_pro_jina",
+            "default": "search_pro_jina",
             "enum": [
-              "search_std",
-              "search_pro",
-              "search_pro_sogou",
-              "search_pro_quark",
               "search_pro_jina"
             ]
           },
           "count": {
             "type": "integer",
-            "description": "The number of results to return\nFillable range: `1-50`, maximum `50` results per single search\nDefault is `10`\nSupported search engines: \n`search_pro`、`search_std`、`search_pro_sogou`\nSogou: Optional enumerated values are `10`, `20`, `30`, `40`, `50`.",
+            "description": "The number of results to return\nFillable range: `1-50`, maximum `50` results per single search\nDefault is `10`\nSupported search engines: \n`search_pro_jina`.",
             "minimum": 1,
             "maximum": 50
           },
           "search_domain_filter": {
             "type": "string",
-            "description": "Used to limit the scope of search results and only return content from specified whitelist domains.\nWhitelist: Directly enter the domain name (e.g., `www.example.com`)\nSupported search engines: \n`search_std`、`search_pro`、`search_pro_sogou`、`search_pro_jina`"
+            "description": "Used to limit the scope of search results and only return content from specified whitelist domains.\nWhitelist: Directly enter the domain name (e.g., `www.example.com`)\nSupported search engines: \n`search_pro_jina`"
           },
           "search_recency_filter": {
             "type": "string",
-            "description": "Search for webpages within a specified time range.\nDefault is `noLimit`\nFillable values:\n`oneDay`: within one day\n`oneWeek`: within one week\n`oneMonth`: within one month\n`oneYear`: within one year\n`noLimit`: no limit (default)\nSupported search engines: \n`search_std`、`search_pro`、`search_pro_sogou`、`search_pro_quark`",
+            "description": "Search for webpages within a specified time range.\nDefault is `noLimit`\nFillable values:\n`oneDay`: within one day\n`oneWeek`: within one week\n`oneMonth`: within one month\n`oneYear`: within one year\n`noLimit`: no limit (default)\nSupported search engines: \n`search_pro_jina`",
             "enum": [
               "oneDay",
               "oneWeek",

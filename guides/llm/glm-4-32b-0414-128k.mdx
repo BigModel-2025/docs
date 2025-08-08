@@ -39,64 +39,128 @@ The model performs comparably to much larger domestic and international mainstre
 ### **Example**
 
 <Tabs>
-    <Tab title="Python">
+  <Tab title="Official Python SDK">
+      **Install SDK**
+      ```bash
+      # Install latest version
+      pip install zai-sdk
+
+      # Or specify version
+      pip install zai-sdk==0.0.3
+      ```
+
+      **Verify Installation**
+      ```python
+      import zai
+      print(zai.__version__)
+      ```
+
+    ```python
+    from zai import ZaiClient
+    
+    # Initialize the client
+    client = ZaiClient(api_key="your-api-key")
+    
+    # Create a chat completion request
+    response = client.chat.completions.create(
+        model="glm-4-32b-0414-128k",
+        messages=[
+            {"role": "user", "content": "As a marketing expert, please create an attractive slogan for my product."}
+        ]
+    )
+    
+    # Get the response
+    print(response.choices[0].message.content)
+    ```
+  </Tab>
+  <Tab title="Official Java SDK">
+
+      **Install SDK**
+
+      **Maven**
+      ```xml
+      <dependency>
+          <groupId>ai.z.openapi</groupId>
+          <artifactId>zai-sdk</artifactId>
+          <version>0.0.2</version>
+      </dependency>
+      ```
+
+      **Gradle (Groovy)**
+      ```groovy
+      implementation 'ai.z.openapi:zai-sdk:0.0.2'
+      ```
+
+    ```java
+    import ai.z.openapi.ZaiClient;
+    import ai.z.openapi.service.model.ChatCompletionCreateParams;
+    import ai.z.openapi.service.model.ChatCompletionResponse;
+    import ai.z.openapi.service.model.ChatMessage;
+    import ai.z.openapi.service.model.ChatMessageRole;
+    import java.util.Arrays;
+    
+    public class BasicChat {
+        public static void main(String[] args) {
+            // Initialize the client
+            ZaiClient client = ZaiClient.builder()
+                .apiKey("your-api-key")
+                .build();
+    
+            // Create a chat completion request
+            ChatCompletionCreateParams request = ChatCompletionCreateParams.builder()
+                .model("glm-4-32b-0414-128k")
+                .messages(Arrays.asList(
+                    ChatMessage.builder()
+                        .role(ChatMessageRole.USER.value())
+                        .content("As a marketing expert, please create an attractive slogan for my product.")
+                        .build()
+                ))
+                .build();
+    
+            // Send request
+            ChatCompletionResponse response = client.chat().createChatCompletion(request);
+    
+            // Get the response
+            if (response.isSuccess()) {
+                Object reply = response.getData().getChoices().get(0).getMessage().getContent();
+                System.out.println("AI Reply: " + reply);
+            } else {
+                System.err.println("Error: " + response.getMsg());
+            }
+        }
+    }
+    ```
+  </Tab>
+    <Tab title="OpenAI Python SDK">
+        **Install SDK**
+        ```bash
+        # Install or upgrade to latest version
+        pip install --upgrade 'openai>=1.0'
+        ```
+
+        **Verify Installation**
         ```python
-        from zai import ZaiClient
+        python -c "import openai; print(openai.__version__)"
+        ```
 
-        # Initialize the client
-        client = ZaiClient(api_key="your-api-key")
+        **Usage Example**
+        ```python
+        from openai import OpenAI
 
-        # Create a chat completion request
-        response = client.chat.completions.create(
+        client = OpenAI(
+            api_key="your-Z.AI-api-key",
+            base_url="https://api.z.ai/api/paas/v4/"
+        )
+
+        completion = client.chat.completions.create(
             model="glm-4-32b-0414-128k",
             messages=[
-                {"role": "user", "content": "As a marketing expert, please create an attractive slogan for my product."}
+                {"role": "system", "content": "You are a smart and creative novelist"},
+                {"role": "user", "content": "Please write a short fairy tale story as a fairy tale master"}
             ]
         )
 
-        # Get the response
-        print(response.choices[0].message.content)
-        ```
-    </Tab>
-    <Tab title="Java">
-        ```java
-        import ai.z.openapi.ZaiClient;
-        import ai.z.openapi.service.model.ChatCompletionCreateParams;
-        import ai.z.openapi.service.model.ChatCompletionResponse;
-        import ai.z.openapi.service.model.ChatMessage;
-        import ai.z.openapi.service.model.ChatMessageRole;
-        import java.util.Arrays;
-
-        public class BasicChat {
-            public static void main(String[] args) {
-                // Initialize the client
-                ZaiClient client = ZaiClient.builder()
-                    .apiKey("your-api-key")
-                    .build();
-
-                // Create a chat completion request
-                ChatCompletionCreateParams request = ChatCompletionCreateParams.builder()
-                    .model("glm-4-32b-0414-128k")
-                    .messages(Arrays.asList(
-                        ChatMessage.builder()
-                            .role(ChatMessageRole.USER.value())
-                            .content("As a marketing expert, please create an attractive slogan for my product.")
-                            .build()
-                    ))
-                    .build();
-
-                // Send request
-                ChatCompletionResponse response = client.chat().createChatCompletion(request);
-
-                // Get the response
-                if (response.isSuccess()) {
-                    Object reply = response.getData().getChoices().get(0).getMessage().getContent();
-                    System.out.println("AI Reply: " + reply);
-                } else {
-                    System.err.println("Error: " + response.getMsg());
-                }
-            }
-        }
+        print(completion.choices[0].message.content)
         ```
     </Tab>
 </Tabs>

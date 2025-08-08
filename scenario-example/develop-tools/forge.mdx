@@ -1,0 +1,70 @@
+---
+title: "Forge Code"
+description: "Complete Guide to Accessing Z.AI GLM Models with Forge Code"
+---
+
+Forge Code is a powerful command-line AI programming assistant that enables you to leverage AI models directly in your projects for code development and management.
+
+## 1. Installing Forge Code
+
+Refer to the [Forge Code official documentation](https://forgecode.dev/docs/installation/) and run the following command in your terminal:
+
+```
+npm install -g forgecode@latest  
+```
+
+## 2. Initialization and Verification
+
+### 1. Navigate to Your Project Directory
+
+```
+cd your-project-directory  
+```
+
+### 2. Launch Forge
+
+```
+forge  
+```
+
+On first launch, you will be prompted to register/authenticate:
+
+![Description](https://cdn.bigmodel.cn/markdown/1753631571260forge-1.png?attname=forge-1.png)
+
+Exit after successful authentication:
+
+![Description](https://cdn.bigmodel.cn/markdown/1753631580181forge-2.png?attname=forge-2.png)
+
+Return to your repository and launch successfully:
+
+![Description](https://cdn.bigmodel.cn/markdown/1753631592409forge-3.png?attname=forge-3.png)
+
+## 3. Configuring the API
+
+### 1. Create an Environment Configuration File
+
+Create a `.env` file in your project root directory and configure the API details:
+
+```
+# OpenAI-Compatible Providers  
+OPENAI_API_KEY=your_provider_api_key  
+OPENAI_URL=https://api.z.ai/api/paas/v4  
+```
+
+### 2. Select a Model
+
+Once the API is configured, Forge will automatically detect it. In the Forge chat, enter `/model` to open the model selection interface:
+
+![Description](https://cdn.bigmodel.cn/markdown/1753631598836forge-4.png?attname=forge-4.png)
+
+Select your desired model to begin making calls.
+
+## 4. Getting Started
+
+Enter your requirements in the input box to leverage the model for:
+
+- Code generation and optimization
+- Project architecture design
+- Code review and refactoring
+- Issue diagnosis and resolution
+- Documentation writing

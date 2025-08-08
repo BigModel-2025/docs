@@ -1,0 +1,303 @@
+---
+title: "Quick Start"
+---
+
+<Info>
+  This guide will help you quickly get started with the Z.AI Open Platform. From registering an account to making your first API call, it only takes a few minutes to complete.
+</Info>
+
+## Getting Started
+
+<Steps>
+  <Step title="Get API Key">
+    - Access [Z.AI Open Platform](https://z.ai/model-api), Register or Login.
+    - Create an API Key in the [API Keys](https://z.ai/manage-apikey/apikey-list) management page.
+    - Copy your API Key for use.
+  </Step>
+  <Step title="Choose Model">
+    > The platform offers multiple models, and you can select the appropriate model based on your needs. For detailed model introductions, please refer to the [Models & Agents](pricing).
+      <CardGroup cols={2}>
+          <Card title="GLM-4.5" icon="book-open" href="/guides/llm/glm-4.5">
+              Our latest flagship models, purpose-built as foundational models for agent-oriented applications
+          </Card>
+          <Card title="GLM-4-32b-0414-128K" icon="book" href="/guides/llm/glm-4-32b-0414-128k">
+              Highly cost-effective foundation language model
+          </Card>
+          <Card title="CogVideoX-3" icon="video" href="/guides/video/cogvideox-3">
+              New frame generation capabilities that significantly improve image stability and clarity
+          </Card>
+          <Card title="Vidu-2" icon="video" href="/guides/video/vidu2">
+              A next-generation video generation model that strikes a balance between speed and quality
+          </Card>
+      </CardGroup>
+  </Step>
+    <Step title="Choose the Calling Method">
+        Our platform provides various development approaches; you can select the best fit for your project needs and tech stack.
+
+        <CardGroup cols={2}>
+            <Card title="HTTP API" icon="globe" href="/guides/develop/http/introduction">
+                Standard RESTful API, compatible with all programming languages.
+            </Card>
+            <Card title="Z.AI Python SDK" icon="python" href="/guides/develop/python/introduction">
+                Official Python SDK, featuring full type hints and async support.
+            </Card>
+            <Card title="Z.AI Java SDK" icon="java" href="/guides/develop/java/introduction">
+                Official Java SDK, designed for high concurrency and availability.
+            </Card>
+            <Card title="OpenAI Python SDK" icon="python" href="/guides/develop/openai/python">
+                OpenAI SDK Compatibility, quickly migrating from OpenAI.
+            </Card>
+            <Card title="API Reference" icon="book" href="/api-reference">
+                Complete API documentation with parameter descriptions.
+            </Card>
+        </CardGroup>
+    </Step>
+  <Step title="Make API Call">
+    After preparing your `API Key` and selecting a model, you can start making API calls. Here are examples using `curl`, `Python SDK`, and `Java SDK`:
+
+    <Tabs>
+      <Tab title="curl">
+        ```bash
+        curl -X POST "https://api.z.ai/api/paas/v4/chat/completions" \
+        -H "Content-Type: application/json" \
+        -H "Accept-Language: en-US,en" \
+        -H "Authorization: Bearer YOUR_API_KEY" \
+        -d '{
+            "model": "glm-4.5",
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "You are a helpful AI assistant."
+                },
+                {
+                    "role": "user",
+                    "content": "Hello, please introduce yourself."
+                }
+            ]
+        }'
+        ```
+      </Tab>
+      <Tab title="Official Python SDK">
+        **Install SDK**
+        ```bash
+        # Install latest version
+        pip install zai-sdk
+        
+        # Or specify version
+        pip install zai-sdk==0.0.3
+        ```
+        
+        **Verify Installation**
+        ```python
+        import zai
+        print(zai.__version__)
+        ```
+        
+        **Usage Example**
+        ```python
+        from zai import ZaiClient
+        
+        # Initialize client
+        client = ZaiClient(api_key="YOUR_API_KEY")
+        
+        # Create chat completion request
+        response = client.chat.completions.create(
+            model="glm-4.5",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a helpful AI assistant."
+                },
+                {
+                    "role": "user",
+                    "content": "Hello, please introduce yourself."
+                }
+            ]
+        )
+        
+        # Get response
+        print(response.choices[0].message.content)
+        ```
+      </Tab>
+      <Tab title="Official Java SDK">
+        **Install SDK**
+        
+        **Maven**
+        ```xml
+        <dependency>
+            <groupId>ai.z.openapi</groupId>
+            <artifactId>zai-sdk</artifactId>
+            <version>0.0.2</version>
+        </dependency>
+        ```
+        
+        **Gradle (Groovy)**
+        ```groovy
+        implementation 'ai.z.openapi:zai-sdk:0.0.2'
+        ```
+        
+        **Usage Example**
+        ```java
+        import ai.z.openapi.ZaiClient;
+        import ai.z.openapi.service.model.*;
+        import java.util.Arrays;
+        
+        public class QuickStart {
+            public static void main(String[] args) {
+                // Initialize client
+                ZaiClient client = ZaiClient.builder()
+                    .apiKey("YOUR_API_KEY")
+                    .build();
+        
+                // Create chat completion request
+                ChatCompletionCreateParams request = ChatCompletionCreateParams.builder()
+                    .model("glm-4.5")
+                    .messages(Arrays.asList(
+                        ChatMessage.builder()
+                            .role(ChatMessageRole.USER.value())
+                            .content("Hello, who are you?")
+                            .build()
+                    ))
+                    .stream(false)
+                    .build();
+        
+                // Send request
+                ChatCompletionResponse response = client.chat().createChatCompletion(request);
+        
+                // Get response
+                System.out.println(response.getData().getChoices().get(0).getMessage().getContent());
+            }
+        }
+        ```
+      </Tab>
+        <Tab title="OpenAI Python SDK">
+            **Install SDK**
+            ```bash
+            # Install or upgrade to latest version
+            pip install --upgrade 'openai>=1.0'
+            ```
+
+            **Verify Installation**
+            ```python
+            python -c "import openai; print(openai.__version__)"
+            ```
+
+            **Usage Example**
+            ```python
+            from openai import OpenAI
+
+            client = OpenAI(
+                api_key="your-Z.AI-api-key",
+                base_url="https://api.z.ai/api/paas/v4/"
+            )
+
+            completion = client.chat.completions.create(
+                model="glm-4.5",
+                messages=[
+                    {"role": "system", "content": "You are a smart and creative novelist"},
+                    {"role": "user", "content": "Please write a short fairy tale story as a fairy tale master"}
+                ]
+            )
+
+            print(completion.choices[0].message.content)
+            ```
+        </Tab>
+        <Tab title="OpenAI NodeJs SDK">
+            **Install SDK**
+            ```bash
+            # Install or upgrade to latest version
+            npm install openai
+            
+            # Or using yarn
+            yarn add openai
+            ```
+
+            **Usage Example**
+            ```javascript
+            import OpenAI from "openai";
+
+            const client = new OpenAI({
+                apiKey: "your-Z.AI-api-key",
+                baseURL: "https://api.z.ai/api/paas/v4/"
+            });
+
+            async function main() {
+                const completion = await client.chat.completions.create({
+                    model: "glm-4.5",
+                    messages: [
+                        { role: "system", content: "You are a helpful AI assistant." },
+                        { role: "user", content: "Hello, please introduce yourself." }
+                    ]
+                });
+
+                console.log(completion.choices[0].message.content);
+            }
+
+            main();
+            ```
+        </Tab>
+        <Tab title="OpenAI Java SDK">
+            **Install SDK**
+            
+            **Maven**
+            ```xml
+            <dependency>
+                <groupId>com.openai</groupId>
+                <artifactId>openai-java</artifactId>
+                <version>2.20.1</version>
+            </dependency>
+            ```
+            
+            **Gradle (Groovy)**
+            ```groovy
+            implementation 'com.openai:openai-java:2.20.1'
+            ```
+
+            **Usage Example**
+            ```java
+            import com.openai.client.OpenAIClient;
+            import com.openai.client.okhttp.OpenAIOkHttpClient;
+            import com.openai.models.chat.completions.ChatCompletion;
+            import com.openai.models.chat.completions.ChatCompletionCreateParams;
+            
+            public class QuickStart {
+                public static void main(String[] args) {
+                    // Initialize client
+                    OpenAIClient client = OpenAIOkHttpClient.builder()
+                        .apiKey("your-Z.AI-api-key")
+                        .baseUrl("https://api.z.ai/api/paas/v4/")
+                        .build();
+            
+                    // Create chat completion request
+                    ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()
+                        .addSystemMessage("You are a helpful AI assistant.")
+                        .addUserMessage("Hello, please introduce yourself.")
+                        .model("glm-4.5")
+                        .build();
+            
+                    // Send request and get response
+                    ChatCompletion chatCompletion = client.chat().completions().create(params);
+                    Object response = chatCompletion.choices().get(0).message().content();
+            
+                    System.out.println(response);
+                }
+            }
+            ```
+        </Tab>
+    </Tabs>
+  </Step>
+</Steps>
+
+### Get More
+
+<CardGroup cols={3}>
+    <Card title="API Reference" icon="book" href="/api-reference">
+        Access API Reference.
+    </Card>
+    <Card title="Python SDK" icon="python" href="https://github.com/THUDM/z-ai-sdk-python">
+        Access Python SDK Github
+    </Card>
+    <Card title="Java SDK" icon="java" href="https://github.com/THUDM/z-ai-sdk-java">
+        Access Java SDK Github
+    </Card>
+</CardGroup>

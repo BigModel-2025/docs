@@ -51,12 +51,24 @@
               {
                 "group": "Overview",
                 "pages": [
-                  "guides/overview/pricing"
+                  "guides/overview/quick-start",
+                  "guides/overview/pricing",
+                  {
+                    "group": "SDKs Guide",
+                    "pages": [
+                      "guides/develop/http/introduction",
+                      "guides/develop/python/introduction",
+                      "guides/develop/java/introduction",
+                      "guides/develop/openai/python",
+                      "guides/develop/langchain/introduction"
+                    ]
+                  }
                 ]
               },
               {
                 "group": "Language Models",
                 "pages": [
+                  "guides/llm/glm-4.5",
                   "guides/llm/glm-4-32b-0414-128k"
                 ]
               },
@@ -81,24 +93,41 @@
             "tab": "API Reference",
             "groups": [
               {
-                "group": "Language Models",
+                "group": "Model API",
                 "pages": [
-                  "api-reference/llm/glm-4-32b-0414-128k"
+                  "api-reference/llm/chat-completion"
                 ]
               },
               {
-                "group": "Video Generation Models",
+                "group": "Video API",
                 "pages": [
-                  "api-reference/video/cogvideox-3&vidu",
+                  "api-reference/video/generate-video",
                   "api-reference/video/get-video-status"
                 ]
               },
               {
-                "group": "Agent Models",
+                "group": "Agent API",
                 "pages": [
                   "api-reference/agents/agent",
                   "api-reference/agents/file-upload",
                   "api-reference/agents/get-async-result"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Scenario Example",
+            "groups": [
+              {
+                "group": "Develop Tools",
+                "pages": [
+                  "scenario-example/develop-tools/claude",
+                  "scenario-example/develop-tools/kilo",
+                  "scenario-example/develop-tools/roo",
+                  "scenario-example/develop-tools/gemini",
+                  "scenario-example/develop-tools/gork",
+                  "scenario-example/develop-tools/cline",
+                  "scenario-example/develop-tools/opencode"
                 ]
               }
             ]
@@ -122,8 +151,9 @@
   "footer": {
     "socials": {
       "x": "https://x.com/Zai_org",
-      "github": "https://github.com/THUDM",
-      "discord": "https://discord.com/channels/1346756824233148527/1359832169333395496"
+      "github": "https://github.com/zai-org",
+      "discord": "https://discord.gg/QR7SARHRxK",
+      "linkedin": "https://www.linkedin.com/company/zdotai/"
     }
   }
 }
